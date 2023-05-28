@@ -1,10 +1,10 @@
 import React from 'react';
+import SectionHeader from '../SectionHeader/SectionHeader';
 
 const AboutProject = (props) => {
     return (
         <section className='aboutProject'>
-            <h2 className='aboutProject__header'>О проекте</h2>
-            <hr className='aboutProject__line' />
+            <SectionHeader text='О проекте' />
             <div className='aboutProject__text-block'>
                 <div className='aboutProject__column'>
                     <h3 className='aboutProject__column-header'>Дипломный проект включал 5 этапов</h3>
@@ -16,13 +16,13 @@ const AboutProject = (props) => {
                 </div>
             </div>
             <div className='aboutProject__line-block'>
-                <div className='aboutProject__lineText'>
-                    <p className='aboutProject__line1text'>1 неделя</p>
-                    <p className='aboutProject__line2text'>Back-end</p>
+                <div className='aboutProject__line'>
+                    <p className='aboutProject__linetext aboutProject__linetext_background_green '>1 неделя</p>
+                    <p className='aboutProject__linetext aboutProject__linetext_color_grey '>Back-end</p>
                 </div>
-                <div className='aboutProject__lineText'>
-                    <p className='aboutProject__line1text'>4 недели</p>
-                    <p className='aboutProject__line2text'>Front-end</p>
+                <div className='aboutProject__line'>
+                    <p className='aboutProject__linetext aboutProject__linetext_background_grey'>4 недели</p>
+                    <p className='aboutProject__linetext aboutProject__linetext_color_grey '>Front-end</p>
                 </div>
             </div>
         </section>

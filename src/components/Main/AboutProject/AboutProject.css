@@ -1,39 +1,84 @@
 .aboutProject {
-    min-height: 608px;
     margin: 0;
     padding: 110px 70px 110px 70px;
     background-color: #202020;
 }
 
-.aboutProject__header {
+.aboutProject__text-block {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+
+.aboutProject__column {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.aboutProject__column-header {
     margin: 0;
-    width: 100%;
-    text-align: left;
     font-weight: 400;
-    font-size: 22px;
-    line-height: 27px;
+    font-size: 20px;
+    line-height: 24px;
     letter-spacing: -0.04em;
     color: #FFFFFF;
 }
-.aboutProject__line {
-    height: 0;
-    width: 100%;
-    margin: 23px 0 0 0;
-    border: none;
-    border-top: 1px solid #FFFFFF;
+
+.aboutProject__column-text {
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
 }
-.aboutProject__text-block {}
 
-.aboutProject__column {}
+.aboutProject__line-block {
+    margin-top: 110px;
+    display: flex;
+    flex-direction: row;
 
-.aboutProject__column-header {}
+}
 
-.aboutProject__column-text {}
+.aboutProject__line {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+}
 
-.aboutProject__line-block {}
+.aboutProject__linetext {
+    display: flex;
+    margin: 0;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
 
-.aboutProject__lineText {}
+.aboutProject__linetext_background_green {
+    width: 228px;
+    height: 36px;
+    font-weight: 400;
+    background-color: #3DDC84;
+    color: #000000;
+}
 
-.aboutProject__line1text {}
+.aboutProject__linetext_background_grey {
+    width: 912px;
+    font-weight: 400;
+    color: #FFFFFF;
+    background-color: #303030;
+    height: 36px;
+}
 
-.aboutProject__line2text {}
+.aboutProject__linetext_color_grey {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #8B8B8B;
+}
