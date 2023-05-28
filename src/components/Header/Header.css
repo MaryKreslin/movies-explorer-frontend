@@ -56,18 +56,30 @@
     color: #FFFFFF;
 }
 
-.header__button_type_profile {
+.header__button_type_movies {
     width: 26px;
     height: 30px;
-    background: #313131;
+    border: none;
+    background-color: #313131;
     border-radius: 4px;
-    background: url('../../images/profile_icon.svg') no-repeat center;
-    background-size: 11.5px 14px;
 }
 
-.header__button_type_enter {
-    width: 76px;
-    height: 32px;
+.header__button_type_main {
     background: #3DDC84;
+    border: none;
     border-radius: 3px;
+}
+
+.header__buttonText_type_main {
+    margin: 0;
+    padding: 8px 20px;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #000000;
+}
+
+.header__buttonImage {
+    background: url('../../images/profile_icon.svg') no-repeat center;
+    background-size: 11.5px 14px;
 }
