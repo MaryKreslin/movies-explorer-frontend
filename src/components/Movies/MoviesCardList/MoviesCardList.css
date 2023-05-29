@@ -1,0 +1,9 @@
+.moviesCardList{
+    background: #202020;
+    margin: 0;
+    padding: 70px 70px 10px 70px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 360px);
+    gap: 32px 28px;
+    justify-content: center;
+}

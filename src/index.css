@@ -6,9 +6,14 @@
 @import './components/Header/Header.css';
 @import './components/Main/Logo/Logo.css';
 @import './components/Main/AboutProject/AboutProject.css';
+@import './components/Line/Line.css';
 @import './components/Main/SectionHeader/SectionHeader.css';
 @import './components/Main/Techs/Techs.css';
 @import './components/Main/Portfolio/Portfolio.css';
 @import './components/Footer/Footer.css';
 @import './components/Movies/Movies.css';
 @import './components/Movies/SearchForm/SearchForm.css';
+@import './components/Movies/MoviesCardList/MoviesCardList.css';
+@import './components/Movies/MoviesCard/MoviesCard.css';
+@import './components/SavedMovies/SavedMovies.css';
+@import './components/Profile/Profile.css';

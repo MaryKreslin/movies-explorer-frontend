@@ -1,0 +1,79 @@
+.movieCard {
+    margin: 0;
+    padding: 18px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.movieCard__header {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: row;
+    gap: 27px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.movieCard__name {
+    margin: 0;
+    max-width: 240px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+}
+
+.movieCard__duration {
+    margin: 0;
+    max-width: 70px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+    color: #8B8B8B;
+}
+
+.movieCard__preview {
+    margin: 0;
+    max-width: 360px;
+    height: 200px;
+}
+
+.movieCard__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 9px 15px;
+    width: 100px;
+    height: 29px;
+    border: none;
+    background: #313131;
+    border-radius: 30px;
+}
+
+.movieCard__button_clicked {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #EE3465;
+    padding: 12.5px 46px;
+}
+
+.movieCard__buttonText {
+    margin: 0;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 11px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.movieCard__buttonIcon{
+    margin: 0;
+    width: 8px;
+}

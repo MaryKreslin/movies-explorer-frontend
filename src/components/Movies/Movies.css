@@ -1,0 +1,26 @@
+.more {
+    background: #202020;
+    margin: 0;
+    padding: 50px 480px 80px 480px;
+}
+
+.more__button {
+    margin: 0;
+    padding: 11px 60px 9px 60px;
+    border: 1px solid #424242;
+    border-radius: 6px;
+    width: 320px;
+    background: #202020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.more__buttonText {
+    margin: 0;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    color: #FFFFFF;
+}

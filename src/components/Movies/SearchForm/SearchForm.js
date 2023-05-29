@@ -1,4 +1,5 @@
 import React from 'react';
+import Line from '../../Line/Line';
 
 const SearchForm = (props) => {
     return (
@@ -16,7 +17,7 @@ const SearchForm = (props) => {
                 </div>
                 <p className='searchForm__toggle-label'>Короткометражки</p>
             </div>
-            <hr className='searchForm__line'></hr>
+            <Line color='grey' />
         </section>
     )
 }

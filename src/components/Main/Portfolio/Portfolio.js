@@ -1,6 +1,7 @@
 import React from 'react';
 import SectionHeader from '../SectionHeader/SectionHeader';
 import me from '../../../images/me.jpg';
+import Line from '../../Line/Line';
 
 const Portfolio = (props) => {
     return (
@@ -23,12 +24,12 @@ const Portfolio = (props) => {
                     <a className='portfolio__list-link' href='#' >Статичный сайт</a>
                     <p className='portfolio__arrowLink'>↗</p>
                 </li>
-                <hr className='portfolio__line'></hr>
+                <Line color='grey' />
                 <li className='portfolio__list-item'>
                     <a className='portfolio__list-link' href='#'>Адаптивный сайт</a>
                     <p className='portfolio__arrowLink'>↗</p>
                 </li>
-                <hr  className='portfolio__line'></hr>
+                <Line color='grey' />
                 <li className='portfolio__list-item'>
                     <a className='portfolio__list-link' href='#'>Одностраничное приложение</a>
                     <p className='portfolio__arrowLink'>↗</p>
