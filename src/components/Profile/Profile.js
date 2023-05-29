@@ -1,18 +1,16 @@
 import React from 'react';
-import Header from '../Header/Header';
 import Line from '../Line/Line';
 
 const Profile = (props) => {
     return (
         <>
-            <Header type={props.headerType} />
             <section className='profile__content'>
                 <h2 className='profile__header'>Привет, {props.userName}!</h2>
                 <div className='profile__lineBlock'>
                     <p className='profile__label'>Имя</p>
                     <p className='profile__text'>{props.userName}</p>
                 </div>
-                <Line color='grey' isShort={true}/>
+                <Line color='grey' isShort={true} />
                 <div className='profile__lineBlock'>
                     <p className='profile__label'>E-mail</p>
                     <p className='profile__text'>{props.userEmail}</p>

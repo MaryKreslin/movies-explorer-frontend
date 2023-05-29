@@ -18,18 +18,6 @@
     height: 38px;
 }
 
-.header__navigation-block {
-    margin: 0;
-    padding: 0;
-    min-width: 212px;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    gap: 16px;
-    align-items: center;
-    justify-content: center;
-}
-
 .header__profile-block {
     margin: 0;
     padding: 0;
@@ -42,22 +30,12 @@
     justify-content: center;
 }
 
-.header__navigation-text {
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 18px;
-    color: #FFFFFF;
-}
-
-.header__navigation-text_active {
-    font-weight: 500;
-}
-
 .header__profile-text {
     font-weight: 500;
     font-size: 14px;
     line-height: 16px;
     color: #FFFFFF;
+    text-decoration: none;
 }
 
 .header__button_type_movies, .header__button_type_savedMovies {

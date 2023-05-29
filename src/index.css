@@ -7,6 +7,7 @@
 @import './components/Main/Logo/Logo.css';
 @import './components/Main/AboutProject/AboutProject.css';
 @import './components/Line/Line.css';
+@import './components/Navigation/Navigation.css';
 @import './components/Main/SectionHeader/SectionHeader.css';
 @import './components/Main/Techs/Techs.css';
 @import './components/Main/Portfolio/Portfolio.css';
