@@ -1,32 +1,32 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Preloader from '../Preloader/Preloader';
 
-const Register = (props) => {
+const Login = (props) => {
+    const [formValue, setFormValue] = useState({
+        email: '',
+        password: ''
+    })
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        props.handleLogin(formValue.email, formValue.password)
+    }
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormValue({
+            ...formValue,
+            [name]: value
+        });
+    }
     return (
         <>
             {props.isLoading ? <Preloader /> :
                 <div className='form'>
-                    <form className='form__content' name='register'>
+                    <form onSubmit={handleSubmit} className='form__content' name='login'>
                         <img className='form__logo' src={logo} alt='Логотип' />
-                        <h2 className='form__header'>Добро пожаловать!</h2>
+                        <h2 className='form__header'>Рады видеть!</h2>
                         <fieldset className='form__fieldset'>
-                            <div className='form__field'>
-                                <label for='name' className='form__label'>Имя</label>
-                                <input
-                                    type="text"
-                                    className="form__input"
-                                    id="name"
-                                    name="name"
-                                    placeholder="Имя"
-                                    //value={}
-                                    //onChange={handleChange}
-                                    required
-                                    autoComplete='false'
-                                />
-                                <p className="form__error name-error"></p>
-                            </div>
                             <div className='form__field'>
                                 <label for='email' className='form__label'>E-mail</label>
                                 <input
@@ -35,8 +35,8 @@ const Register = (props) => {
                                     id="email"
                                     name="email"
                                     placeholder="Адрес электронной почты"
-                                    //value={}
-                                    //onChange={handleChange}
+                                    value={formValue.email || ""}
+                                    onChange={handleChange}
                                     required
                                     autoComplete='false'
                                 />
@@ -50,20 +50,21 @@ const Register = (props) => {
                                     id="password"
                                     name="password"
                                     placeholder="Пароль"
-                                    //value={}
-                                    //onChange={handleChange}
+                                    value={formValue.password || ""}
+                                    onChange={handleChange}
                                     required
                                     autoComplete='false'
                                 />
                                 <p className="form__error password-error"></p>
                             </div>
-                            <button type="submit" className="form__save-button">
-                                <p className='form__buttonText'>Зарегистрироваться</p>
+                            <button type="submit" className="form__save-button_login">
+                                <p className='form__buttonText'>Войти</p>
                             </button>
                             <div className="form__link">
-                                <p className="form__text">Уже зарегистрированы?</p>
-                                <Link to="/signin" className="form__text form__text_blue">Войти</Link>
+                                <p className="form__text">Ещё не зарегистрированы?</p>
+                                <Link to="/signup" className="form__text form__text_blue">Регистрация</Link>
                             </div>
+
                         </fieldset>
                     </form>
                 </div>
@@ -72,4 +73,4 @@ const Register = (props) => {
     )
 }
 
-export default Register;
+export default Login;

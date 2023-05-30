@@ -20,7 +20,9 @@
 }
 
 .searchForm__button {
-    min-width: 70px;
+    max-width: 70px;
+    width: 100%;
+    min-height: 44px;
     border: none;
     background: #4285F4;
     border-radius: 40px;
@@ -65,7 +67,7 @@
     visibility: hidden;
 }
 
-label {
+.searchForm__label {
     cursor: pointer;
     text-indent: -9999px;
     width: 36px;
@@ -76,7 +78,7 @@ label {
     position: relative;
 }
 
-label:after {
+.searchForm__label:after {
     content: '';
     position: absolute;
     top: 2px;
@@ -87,16 +89,16 @@ label:after {
     border-radius: 8px;
 }
 
-input:checked+label {
+.searchForm__checkbox:checked+label {
     background: #3DDC84;
     border-radius: 20px;
 }
 
-input:checked+label:after {
+.searchForm__checkbox:checked+label:after {
     left: calc(100% - 2px);
     transform: translateX(-100%);
 }
 
-label:active:after {
+.searchForm__label:active:after {
     width: 20px;
 }
