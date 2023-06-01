@@ -8,11 +8,18 @@ import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
+import PopupEdit from "../PopupEdit/PopupEdit";
+import Responsive from "../Responsive/Responsive";
 
 function App() {
-  const [headerType, setheadertype] = React.useState("main");
+  const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
+  const [headerType, setheadertype] = React.useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleEditProfileOpen = () => {
+    setisEditProfilePopupOpen(true)
+  }
 
   const headerButtonClick = (type) => {
     setIsLoading(true)
@@ -42,7 +49,7 @@ function App() {
         setheadertype("savedMovies")
         break;
       default:
-        setheadertype("main")
+        setheadertype("")
     }
     setIsLoading(false)
   }
@@ -53,27 +60,35 @@ function App() {
   }
 
   const handleLogin = (email, password) => {
-    if (!email || !password) {
-      return;
-    }
+    setheadertype("movies");
+    navigate('/movies', { replace: true });
+  }
 
-    setheadertype("main");
-    navigate('/', { replace: true });
-
+  const closePopup = () => {
+    setisEditProfilePopupOpen(false)
   }
 
   return (
     <div className="App">
-      <Header type={headerType} handleClick={headerButtonClick} />
+      <Responsive element={Header} type={headerType} handleClick={headerButtonClick} />
       <Routes>
         <Route path="/" element={<Main isLoading={isLoading} />} />
         <Route path="/movies" element={<Movies isLoading={isLoading} />} />
         <Route path="/saved-movies" element={<SavedMovies isLoading={isLoading} />} />
-        <Route path="/profile" element={<Profile isLoading={isLoading} userName='Виталий' userEmail='pochta@yandex.ru' />} />
+        <Route path="/profile" element={
+          <Profile
+            isLoading={isLoading}
+            userName='Виталий'
+            userEmail='pochta@yandex.ru'
+            handleEditClick={handleEditProfileOpen} />}
+        />
         <Route path="/signup" element={<Register isLoading={isLoading} handleResister={handleResister} />} />
-        <Route path="/signin" element={<Login isLoading={isLoading} handleLogin={handleLogin} />} />
+        <Route path="/signin" element={<Login handleLogin={handleLogin} />} />
         <Route path="/pageNoFound" element={<NotFoundPage />} />
       </Routes>
+      <PopupEdit isOpen={isEditProfilePopupOpen}
+        onClose={closePopup}
+        isLoading={isLoading} />
     </div >
   );
 }

@@ -22,6 +22,14 @@
     height: 38px;
 }
 
+.header__buttonsBlock {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+
+}
+
 .header__profile-block {
     margin: 0;
     padding: 0;
@@ -32,6 +40,7 @@
     gap: 17px;
     align-items: center;
     justify-content: center;
+    margin-top: auto;
 }
 
 .header__profile-text {
@@ -58,6 +67,11 @@
     cursor: pointer;
 }
 
+.header__button_type_main:hover {
+    opacity: .7;
+    cursor: pointer;
+}
+
 .header__buttonText_type_main {
     margin: 0;
     padding: 8px 20px;
@@ -70,4 +84,53 @@
 .header__buttonImage {
     background: url('../../images/profile_icon.svg') no-repeat center;
     background-size: 11.5px 14px;
+}
+
+.header__menu {
+    box-sizing: border-box;
+    width: 100%;
+    max-height: 100vh;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: right;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity .5s ease-in-out;
+    z-index: 10;
+    
+}
+
+.header__menu_opened {
+    visibility: visible;
+    opacity: 1;
+}
+
+.header__menuContent {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #202020;
+    width: 510px;
+    height: 100%;
+    padding: 159px 90px 92px 90px;
+    align-items: center;
+}
+
+.header__menuText {
+    margin: 0 0 28px 0;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFFFF;
+    text-decoration: none;
 }

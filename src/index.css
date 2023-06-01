@@ -4,7 +4,7 @@
 
 @import './components/App/App.css';
 @import './components/Header/Header.css';
-@import './components/Main/Logo/Logo.css';
+@import './components/Main/Promo/Promo.css';
 @import './components/Main/AboutProject/AboutProject.css';
 @import './components/Line/Line.css';
 @import './components/Navigation/Navigation.css';
@@ -19,5 +19,6 @@
 @import './components/SavedMovies/SavedMovies.css';
 @import './components/Profile/Profile.css';
 @import './components/Register/Register.css';
-@import './components/Login/Login.css';
 @import './components/NotFoundPage/NotFoundPage.css';
+@import './components/PopupEdit/PopupEdit.css';
+@import './components/FormField/FormField.css';

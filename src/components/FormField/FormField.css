@@ -1,0 +1,38 @@
+.field {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.field__label {
+    margin: 0;
+    width: 100%;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #8B8B8B;
+}
+
+.field__input {
+    max-width: 366px;
+    min-height: 16px;
+    padding: 15px;
+    width: 100%;
+    background: #2F2F2F;
+    border-radius: 8px;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    color: #FFFFFF;
+    border: none;
+}
+
+.field__error {
+    margin: 0;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+}

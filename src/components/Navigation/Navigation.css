@@ -10,6 +10,12 @@
     justify-content: center;
 }
 
+.navigation_vertical {
+    flex-direction: column;
+    gap: 26px;
+}
+
+
 .navigation__text {
     font-weight: 400;
     font-size: 13px;
@@ -18,6 +24,17 @@
     text-decoration: none;
 }
 
+.navigation__text_vertical {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+}
+
 .navigation__text_active {
     font-weight: 500;
+}
+
+.navigation__text_active_vertical {
+    text-decoration: underline;
 }

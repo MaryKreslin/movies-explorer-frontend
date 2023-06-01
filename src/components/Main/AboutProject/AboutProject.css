@@ -34,11 +34,11 @@
     color: #FFFFFF;
 }
 
-.aboutProject__line-block {
+.aboutProject__table {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 3fr;
     margin-top: 110px;
-    display: flex;
-    flex-direction: row;
-
 }
 
 .aboutProject__line {
@@ -60,7 +60,8 @@
 }
 
 .aboutProject__linetext_background_green {
-    width: 228px;
+    max-width: 228px;
+    width: 100%;
     height: 36px;
     font-weight: 400;
     background-color: #3DDC84;
@@ -68,7 +69,8 @@
 }
 
 .aboutProject__linetext_background_grey {
-    width: 912px;
+    max-width: 912px;
+    width: 100%;
     font-weight: 400;
     color: #FFFFFF;
     background-color: #303030;
@@ -81,4 +83,14 @@
     line-height: 17px;
     text-align: center;
     color: #8B8B8B;
+}
+
+@media (max-width: 768px) {
+    .aboutProject__table {
+        margin-top: 93px;
+    }
+
+    .aboutProject__column-text {
+        line-height: 18px;
+    }
 }

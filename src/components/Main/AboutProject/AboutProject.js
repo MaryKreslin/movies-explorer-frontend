@@ -15,7 +15,7 @@ const AboutProject = (props) => {
                     <p className='aboutProject__column-text'>У каждого этапа был мягкий и жёсткий дедлайн, которые нужно было соблюдать, чтобы успешно защититься.</p>
                 </div>
             </div>
-            <div className='aboutProject__line-block'>
+            <table className='aboutProject__table'>
                 <div className='aboutProject__line'>
                     <p className='aboutProject__linetext aboutProject__linetext_background_green '>1 неделя</p>
                     <p className='aboutProject__linetext aboutProject__linetext_color_grey '>Back-end</p>
@@ -24,7 +24,7 @@ const AboutProject = (props) => {
                     <p className='aboutProject__linetext aboutProject__linetext_background_grey'>4 недели</p>
                     <p className='aboutProject__linetext aboutProject__linetext_color_grey '>Front-end</p>
                 </div>
-            </div>
+            </table>
         </section>
     )
 }

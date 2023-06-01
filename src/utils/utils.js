@@ -1,0 +1,11 @@
+export const validationConfig = {
+  popupSelector: '.popupEdit__content',
+  inputSelector: '.form__input',
+  submitButtonSelector: '.form__save-button',
+  inactiveButtonClass: 'form__save-button_disabled',
+  inputErrorClass: 'form__error',
+  errorClass: 'form__error_visible'
+}
+
+export const popupEdit = document.querySelector('.popupEdit');
+

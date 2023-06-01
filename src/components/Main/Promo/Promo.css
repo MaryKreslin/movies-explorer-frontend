@@ -1,6 +1,5 @@
-.logo {
+.promo {
     margin: 0;
-    width: 100%;
     min-height: 560px;
     background: #073042;
     background-image: url('../../../images/landing-logo.svg');
@@ -9,7 +8,7 @@
     background-position: right 70px bottom 60px;
 }
 
-.logo__header {
+.promo__header {
     margin: 0;
     max-width: 626px;
     font-weight: 400;
@@ -22,3 +21,20 @@
     left: 70px;
 }
 
+@media (max-width: 768px) {
+    .promo {
+        padding: 300px 44px 70px 44px;
+        display: flex;
+        flex-direction: column;
+        gap: 140px;
+        align-items: center;
+        background-size: 680px 230px;
+        background-position: right 44px bottom 70px;
+    }
+
+    .promo__header {
+        text-align: center;
+       top: 0;
+       left: 0;
+    }
+}

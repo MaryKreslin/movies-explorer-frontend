@@ -44,6 +44,8 @@
     line-height: 13px;
     text-align: right;
     color: #FFFFFF;
+    background: transparent;
+    border: none;
 }
 
 .profile__buttonBlock {
@@ -63,6 +65,11 @@
     justify-content: center;
     background-color: #202020;
     border: none;
+}
+
+.profile__button:hover {
+    opacity: .7;
+    cursor: pointer;
 }
 
 .profile__edittext {
