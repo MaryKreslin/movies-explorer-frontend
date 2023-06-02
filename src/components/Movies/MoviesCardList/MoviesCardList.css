@@ -7,3 +7,11 @@
     gap: 32px 28px;
     justify-content: center;
 }
+
+@media (max-width: 768px) {
+    .moviesCardList{
+        padding: 70px 30px 30px 30px;
+        grid-template-columns: repeat(auto-fit, 342px);
+        gap: 35px 24px;
+    }
+}

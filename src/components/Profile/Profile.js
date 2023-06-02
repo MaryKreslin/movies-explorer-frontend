@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Line from '../Line/Line';
 import Preloader from '../Preloader/Preloader';
 
 const Profile = (props) => {
+    useEffect(() => {
+        props.headerTypechange("profile")
+    }, [])
 
     const handleClick = () => {
         props.handleEditClick()

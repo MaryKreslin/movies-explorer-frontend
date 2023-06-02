@@ -1,4 +1,4 @@
-import React from 'react';
+import React ,{useEffect} from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Preloader from '../Preloader/Preloader';
@@ -11,6 +11,9 @@ const Register = (props) => {
         email: '',
         password: '',
     })
+    useEffect(() => {
+        props.headerTypechange("none")
+    }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -20,9 +23,14 @@ const Register = (props) => {
             [name]: value
         });
     }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         props.onSubmit(formValue.name, formValue.email, formValue.password)
+    }
+
+    const handleClickMain = () => {
+        props.handleClickLogo("main")
     }
 
     return (
@@ -30,7 +38,9 @@ const Register = (props) => {
             {props.isLoading ? <Preloader /> :
                 <div className='form'>
                     <form className='form__content' name='register' onSubmit={handleSubmit}>
-                        <img className='form__logo' src={logo} alt='Логотип' />
+                        <Link to='/' onClick={handleClickMain}>
+                            <img className='form__logo' src={logo} alt='Логотип проекта' />
+                        </Link>
                         <h2 className='form__header'>Добро пожаловать!</h2>
                         <fieldset className='form__fieldset'>
                             <FormField name='name' type='text' label='Имя' placeholder="Имя" onChange={handleChange} />

@@ -27,7 +27,7 @@ const PopupEdit = (props) => {
     }
 
     return (
-        <div className={`popupEdit ${props.isOpen ? "popupEdit_opened" : ""}`}>
+        <div className={`popupEdit ${props.isOpen ? "popupEdit_opened" : ""}`} onClick={(event) => event.target === event.currentTarget && props.onClose()}  >
             <form ref={popupRef} className="popupEdit__content" name='edit' onSubmit={props.onSubmit}>
                 <button aria-label="Закрыть" className="popupEdit__close-button" type="button" onClick={props.onClose}></button>
                 <h2 className='profile__header'>Привет, {props.userName}!</h2>

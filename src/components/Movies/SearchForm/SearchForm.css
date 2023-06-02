@@ -28,6 +28,10 @@
     border-radius: 40px;
     padding: 13px 5px;
 }
+.searchForm__button:hover{
+    cursor: pointer;
+    opacity: .7;
+}
 
 .searchForm__buttonText {
     margin: 0;

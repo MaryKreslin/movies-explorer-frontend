@@ -1,8 +1,7 @@
 .header {
     background: #202020;
     margin: 0;
-    padding: 0 70px 0 70px;
-    min-height: 74px;
+    padding: 21px 70px 21px 70px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -27,7 +26,6 @@
     flex-direction: row;
     gap: 30px;
     align-items: center;
-
 }
 
 .header__profile-block {
@@ -61,6 +59,8 @@
 }
 
 .header__button_type_main {
+    width: 76px;
+    min-height: 32px;
     background: #3DDC84;
     border: none;
     border-radius: 3px;
@@ -74,11 +74,11 @@
 
 .header__buttonText_type_main {
     margin: 0;
-    padding: 8px 20px;
     font-weight: 500;
     font-size: 12px;
     line-height: 16px;
     color: #000000;
+    text-decoration: none;
 }
 
 .header__buttonImage {
@@ -105,7 +105,7 @@
     opacity: 0;
     transition: visibility 0s, opacity .5s ease-in-out;
     z-index: 10;
-    
+
 }
 
 .header__menu_opened {
@@ -133,4 +133,14 @@
     text-align: center;
     color: #FFFFFF;
     text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .header {
+        padding: 18px 30px;
+    }
+
+    .header__profile-text {
+        font-size: 12px;
+    }
 }

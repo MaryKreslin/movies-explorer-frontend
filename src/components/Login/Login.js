@@ -1,13 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import FormField from '../FormField/FormField';
 
-const Login = ({ handleLogin }) => {
+const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
     const [formValue, setFormValue] = useState({
         email: '',
         password: ''
     })
+
+    useEffect(() => {
+        headerTypechange("none")
+    }, [])
+
     const handleSubmit = (e) => {
         e.preventDefault();
         handleLogin(formValue.email, formValue.password)
@@ -20,12 +25,17 @@ const Login = ({ handleLogin }) => {
         });
     }
 
+    const handleClickMain = () => {
+        handleClickLogo("main")
+    }
 
     return (
         <>
             <div className='form'>
                 <form onSubmit={handleSubmit} className='form__content' name='login'>
-                    <img className='form__logo' src={logo} alt='Логотип' />
+                    <Link to='/' onClick={handleClickMain}>
+                        <img className='form__logo' src={logo} alt='Логотип проекта' />
+                    </Link>
                     <h2 className='form__header'>Рады видеть!</h2>
                     <fieldset className='form__fieldset'>
                         <FormField name="email" type="email" placeholder="Адрес электронной почты" label='E-mail' onChange={handleChange} />

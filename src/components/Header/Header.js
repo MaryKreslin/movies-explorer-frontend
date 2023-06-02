@@ -22,6 +22,7 @@ const Header = (props) => {
         props.handleClick("login")
     }
     const handleClickProfile = () => {
+        setisMenuOpen(false);
         props.handleClick("profile")
     }
 
@@ -62,9 +63,8 @@ const Header = (props) => {
         <>
             {isMenuOpen &&
                 <div className='header__menu header__menu_opened'
-                onClick={(event) => event.target === event.currentTarget && setisMenuOpen(false)} >
+                    onClick={(event) => event.target === event.currentTarget && setisMenuOpen(false)} >
                     <div className='header__menuContent'>
-                        <Link to='/' className='header__menuText' onClick={handleClickMain}>Главная</Link>
                         <Navigation type={props.type} handleClick={props.handleClick} isVertical={true} />
                         <Link to='/profile' onClick={handleClickProfile} className='header__profile-block'>
                             <p className='header__profile-text'>Аккаунт</p>
@@ -79,11 +79,9 @@ const Header = (props) => {
                 {props.type === 'main' &&
                     <div className='header__buttonsBlock'>
                         <Link to='/signup' className='header__profile-text' onClick={handleClickRegister}>Регистрация</Link>
-                        <Link to='/signin' onClick={handleClickLogin}>
-                            <button className='header__button_type_main'>
-                                <p className={`header__buttonText_type_main`}>Войти</p>
-                            </button>
-                        </Link>
+                        <button className='header__button_type_main'>
+                            <Link to='/signin' onClick={handleClickLogin} p className={`header__buttonText_type_main`}>Войти</Link>
+                        </button>
                     </div>
                 }
                 {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile') && props.responsiveInfo.isDesktop) &&

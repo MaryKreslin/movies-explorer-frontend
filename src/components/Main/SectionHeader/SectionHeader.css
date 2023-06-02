@@ -8,3 +8,11 @@
     letter-spacing: -0.04em;
     color: #FFFFFF;
 }
+
+@media (min-width:320px) and (max-width: 767px) {
+    .sectionHeader__text {
+        font-size: 18px;
+        line-height: 22px;
+        margin-bottom: 28px;
+    }
+}

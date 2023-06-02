@@ -72,19 +72,31 @@ function App() {
     <div className="App">
       <Responsive element={Header} type={headerType} handleClick={headerButtonClick} />
       <Routes>
-        <Route path="/" element={<Main isLoading={isLoading} />} />
-        <Route path="/movies" element={<Movies isLoading={isLoading} />} />
-        <Route path="/saved-movies" element={<SavedMovies isLoading={isLoading} />} />
+        <Route path="/" element={<Main headerTypechange={setheadertype} isLoading={isLoading} />} />
+        <Route path="/movies" element={<Movies headerTypechange={setheadertype} isLoading={isLoading} />} />
+        <Route path="/saved-movies" element={<SavedMovies headerTypechange={setheadertype} isLoading={isLoading} />} />
         <Route path="/profile" element={
           <Profile
+            headerTypechange={setheadertype}
             isLoading={isLoading}
             userName='Виталий'
             userEmail='pochta@yandex.ru'
             handleEditClick={handleEditProfileOpen} />}
         />
-        <Route path="/signup" element={<Register isLoading={isLoading} handleResister={handleResister} />} />
-        <Route path="/signin" element={<Login handleLogin={handleLogin} />} />
-        <Route path="/pageNoFound" element={<NotFoundPage />} />
+        <Route path="/signup" element={
+          <Register isLoading={isLoading}
+            handleResister={handleResister}
+            handleClickLogo={headerButtonClick}
+            headerTypechange={setheadertype} />
+        } />
+        <Route path="/signin" element={
+          <Login handleLogin={handleLogin}
+            handleClickLogo={headerButtonClick}
+            headerTypechange={setheadertype} />} />
+        <Route path="*" element={
+          <NotFoundPage
+            headerTypechange={setheadertype}
+            handleClick={headerButtonClick} />} />
       </Routes>
       <PopupEdit isOpen={isEditProfilePopupOpen}
         onClose={closePopup}
