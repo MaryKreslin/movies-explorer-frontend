@@ -12,17 +12,17 @@ const Portfolio = (props) => {
             <p className='portfolio__title' >Портфолио</p>
             <ul className='portfolio__list'>
                 <li className='portfolio__list-item'>
-                    <a className='portfolio__list-link' href='#' >Статичный сайт</a>
+                    <a className='portfolio__list-link' href='https://marykreslin.github.io/how-to-learn/index.html' target='blank'>Статичный сайт</a>
                     <p className='portfolio__arrowLink'>↗</p>
                 </li>
                 <Line color='grey' />
                 <li className='portfolio__list-item'>
-                    <a className='portfolio__list-link' href='#'>Адаптивный сайт</a>
+                    <a className='portfolio__list-link' href='https://marykreslin.github.io/russian-travel/index.html' target='blank'>Адаптивный сайт</a>
                     <p className='portfolio__arrowLink'>↗</p>
                 </li>
                 <Line color='grey' />
                 <li className='portfolio__list-item'>
-                    <a className='portfolio__list-link' href='#'>Одностраничное приложение</a>
+                    <a className='portfolio__list-link' href='https://domainkreslin.students.nomoredomains.monster' target='blank'>Одностраничное приложение</a>
                     <p className='portfolio__arrowLink'>↗</p>
                 </li>
             </ul>

@@ -35,12 +35,17 @@
 
 .techs__grid {
     width: 100%;
-    margin: 100px 0 0 0;
+    margin: 0 auto;
+    padding-top: 100px;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: repeat(auto-fit, 84px);
     gap: 10px;
     list-style: none;
     padding-inline-start: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+    align-items: center;
+    justify-content: center;
 }
 
 .techs__griditem {
@@ -76,5 +81,26 @@
     .techs__rowtext {
         font-size: 12px;
         line-height: 15px;
+    }
+}
+
+@media (min-width: 320px) and (max-width:767px) {
+    .techs {
+        padding: 70px 18px;
+    }
+
+    .techs__header {
+        font-size: 30px;
+        line-height: 36px;
+    }
+
+    .techs__text {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .techs__grid {
+        margin: 0;
+        padding-top: 50px;
     }
 }

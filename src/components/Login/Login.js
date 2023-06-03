@@ -2,8 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import FormField from '../FormField/FormField';
+import FormValidator from '../../utils/FormValidator';
+import { validationFormConfig } from '../../utils/utils';
 
 const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
+
+    const popupRef = React.useRef();
+
+    React.useEffect(() => {
+        const LoginValidator = new FormValidator(validationFormConfig, popupRef.current);
+        LoginValidator.enableValidation();
+    }, [])
+
     const [formValue, setFormValue] = useState({
         email: '',
         password: ''
@@ -32,7 +42,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
     return (
         <>
             <div className='form'>
-                <form onSubmit={handleSubmit} className='form__content' name='login'>
+                <form ref={popupRef} onSubmit={handleSubmit} className='form__content' name='login'>
                     <Link to='/' onClick={handleClickMain}>
                         <img className='form__logo' src={logo} alt='Логотип проекта' />
                     </Link>

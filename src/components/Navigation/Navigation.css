@@ -44,3 +44,9 @@
     border: none;
     border-bottom: 2px solid #FFFFFF;
 }
+
+@media (max-width:767px) and (min-width:320px){
+    .navigation_vertical{
+        gap:24px;
+    }
+}

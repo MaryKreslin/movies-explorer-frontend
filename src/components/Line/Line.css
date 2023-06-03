@@ -14,5 +14,11 @@
 }
 
 .line_short {
-    width: 410px;
+    width: 420px;
+}
+
+@media (min-width:320px) and (max-width:767px) {
+    .line_short {
+        width: 260px;
+    }
 }

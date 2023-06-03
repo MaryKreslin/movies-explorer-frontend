@@ -14,6 +14,7 @@ const Navigation = (props) => {
     const handleClickMain = () => {
         props.handleClick("main")
     }
+    
     return (
         <nav className={`navigation  ${props.isVertical ? 'navigation_vertical' : ''}`}>
             {props.isVertical &&

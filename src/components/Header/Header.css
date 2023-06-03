@@ -144,3 +144,26 @@
         font-size: 12px;
     }
 }
+
+@media (min-width: 320px) and (max-width:767px) {
+    .header {
+        padding: 18px 14px;
+    }
+
+    .header__profile-text {
+        font-size: 14px;
+        line-height: 16px;
+    }
+
+    .header__buttonsBlock {
+        gap: 14px;
+    }
+
+    .header__menuContent {
+        height: 100%;
+        padding: 144px 10px 48px 10px;
+        align-items: center;
+        justify-content: center;
+    }
+
+}

@@ -1,10 +1,19 @@
-import React ,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Preloader from '../Preloader/Preloader';
 import FormField from '../FormField/FormField';
 
+import FormValidator from '../../utils/FormValidator';
+import { validationFormConfig } from '../../utils/utils';
+
 const Register = (props) => {
+    const popupRef = React.useRef();
+
+    React.useEffect(() => {
+        const RegisterValidator = new FormValidator(validationFormConfig, popupRef.current);
+        RegisterValidator.enableValidation();
+    }, [])
 
     const [formValue, setFormValue] = React.useState({
         name: '',
@@ -37,7 +46,7 @@ const Register = (props) => {
         <>
             {props.isLoading ? <Preloader /> :
                 <div className='form'>
-                    <form className='form__content' name='register' onSubmit={handleSubmit}>
+                    <form ref={popupRef} className='form__content' name='register' onSubmit={handleSubmit}>
                         <Link to='/' onClick={handleClickMain}>
                             <img className='form__logo' src={logo} alt='Логотип проекта' />
                         </Link>

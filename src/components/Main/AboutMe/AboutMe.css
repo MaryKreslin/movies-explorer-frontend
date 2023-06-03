@@ -50,6 +50,12 @@
     font-size: 14px;
     line-height: 17px;
     color: #FFFFFF;
+    text-decoration: none;
+}
+
+.aboutMe__link:hover {
+    cursor: pointer;
+    opacity: .7;
 }
 
 .aboutMe__image {
@@ -80,5 +86,34 @@
     .aboutMe__name {
         font-size: 40px;
         line-height: 40px;
+    }
+}
+
+@media (min-width:320px) and (max-width:767px) {
+    .aboutMe {
+        padding: 60px 0;
+        flex-direction: column-reverse;
+    }
+
+    .aboutMe__name {
+        font-size: 30px;
+        line-height: 36px;
+        margin-bottom: 20px;
+    }
+
+    .aboutMe__about {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .aboutMe__text {
+        font-size: 11px;
+        line-height: 16px;
+        margin-bottom: 40px;
+    }
+
+    .aboutMe__image {
+        width: 100%;
+        height: 352px;
     }
 }

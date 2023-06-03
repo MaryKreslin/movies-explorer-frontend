@@ -8,10 +8,14 @@ const Footer = (props) => {
             <Line color='grey' />
             <div className='footer__textBlock'>
                 <p className='footer__text'>&copy; 2023</p>
-                <div className='footer__links'>
-                    <p className='footer__text'>Яндекс.Практикум</p>
-                    <p className='footer__text'>Github</p>
-                </div>
+                <ul className='footer__links'>
+                    <li>
+                        <a className='footer__linktext' href='https://practicum.yandex.ru/'>Яндекс.Практикум</a>
+                    </li>
+                    <li>
+                        <a className='footer__linktext' href='https://github.com/'>Github</a>
+                    </li>
+                </ul>
             </div>
         </footer>
     )

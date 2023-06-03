@@ -1,7 +1,8 @@
-.moviesCardList{
+.moviesCardList {
     background: #202020;
     margin: 0;
     padding: 70px 70px 10px 70px;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: repeat(auto-fit, 360px);
     gap: 32px 28px;
@@ -9,9 +10,17 @@
 }
 
 @media (max-width: 768px) {
-    .moviesCardList{
+    .moviesCardList {
         padding: 70px 30px 30px 30px;
         grid-template-columns: repeat(auto-fit, 342px);
         gap: 35px 24px;
+    }
+}
+
+@media (min-width:320px) and (max-width:767px) {
+    .moviesCardList {
+        padding: 54px 10px 30px 10px;
+        grid-template-columns: repeat(auto-fit, 300px);
+        gap: 16px;
     }
 }

@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Line from '../Line/Line';
-import Preloader from '../Preloader/Preloader';
+import Header from '../Header/Header';
+import Responsive from '../Responsive/Responsive';
 
 const Profile = (props) => {
-    useEffect(() => {
-        props.headerTypechange("profile")
-    }, [])
 
     const handleClick = () => {
         props.handleEditClick()
@@ -14,6 +12,7 @@ const Profile = (props) => {
 
     return (
         <>
+            <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
             <section className='profile__content'>
                 <h2 className='profile__header'>Привет, {props.userName}!</h2>
                 <div className='profile__lineBlock'>

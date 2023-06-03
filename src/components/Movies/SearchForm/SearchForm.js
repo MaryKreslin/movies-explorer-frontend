@@ -13,7 +13,7 @@ const SearchForm = (props) => {
             <div className='searchForm__toggle-block'>
                 <div className='searchForm__toggle'>
                     <input type="checkbox" className='searchForm__checkbox' id="switch" />
-                    <label for="switch"className='searchForm__label'>Toggle</label>
+                    <label htmlFor='switch' className='searchForm__label'>Toggle</label>
                 </div>
                 <p className='searchForm__toggle-label'>Короткометражки</p>
             </div>

@@ -27,7 +27,7 @@ const Header = (props) => {
     }
 
     React.useEffect(() => {
-        if (!isMenuOpen) {
+        if ((!isMenuOpen) && (props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile')) {
             setbuttonMenuStyle({
                 border: 'none',
                 background: 'transparent',
@@ -38,7 +38,12 @@ const Header = (props) => {
                 cursor: "pointer"
             })
         }
-        else {
+        else if ((!isMenuOpen) && (props.type === 'main')) {
+            setbuttonMenuStyle({
+                display: 'none'
+            })
+        }
+        else if ((isMenuOpen) && (props.type !== 'main')) {
             setbuttonMenuStyle({
                 border: 'none',
                 background: 'transparent',
@@ -74,17 +79,20 @@ const Header = (props) => {
                 </div>}
 
             <header className={`header header_${props.type}`}>
-                <Link to='/' onClick={handleClickMain}> <img className='header__image' src={logo} alt='Логотип проекта' /> </Link>
+                <Link to='/' onClick={handleClickMain}>
+                    <img className='header__image' src={logo} alt='Логотип проекта' />
+                </Link>
 
                 {props.type === 'main' &&
                     <div className='header__buttonsBlock'>
                         <Link to='/signup' className='header__profile-text' onClick={handleClickRegister}>Регистрация</Link>
                         <button className='header__button_type_main'>
-                            <Link to='/signin' onClick={handleClickLogin} p className={`header__buttonText_type_main`}>Войти</Link>
+                            <Link to='/signin' onClick={handleClickLogin} className={`header__buttonText_type_main`}>Войти</Link>
                         </button>
                     </div>
                 }
-                {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile') && props.responsiveInfo.isDesktop) &&
+                {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile')
+                    && props.responsiveInfo.isDesktop) &&
                     <>
                         <Navigation type={props.type} handleClick={props.handleClick} isVertical={false} />
                         <div className='header__profile-block'>
@@ -93,7 +101,8 @@ const Header = (props) => {
                                 <img className='header__buttonImage' src={icon} alt='Иконка аккаунта' />
                             </Link>
                         </div>
-                    </>}
+                    </>
+                }
                 {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile') &&
                     (props.responsiveInfo.isTablet || props.responsiveInfo.isMobile)) &&
                     <>
@@ -103,6 +112,7 @@ const Header = (props) => {
                         </button>
                     </>
                 }
+                
             </header >
         </>
     )

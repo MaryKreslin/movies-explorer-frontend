@@ -36,6 +36,7 @@
 
 .aboutProject__table {
     width: 100%;
+    padding-inline-start: 0;
     display: grid;
     grid-template-columns: 1fr 3fr;
     margin-top: 110px;

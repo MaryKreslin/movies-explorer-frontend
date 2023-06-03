@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import FormValidator from "../../utils/FormValidator";
-import { validationConfig } from "../../utils/utils";
+import { validationPopupConfig } from "../../utils/utils";
 import Line from "../Line/Line";
 
 const PopupEdit = (props) => {
@@ -9,7 +9,7 @@ const PopupEdit = (props) => {
     const popupRef = useRef();
 
     React.useEffect(() => {
-        const PopupValidator = new FormValidator(validationConfig, popupRef.current);
+        const PopupValidator = new FormValidator(validationPopupConfig, popupRef.current);
         PopupValidator.enableValidation();
     }, [props.isOpen])
 
@@ -45,7 +45,6 @@ const PopupEdit = (props) => {
                         autoComplete='false'
                     />
                 </div>
-                <p className="form__error name-error"></p>
                 <Line color='grey' isShort={true} />
                 <div className='profile__lineBlock'>
                     <p className='profile__label'>E-mail</p>
@@ -61,8 +60,11 @@ const PopupEdit = (props) => {
                         autoComplete='false'
                     />
                 </div>
-                <p className="form__error email-error"></p>
-                <button type="submit" className="form__save-button">
+                <div className="popup__errorBlock">
+                    <p className="popup__error email-error"></p>
+                    <p className="popup__error name-error"></p>
+                </div>
+                <button type="submit" className="popup__save-button">
                     <p className='form__buttonText'>Сохранить</p>
                 </button>
             </form>
