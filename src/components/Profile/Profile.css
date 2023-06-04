@@ -1,6 +1,6 @@
 .profile__content {
     margin: 0;
-    min-height: 706px;
+    max-height: 626px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -51,8 +51,7 @@
 .profile__buttonBlock {
     width: 100%;
     margin: 0;
-    margin-top: auto;
-
+    padding-top: 208px;
     display: flex;
     flex-direction: column;
     gap: 16px;

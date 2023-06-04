@@ -38,7 +38,7 @@
     width: 100%;
     padding-inline-start: 0;
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 4fr;
     margin-top: 110px;
     gap: 0;
 }
@@ -122,6 +122,10 @@
         line-height: 16px;
     }
 
+    .aboutProject__column {
+        gap: 16px
+    }
+
     .aboutProject__linetext {
         font-size: 11px;
         line-height: 13px;
@@ -133,6 +137,7 @@
     }
 
     .aboutProject__table {
+        grid-template-columns: 2fr 3fr;
         margin-top: 60px;
     }
 

@@ -10,7 +10,7 @@
 
 .form__content {
     width: 396px;
-        display: flex;
+    display: flex;
     flex-direction: column;
     height: 65vh;
 }
@@ -37,7 +37,7 @@
 }
 
 .form__save-button {
-    margin-top: auto;
+    margin-top: 64px;
     width: 100%;
     background: #4285F4;
     border-radius: 3px;
@@ -48,6 +48,10 @@
 .form__save-button:hover {
     cursor: pointer;
     opacity: .8;
+}
+
+.form__save-button_login {
+    margin-top: 155px;
 }
 
 .form__save-button_disabled {

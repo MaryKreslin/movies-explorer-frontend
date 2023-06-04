@@ -20,6 +20,9 @@
     border-radius: 4px;
     width: 100%;
     min-height: 44px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
 }
 
 .searchForm__button {
@@ -124,5 +127,15 @@
 
     .searchForm__toggle-block {
         margin-bottom: 44px;
+    }
+
+    .searchForm__input {
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .searchForm__label {
+        font-size: 11px;
+        line-height: 18px;
     }
 }

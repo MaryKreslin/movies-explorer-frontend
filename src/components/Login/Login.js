@@ -51,7 +51,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
                         <FormField name="email" type="email" placeholder="Адрес электронной почты" label='E-mail' onChange={handleChange} />
                         <FormField name='password' type='password' label='Пароль' placeholder="Пароль" onChange={handleChange} />
                     </fieldset>
-                    <button type="submit" className="form__save-button">
+                    <button type="submit" className="form__save-button form__save-button_login">
                         <p className='form__buttonText'>Войти</p>
                     </button>
                     <div className="form__link">

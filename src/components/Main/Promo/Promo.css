@@ -55,6 +55,7 @@
     }
 
     .promo__title {
+        max-width: 300px;
         font-size: 31px;
         line-height: 39px;
     }

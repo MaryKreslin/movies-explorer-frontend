@@ -50,11 +50,11 @@ const Header = (props) => {
                 backgroundImage: `url(${close})`,
                 backgroundRepeat: 'no-repeat',
                 backgroundSize: "contain",
-                width: "18px", height: "18px",
+                width: "30px", height: "30px",
                 zIndex: "20",
                 position: "absolute",
-                top: "29.16px",
-                right: "29.16px",
+                top: "22.44px",
+                right: "22.44px",
                 cursor: "pointer"
             })
         }
@@ -71,7 +71,7 @@ const Header = (props) => {
                     onClick={(event) => event.target === event.currentTarget && setisMenuOpen(false)} >
                     <div className='header__menuContent'>
                         <Navigation type={props.type} handleClick={props.handleClick} isVertical={true} />
-                        <Link to='/profile' onClick={handleClickProfile} className='header__profile-block'>
+                        <Link to='/profile' onClick={handleClickProfile} className='header__profile-block header__profile-block_vertical'>
                             <p className='header__profile-text'>Аккаунт</p>
                             <img className='header__buttonImage' src={icon} alt='Иконка аккаунта' />
                         </Link>
@@ -86,8 +86,8 @@ const Header = (props) => {
                 {props.type === 'main' &&
                     <div className='header__buttonsBlock'>
                         <Link to='/signup' className='header__profile-text' onClick={handleClickRegister}>Регистрация</Link>
-                        <button className='header__button_type_main'>
-                            <Link to='/signin' onClick={handleClickLogin} className={`header__buttonText_type_main`}>Войти</Link>
+                        <button className='header__button header__button_type_main'>
+                            <Link to='/signin' onClick={handleClickLogin} className={`header__buttonText header__buttonText_type_main`}>Войти</Link>
                         </button>
                     </div>
                 }
@@ -95,12 +95,10 @@ const Header = (props) => {
                     && props.responsiveInfo.isDesktop) &&
                     <>
                         <Navigation type={props.type} handleClick={props.handleClick} isVertical={false} />
-                        <div className='header__profile-block'>
-                            <Link to='/profile' onClick={handleClickProfile} className='header__profile-block'>
-                                <p className='header__profile-text'>Аккаунт</p>
-                                <img className='header__buttonImage' src={icon} alt='Иконка аккаунта' />
-                            </Link>
-                        </div>
+                        <Link to='/profile' onClick={handleClickProfile} className='header__profile-block'>
+                            <p className='header__profile-accaunt'>Аккаунт</p>
+                            <img className='header__buttonImage' src={icon} alt='Иконка аккаунта' />
+                        </Link>
                     </>
                 }
                 {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile') &&
@@ -112,7 +110,7 @@ const Header = (props) => {
                         </button>
                     </>
                 }
-                
+
             </header >
         </>
     )

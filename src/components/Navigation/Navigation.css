@@ -1,8 +1,7 @@
 .navigation {
     margin: 0;
     padding: 0;
-    min-width: 212px;
-    width: 100%;
+    max-width: 212px;
     display: flex;
     flex-direction: row;
     gap: 16px;

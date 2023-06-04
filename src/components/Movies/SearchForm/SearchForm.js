@@ -5,7 +5,7 @@ const SearchForm = (props) => {
     return (
         <section className='searchForm'>
             <div className='searchForm__block'>
-                <input className='searchForm__input' />
+                <input className='searchForm__input' placeholder='Фильм' type='text' name='searchMovie' id='searchMovie'/>
                 <button className='searchForm__button'>
                     <p className='searchForm__buttonText'>Найти</p>
                 </button>
