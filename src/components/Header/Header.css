@@ -8,17 +8,23 @@
     justify-content: space-between;
 }
 
-.header_main {
+.header_type_main {
     background: #073042;
 }
 
-.header_none {
+.header_type_none {
     display: none;
 }
 
 .header__image {
     width: 38px;
     height: 38px;
+    transition: opacity .2s linear;
+}
+
+.header__image:hover {
+    cursor: pointer;
+    opacity: .7;
 }
 
 .header__buttonsBlock {
@@ -38,6 +44,12 @@
     gap: 17px;
     align-items: center;
     justify-content: center;
+    transition: opacity .2s linear;
+}
+
+.header__profile-block:hover {
+    cursor: pointer;
+    opacity: .7;
 }
 
 .header__profile-block_vertical {
@@ -50,6 +62,12 @@
     line-height: 16px;
     color: #FFFFFF;
     text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.header__profile-text:hover{
+    opacity: .7;
+    cursor: pointer;
 }
 
 .header__profile-accaunt {
@@ -77,6 +95,7 @@
     border: none;
     border-radius: 3px;
     cursor: pointer;
+    transition: opacity .2s linear;
 }
 
 .header__button_type_main:hover {
@@ -139,6 +158,15 @@
     height: 100%;
     padding: 159px 90px 92px 90px;
     align-items: center;
+}
+
+.header__menuButton {
+    transition: opacity .2s linear;
+}
+
+.header__menuButton:hover {
+    cursor: pointer;
+    opacity: .7;
 }
 
 .header__menuText {

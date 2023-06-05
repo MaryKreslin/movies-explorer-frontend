@@ -35,6 +35,12 @@
     text-align: center;
     color: #4285F4;
     text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.notFoundPage__back:hover {
+    cursor: pointer;
+    opacity: .7;
 }
 
 @media (min-width: 320px) and (max-width:767px) {

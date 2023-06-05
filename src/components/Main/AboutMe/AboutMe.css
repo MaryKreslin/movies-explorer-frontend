@@ -51,6 +51,7 @@
     line-height: 17px;
     color: #FFFFFF;
     text-decoration: none;
+    transition: opacity .2s linear;
 }
 
 .aboutMe__link:hover {
@@ -66,7 +67,7 @@
     border-radius: 10px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) and (max-width: 1024px) {
     .aboutMe__image {
         width: 255px;
         height: 307px;

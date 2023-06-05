@@ -9,16 +9,18 @@ import Preloader from '../Preloader/Preloader';
 import Responsive from '../Responsive/Responsive';
 
 const Main = (props) => {
-   
+
     return (
         <>
             {props.isLoading ? <Preloader /> :
                 <>
                     <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
-                    <Promo />
-                    <AboutProject />
-                    <Techs />
-                    <Portfolio />
+                    <main>
+                        <Promo />
+                        <AboutProject />
+                        <Techs />
+                        <Portfolio />
+                    </main>
                     <Footer />
                 </>}
         </>

@@ -18,8 +18,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: opacity .2s linear;
 }
-
+.more__button:hover{
+    cursor: pointer;
+    opacity: .6;
+}
 .more__buttonText {
     margin: 0;
     font-weight: 500;

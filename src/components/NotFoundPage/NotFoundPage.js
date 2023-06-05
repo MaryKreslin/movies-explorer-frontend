@@ -11,11 +11,11 @@ const NotFoundPage = (props) => {
     }, [])
 
     return (
-        <div className='notFoundPage'>
+        <main className='notFoundPage'>
             <h2 className='notFoundPage__header'>404</h2>
             <p className='notFoundPage__text'>Страница не найдена</p>
             < Link to='/' className='notFoundPage__back' onClick={handleClickMain}>Назад</Link>
-        </div>
+        </main>
     )
 }
 

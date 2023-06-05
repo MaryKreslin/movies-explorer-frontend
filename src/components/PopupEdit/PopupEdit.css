@@ -43,6 +43,7 @@
     position: absolute;
     left: calc(100% + 8px);
     top: -40px;
+    transition: opacity .2s linear;
 }
 
 .popupEdit__close-button:hover {
@@ -62,6 +63,7 @@
     border-radius: 3px;
     padding: 13px 0 15px 0;
     border: none;
+    transition: opacity .2s linear;
 }
 
 .popup__save-button:hover {

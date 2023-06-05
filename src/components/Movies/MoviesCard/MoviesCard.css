@@ -57,6 +57,7 @@
     background: #313131;
     border-radius: 30px;
     cursor: pointer;
+    transition: opacity .2s linear;
 }
 
 .movieCard__button:hover {
@@ -84,10 +85,6 @@
 .movieCard__buttonIcon {
     margin: 0;
     width: 8px;
-}
-
-@media (max-width: 768px) {
-    .movieCard {}
 }
 
 @media (min-width:320px) and (max-width:767px) {

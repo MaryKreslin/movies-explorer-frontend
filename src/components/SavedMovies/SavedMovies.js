@@ -13,9 +13,11 @@ const SavedMovies = (props) => {
             {props.isLoading ? <Preloader /> :
                 <>
                     <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
-                    <SearchForm />
-                    <MoviesCardList isSaved={true} />
-                    <div className='savedMovies__devider'></div>
+                    <main>
+                        <SearchForm />
+                        <MoviesCardList isSaved={true} />
+                        <div className='savedMovies__devider'></div>
+                    </main>
                     <Footer />
                 </>
             }

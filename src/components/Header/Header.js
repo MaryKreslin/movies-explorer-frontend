@@ -78,7 +78,7 @@ const Header = (props) => {
                     </div>
                 </div>}
 
-            <header className={`header header_${props.type}`}>
+            <header className={`header header_type_${props.type}`}>
                 <Link to='/' onClick={handleClickMain}>
                     <img className='header__image' src={logo} alt='Логотип проекта' />
                 </Link>

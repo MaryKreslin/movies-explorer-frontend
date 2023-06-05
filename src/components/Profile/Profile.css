@@ -1,6 +1,17 @@
-.profile__content {
+.profile{
     margin: 0;
-    max-height: 626px;
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profile__content {
+    position: relative;
+    margin: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -50,7 +61,7 @@
 
 .profile__buttonBlock {
     width: 100%;
-    margin: 0;
+    margin: 0 0 40px 0;
     padding-top: 208px;
     display: flex;
     flex-direction: column;
@@ -65,6 +76,7 @@
     justify-content: center;
     background-color: #202020;
     border: none;
+    transition: opacity .2s linear;
 }
 
 .profile__button:hover {
@@ -89,6 +101,11 @@
     text-align: center;
     color: #EE3465;
     text-decoration: none;
+    transition: opacity .2s linear;transition: opacity .2s linear;
+}
+.profile__logouttext:hover{
+    cursor: pointer;
+    opacity: .7;
 }
 
 @media (min-width:320px) and (max-width:767px) {

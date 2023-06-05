@@ -46,6 +46,7 @@
     text-align: right;
     color: #FFFFFF;
     text-decoration: none;
+    transition: opacity .2s linear;
 }
 
 .footer__linktext:hover {

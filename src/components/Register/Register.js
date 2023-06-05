@@ -43,7 +43,7 @@ const Register = (props) => {
     }
 
     return (
-        <>
+        <main>
             {props.isLoading ? <Preloader /> :
                 <div className='form'>
                     <form ref={popupRef} className='form__content' name='register' onSubmit={handleSubmit}>
@@ -66,7 +66,7 @@ const Register = (props) => {
                     </form>
                 </div>
             }
-        </>
+        </main>
     )
 }
 

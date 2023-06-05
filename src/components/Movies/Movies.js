@@ -13,13 +13,15 @@ const Movies = (props) => {
             {props.isLoading ? <Preloader /> :
                 <>
                     <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
-                    <SearchForm />
-                    <MoviesCardList />
-                    <section className='more'>
-                        <button className='more__button'>
-                            <p className='more__buttonText'>Ещё</p>
-                        </button>
-                    </section>
+                    <main>
+                        <SearchForm />
+                        <MoviesCardList />
+                        <section className='more'>
+                            <button className='more__button'>
+                                <p className='more__buttonText'>Ещё</p>
+                            </button>
+                        </section>
+                    </main>
                     <Footer />
                 </>
             }

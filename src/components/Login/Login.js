@@ -40,7 +40,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
     }
 
     return (
-        <>
+        <main>
             <div className='form'>
                 <form ref={popupRef} onSubmit={handleSubmit} className='form__content' name='login'>
                     <Link to='/' onClick={handleClickMain}>
@@ -62,7 +62,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
 
                 </form>
             </div>
-        </>
+        </main>
     )
 }
 

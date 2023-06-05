@@ -1,7 +1,6 @@
 import React from 'react';
 import SectionHeader from '../SectionHeader/SectionHeader';
 import AboutMe from '../AboutMe/AboutMe';
-import me from '../../../images/me.jpg';
 import Line from '../../Line/Line';
 
 const Portfolio = (props) => {
