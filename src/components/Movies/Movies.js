@@ -10,21 +10,20 @@ const Movies = (props) => {
 
     return (
         <>
-            {props.isLoading ? <Preloader /> :
-                <>
-                    <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
-                    <main>
-                        <SearchForm />
+            <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
+            <main>
+                <SearchForm onFindClick={props.onFindMoviesClick} />
+                {props.isLoading ? <Preloader /> :
+                    <>
                         <MoviesCardList />
                         <section className='more'>
-                            <button className='more__button'>
+                            <button className='more__button' onClick={props.onFindMoviesClick}>
                                 <p className='more__buttonText'>Ещё</p>
                             </button>
                         </section>
-                    </main>
-                    <Footer />
-                </>
-            }
+                    </>}
+            </main>
+            <Footer />
         </>
     )
 }

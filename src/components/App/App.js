@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import Header from "../Header/Header";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -9,7 +8,7 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PopupEdit from "../PopupEdit/PopupEdit";
-import Responsive from "../Responsive/Responsive";
+import moviesApi from "../../utils/MoviesApi";
 
 function App() {
   const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
@@ -68,11 +67,29 @@ function App() {
     setisEditProfilePopupOpen(false)
   }
 
+  const handleFindMoviesClick = (findText, isShortFilms) => {
+    setIsLoading(true);
+    moviesApi.findMovie()
+      .then((data) => {
+        const searchedMovies = data.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()))
+        const foundShortMovies = isShortFilms ? searchedMovies.filter((item) => item.duration <= 40) : searchedMovies;
+        console.log(searchedMovies, foundShortMovies)
+
+      })
+      .catch((err) => { console.log(err) })
+      .finally(() => { setIsLoading(false) })
+  }
+
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<Main handleHeaderClick={headerButtonClick} isLoading={isLoading} headerType={"main"} />} />
-        <Route path="/movies" element={<Movies isLoading={isLoading} headerType={"movies"} handleHeaderClick={headerButtonClick} />} />
+        <Route path="/movies" element={
+          <Movies
+            isLoading={isLoading}
+            headerType={"movies"}
+            onFindMoviesClick={handleFindMoviesClick}
+            handleHeaderClick={headerButtonClick} />} />
         <Route path="/saved-movies" element={<SavedMovies headerType={"savedMovies"} handleHeaderClick={headerButtonClick} headerTypechange={setheadertype} isLoading={isLoading} />} />
         <Route path="/profile" element={
           <Profile
