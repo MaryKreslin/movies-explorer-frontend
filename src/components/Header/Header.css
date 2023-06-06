@@ -1,0 +1,223 @@
+.header {
+    background: #202020;
+    margin: 0;
+    padding: 18px 70px 18px 70px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header_type_main {
+    background: #073042;
+}
+
+.header_type_none {
+    display: none;
+}
+
+.header__image {
+    width: 38px;
+    height: 38px;
+    transition: opacity .2s linear;
+}
+
+.header__image:hover {
+    cursor: pointer;
+    opacity: .7;
+}
+
+.header__buttonsBlock {
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+    align-items: center;
+}
+
+.header__profile-block {
+    margin: 0;
+    padding: 0;
+    max-width: 100px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    gap: 17px;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .2s linear;
+}
+
+.header__profile-block:hover {
+    cursor: pointer;
+    opacity: .7;
+}
+
+.header__profile-block_vertical {
+    margin-top: auto;
+}
+
+.header__profile-text {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #FFFFFF;
+    text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.header__profile-text:hover{
+    opacity: .7;
+    cursor: pointer;
+}
+
+.header__profile-accaunt {
+    margin: 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 16px;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.header__button_type_movies,
+.header__button_type_savedMovies {
+    width: 26px;
+    height: 30px;
+    border: none;
+    background-color: #313131;
+    border-radius: 4px;
+}
+
+.header__button_type_main {
+    width: 76px;
+    min-height: 32px;
+    background: #3DDC84;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: opacity .2s linear;
+}
+
+.header__button_type_main:hover {
+    opacity: .7;
+    cursor: pointer;
+}
+
+.header__buttonText_type_main {
+    margin: 0;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 16px;
+    color: #000000;
+    text-decoration: none;
+}
+
+.header__buttonImage {
+    margin: 0;
+    padding: 8px 7.25px;
+    width: 11.5px;
+    height: 14px;
+    background: #313131;
+    border-radius: 4px;
+}
+
+.header__menu {
+    box-sizing: border-box;
+    width: 100%;
+    max-height: 100vh;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, .3);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: right;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity .5s ease-in-out;
+    z-index: 10;
+
+}
+
+.header__menu_opened {
+    visibility: visible;
+    opacity: 1;
+}
+
+.header__menuContent {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background: #202020;
+    width: 510px;
+    height: 100%;
+    padding: 159px 90px 92px 90px;
+    align-items: center;
+}
+
+.header__menuButton {
+    transition: opacity .2s linear;
+}
+
+.header__menuButton:hover {
+    cursor: pointer;
+    opacity: .7;
+}
+
+.header__menuText {
+    margin: 0 0 28px 0;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 22px;
+    text-align: center;
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+@media (min-width:768px) and (max-width:1024px) {
+    .header {
+        padding: 18px 30px;
+    }
+
+    .header__profile-text {
+        font-size: 12px;
+    }
+}
+
+@media (min-width: 320px) and (max-width:767px) {
+    .header {
+        padding: 18px 14px;
+    }
+
+    .header__button_type_main {
+        width: 54px;
+        min-height: 26px;
+    }
+
+    .header__buttonText_type_main {
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+    .header__profile-text {
+        font-size: 10px;
+        line-height: 16px;
+    }
+
+    .header__buttonsBlock {
+        gap: 14px;
+    }
+
+    .header__menuContent {
+        height: 100%;
+        padding: 144px 10px 48px 10px;
+        align-items: center;
+        justify-content: center;
+    }
+
+}

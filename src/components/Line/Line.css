@@ -1,0 +1,24 @@
+.line {
+    height: 0;
+    width: 100%;
+    margin: 0;
+    border: none;
+}
+
+.line_color_white {
+    border-top: 1px solid #DADADA;
+}
+
+.line_color_grey {
+    border-top: 1px solid #424242;
+}
+
+.line_short {
+    width: 420px;
+}
+
+@media (min-width:320px) and (max-width:767px) {
+    .line_short {
+        width: 260px;
+    }
+}

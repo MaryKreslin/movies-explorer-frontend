@@ -1,0 +1,147 @@
+.aboutProject {
+    margin: 0;
+    padding: 110px 70px 110px 70px;
+    background-color: #202020;
+}
+
+.aboutProject__text-block {
+    margin-top: 70px;
+    display: flex;
+    flex-direction: row;
+    gap: 40px;
+}
+
+.aboutProject__column {
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+}
+
+.aboutProject__column-header {
+    margin: 0;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+    letter-spacing: -0.04em;
+    color: #FFFFFF;
+}
+
+.aboutProject__column-text {
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: #FFFFFF;
+}
+
+.aboutProject__table {
+    width: 100%;
+    padding-inline-start: 0;
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    margin-top: 110px;
+    gap: 0;
+}
+
+.aboutProject__line {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    align-items: center;
+    justify-content: center;
+}
+
+.aboutProject__linetext {
+    display: flex;
+    margin: 0;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.aboutProject__linetext_background_green {
+    width: 100%;
+    height: 36px;
+    font-weight: 400;
+    background-color: #3DDC84;
+    color: #000000;
+}
+
+.aboutProject__linetext_background_grey {
+    width: 100%;
+    font-weight: 400;
+    color: #FFFFFF;
+    background-color: #303030;
+    height: 36px;
+}
+
+.aboutProject__linetext_color_grey {
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #8B8B8B;
+}
+
+@media (max-width: 768px) {
+    .aboutProject {
+        padding: 90px 50px;
+    }
+
+    .aboutProject__table {
+        margin-top: 93px;
+    }
+
+    .aboutProject__column-text {
+        font-size: 12px;
+        line-height: 18px;
+    }
+}
+
+@media (min-width:320px) and (max-width: 767px) {
+    .aboutProject {
+        padding: 70px 18px;
+    }
+
+    .aboutProject__text-block {
+        margin-top: 60px;
+        flex-direction: column;
+        gap: 56px;
+    }
+
+    .aboutProject__column-header {
+        font-size: 18px;
+        line-height: 22px;
+    }
+
+    .aboutProject__column-text {
+        font-size: 11px;
+        line-height: 16px;
+    }
+
+    .aboutProject__column {
+        gap: 16px
+    }
+
+    .aboutProject__linetext {
+        font-size: 11px;
+        line-height: 13px;
+    }
+
+    .aboutProject__linetext_background_green,
+    .aboutProject__linetext_background_grey {
+        height: 35px;
+    }
+
+    .aboutProject__table {
+        grid-template-columns: 2fr 3fr;
+        margin-top: 60px;
+    }
+
+    .aboutProject__line {
+        gap: 10px;
+    }
+}

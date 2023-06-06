@@ -1,0 +1,115 @@
+.movieCard {
+    width: 100%;
+    margin: 0;
+    padding: 18px 0;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+}
+
+.movieCard__header {
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.movieCard__name {
+    margin: 0;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 18px;
+    color: #FFFFFF;
+}
+
+.movieCard__duration {
+    margin: 0;
+    margin-left: auto;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 18px;
+    text-align: right;
+    color: #8B8B8B;
+}
+
+.movieCard__preview {
+    margin: 0;
+    max-width: 100%;
+    height: 200px;
+}
+
+.movieCard__button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 9px 15px;
+    width: 100px;
+    height: 29px;
+    border: none;
+    background: #313131;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: opacity .2s linear;
+}
+
+.movieCard__button:hover {
+    cursor: pointer;
+    opacity: .7;
+}
+
+.movieCard__button_clicked {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #EE3465;
+    padding: 12.5px 46px;
+}
+
+.movieCard__buttonText {
+    margin: 0;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 11px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.movieCard__buttonIcon {
+    margin: 0;
+    width: 8px;
+}
+
+@media (min-width:320px) and (max-width:767px) {
+    .movieCard {
+        gap: 14px;
+        padding: 14px 0;
+    }
+
+    .movieCard__header {
+        padding: 0 14px;
+    }
+
+    .movieCard__name {
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 18px;
+    }
+
+    .movieCard__duration {
+        font-weight: 700;
+        font-size: 10px;
+        line-height: 18px;
+    }
+
+    .movieCard__preview {
+        height: 168px;
+    }
+}

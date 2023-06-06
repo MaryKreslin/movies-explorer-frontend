@@ -1,0 +1,25 @@
+@import './vendor/normalize.css';
+
+@import './vendor/fonts/fonts.css';
+
+@import './components/App/App.css';
+@import './components/Header/Header.css';
+@import './components/Main/Promo/Promo.css';
+@import './components/Main/AboutProject/AboutProject.css';
+@import './components/Line/Line.css';
+@import './components/Navigation/Navigation.css';
+@import './components/Main/SectionHeader/SectionHeader.css';
+@import './components/Main/Techs/Techs.css';
+@import './components/Main/Portfolio/Portfolio.css';
+@import './components/Main/AboutMe/AboutMe.css';
+@import './components/Footer/Footer.css';
+@import './components/Movies/Movies.css';
+@import './components/Movies/SearchForm/SearchForm.css';
+@import './components/Movies/MoviesCardList/MoviesCardList.css';
+@import './components/Movies/MoviesCard/MoviesCard.css';
+@import './components/SavedMovies/SavedMovies.css';
+@import './components/Profile/Profile.css';
+@import './components/Register/Register.css';
+@import './components/NotFoundPage/NotFoundPage.css';
+@import './components/PopupEdit/PopupEdit.css';
+@import './components/FormField/FormField.css';

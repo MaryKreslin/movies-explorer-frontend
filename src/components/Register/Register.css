@@ -1,0 +1,139 @@
+.form {
+    width: 100%;
+    background: #202020;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+
+.form__content {
+    margin: auto;
+    position: relative;
+    padding: 70px 0;
+    width: 396px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form__logo {
+    width: 38px;
+    height: 38px;
+    transition: opacity .2s linear;
+}
+
+.form__logo:hover {
+    cursor: pointer;
+    opacity: .7;
+}
+
+.form__header {
+    margin: 40px 0;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    color: #FFFFFF;
+}
+
+.form__fieldset {
+    width: 100%;
+    border: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.form__save-button {
+    margin-top: 64px;
+    width: 100%;
+    background: #4285F4;
+    border-radius: 3px;
+    padding: 13px 0 15px 0;
+    border: none;
+    transition: opacity .2s linear;
+}
+
+.form__save-button:hover {
+    cursor: pointer;
+    opacity: .8;
+}
+
+.form__save-button_login {
+    margin-top: 155px;
+}
+
+.form__save-button_disabled {
+    background: #F8F8F8;
+}
+
+.form__buttonText {
+    margin: 0;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.form__link {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+}
+
+.form__text {
+    margin: 0;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 17px;
+    text-align: center;
+    color: #8B8B8B;
+}
+
+.form__text_blue {
+    color: #4285F4;
+    text-decoration: none;
+    transition: opacity .2s linear;
+}
+
+.form__text_blue:hover {
+    opacity: .7;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+    .form__content {
+      padding: 232px 0;
+    }
+}
+
+@media (min-width:320px) and (max-width:767px) {
+    .form {
+       
+    }
+
+    .form__content {
+        width: 260px;
+        align-items: center;
+        padding: 30px;
+    }
+
+    .form__buttonText {
+        font-size: 12px;
+        line-height: 15px;
+    }
+
+    .form__text {
+        font-size: 12px;
+        line-height: 15px;
+    }
+}

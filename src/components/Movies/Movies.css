@@ -1,0 +1,43 @@
+.more {
+    width: 100%;
+    background: #202020;
+    margin: 0;
+    padding: 50px 0 80px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.more__button {
+    margin: 0;
+    padding: 11px 60px 9px 60px;
+    border: 1px solid #424242;
+    border-radius: 6px;
+    width: 320px;
+    background: #202020;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity .2s linear;
+}
+.more__button:hover{
+    cursor: pointer;
+    opacity: .6;
+}
+.more__buttonText {
+    margin: 0;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+@media (min-width: 320px) and (max-width:767px) {
+    .more{
+        padding: 50px 0 80px 0;
+    }
+    .more__button{
+        width: 240px;
+    }
+}

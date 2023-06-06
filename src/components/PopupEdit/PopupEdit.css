@@ -1,0 +1,89 @@
+.popupEdit {
+    display: flex;
+    background-color: rgba(0, 0, 0, .5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity .5s ease-in-out;
+}
+
+.popupEdit_opened {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popupEdit__content {
+    max-width: 510px;
+    width: 100%;
+    min-height: 586px;
+    box-sizing: border-box;
+    padding: 50px;
+    background: #202020;
+    box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+}
+
+.popupEdit__close-button {
+    background: url(../../images/CloseIcon.svg) center no-repeat;
+    background-size: 32px 32px;
+    width: 32px;
+    height: 32px;
+    box-sizing: border-box;
+    border: none;
+    position: absolute;
+    left: calc(100% + 8px);
+    top: -40px;
+    transition: opacity .2s linear;
+}
+
+.popupEdit__close-button:hover {
+    cursor: pointer;
+    opacity: .6;
+}
+
+.popup__errorBlock {
+    margin: 0;
+    margin-top: auto;
+}
+
+.popup__save-button {
+    margin-top: 20px;
+    width: 100%;
+    background: #4285F4;
+    border-radius: 3px;
+    padding: 13px 0 15px 0;
+    border: none;
+    transition: opacity .2s linear;
+}
+
+.popup__save-button:hover {
+    cursor: pointer;
+    opacity: .8;
+}
+
+.popup__save-button_disabled {
+    background: #F8F8F8;
+}
+
+.popup__error {
+    margin: 0;
+    font-weight: 400;
+    font-size: 10px;
+    line-height: 12px;
+    color: #EE3465;
+    visibility: hidden;
+}
+
+.popup__error_visible {
+    visibility: visible;
+}

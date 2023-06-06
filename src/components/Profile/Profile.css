@@ -1,0 +1,119 @@
+.profile{
+    margin: 0;
+    position: relative;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.profile__content {
+    position: relative;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 74px 0 70px 0;
+    background-color: #202020;
+}
+
+.profile__header {
+    max-width: 410px;
+    margin: 0;
+    padding-bottom: 106px;
+    font-weight: 500;
+    font-size: 24px;
+    line-height: 29px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.profile__lineBlock {
+    max-width: 410px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.profile__label {
+    margin: 17px 0 16px 0;
+    font-weight: 500;
+    font-size: 11px;
+    line-height: 13px;
+    color: #FFFFFF;
+}
+
+.profile__text {
+    margin: 0;
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 13px;
+    text-align: right;
+    color: #FFFFFF;
+    background: transparent;
+    border: none;
+}
+
+.profile__buttonBlock {
+    width: 100%;
+    margin: 0 0 40px 0;
+    padding-top: 208px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.profile__button {
+    width: 100%;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #202020;
+    border: none;
+    transition: opacity .2s linear;
+}
+
+.profile__button:hover {
+    opacity: .7;
+    cursor: pointer;
+}
+
+.profile__edittext {
+    margin: 0;
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.profile__logouttext {
+    margin: 0;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 16px;
+    text-align: center;
+    color: #EE3465;
+    text-decoration: none;
+    transition: opacity .2s linear;transition: opacity .2s linear;
+}
+.profile__logouttext:hover{
+    cursor: pointer;
+    opacity: .7;
+}
+
+@media (min-width:320px) and (max-width:767px) {
+    .profile__content {
+        padding: 70px 30px 40px 30px;
+    }
+
+    .profile__lineBlock {
+        max-width: 260px;
+    }
+}
