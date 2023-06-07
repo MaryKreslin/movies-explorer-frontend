@@ -23,10 +23,14 @@
 
 .movieCard__name {
     margin: 0;
+    max-width: 240px;
     font-weight: 500;
     font-size: 15px;
     line-height: 18px;
     color: #FFFFFF;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 
 .movieCard__duration {
@@ -37,6 +41,10 @@
     line-height: 18px;
     text-align: right;
     color: #8B8B8B;
+}
+
+.movieCard__link {
+    cursor: pointer;
 }
 
 .movieCard__preview {

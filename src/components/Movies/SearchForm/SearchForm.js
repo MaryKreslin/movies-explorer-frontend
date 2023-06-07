@@ -7,13 +7,11 @@ const SearchForm = (props) => {
 
     useEffect(() => {
         setfindText('')
-        setCheckbox( false)
+        setCheckbox(false)
     }, [])
 
     const findMovie = (evt) => {
         evt.preventDefault()
-        //  const findText = document.querySelector('.searchForm__input').value;
-        //  const isShortMovies = document.querySelector('.searchForm__checkbox').value;
         props.onFindClick(findText, checkbox)
     }
 
@@ -44,9 +42,9 @@ const SearchForm = (props) => {
             </div>
             <div className='searchForm__toggle-block'>
                 <div className='searchForm__toggle'>
-                    <input type="checkbox" className='searchForm__checkbox' id="switch" 
-                    checked={checkbox} 
-                    onChange={handleChangeCheckbox} />
+                    <input type="checkbox" className='searchForm__checkbox' id="switch"
+                        checked={checkbox}
+                        onChange={handleChangeCheckbox} />
                     <label htmlFor='switch' className='searchForm__label'>Toggle</label>
                 </div>
                 <p className='searchForm__toggle-label'>Короткометражки</p>

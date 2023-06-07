@@ -1,6 +1,7 @@
 import React from 'react';
 
 const FormField = (props) => {
+   
     return (
         <div className='field'>
             <label htmlFor={props.name} className='field__label'>{props.label}</label>
@@ -10,8 +11,8 @@ const FormField = (props) => {
                 id={props.name}
                 name={props.name}
                 placeholder={props.placeholder}
-                //value=
-                onChange={props.handleChange}
+                value={props.value}
+                
                 required
                 autoComplete='false'
             />

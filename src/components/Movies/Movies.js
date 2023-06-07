@@ -8,6 +8,7 @@ import Responsive from '../Responsive/Responsive';
 
 const Movies = (props) => {
 
+    const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
     return (
         <>
             <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
@@ -15,11 +16,12 @@ const Movies = (props) => {
                 <SearchForm onFindClick={props.onFindMoviesClick} />
                 {props.isLoading ? <Preloader /> :
                     <>
-                        <MoviesCardList />
+                        <MoviesCardList movies={props.movies} />
                         <section className='more'>
-                            <button className='more__button' onClick={props.onFindMoviesClick}>
-                                <p className='more__buttonText'>Ещё</p>
-                            </button>
+                            {props.movies.length < foundMovies.length ?
+                                <button className='more__button' onClick={props.onShowMore}>
+                                    <p className='more__buttonText'>Ещё</p>
+                                </button> : ''}
                         </section>
                     </>}
             </main>

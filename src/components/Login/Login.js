@@ -27,6 +27,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
         e.preventDefault();
         handleLogin(formValue.email, formValue.password)
     }
+    
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormValue({
@@ -48,8 +49,36 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
                     </Link>
                     <h2 className='form__header'>Рады видеть!</h2>
                     <fieldset className='form__fieldset'>
-                        <FormField name="email" type="email" placeholder="Адрес электронной почты" label='E-mail' onChange={handleChange} />
-                        <FormField name='password' type='password' label='Пароль' placeholder="Пароль" onChange={handleChange} />
+                        <div className='field'>
+                            <label htmlFor='email' className='field__label'>E-mail</label>
+                            <input
+                                type='email'
+                                className="field__input"
+                                id='email'
+                                name='email'
+                                placeholder="Адрес электронной почты"
+                                value={formValue.email}
+                                onChange={handleChange}
+                                required
+                                autoComplete='false'
+                            />
+                            <p className={`field__error email-error`}></p>
+                        </div>
+                        <div className='field'>
+                            <label htmlFor='password' className='field__label'>Пароль</label>
+                            <input
+                                type='password'
+                                className="field__input"
+                                id='password'
+                                name='password'
+                                placeholder="Пароль"
+                                value={formValue.password}
+                                onChange={handleChange}
+                                required
+                                autoComplete='false'
+                            />
+                            <p className={`field__error password-error`}></p>
+                        </div>
                     </fieldset>
                     <button type="submit" className="form__save-button form__save-button_login">
                         <p className='form__buttonText'>Войти</p>

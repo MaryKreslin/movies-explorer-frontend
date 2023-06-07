@@ -20,6 +20,7 @@ const Register = (props) => {
         email: '',
         password: '',
     })
+
     useEffect(() => {
         props.headerTypechange("none")
     }, [])
@@ -35,7 +36,7 @@ const Register = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.onSubmit(formValue.name, formValue.email, formValue.password)
+        props.onSubmit(formValue)
     }
 
     const handleClickMain = () => {
@@ -52,9 +53,51 @@ const Register = (props) => {
                         </Link>
                         <h2 className='form__header'>Добро пожаловать!</h2>
                         <fieldset className='form__fieldset'>
-                            <FormField name='name' type='text' label='Имя' placeholder="Имя" onChange={handleChange} />
-                            <FormField name='email' type='email' label='E-mail' placeholder="Адрес электронной почты" onChange={handleChange} />
-                            <FormField name='password' type='password' label='Пароль' placeholder="Пароль" onChange={handleChange} />
+                            <div className='field'>
+                                <label htmlFor='name' className='field__label'>Имя</label>
+                                <input
+                                    type="text"
+                                    className="field__input"
+                                    id='name'
+                                    name='name'
+                                    placeholder="Имя"
+                                    value={formValue.name}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete='false'
+                                />
+                                <p className={`field__error name-error`}></p>
+                            </div>
+                            <div className='field'>
+                                <label htmlFor='email' className='field__label'>E-mail</label>
+                                <input
+                                    type='email'
+                                    className="field__input"
+                                    id='email'
+                                    name='email'
+                                    placeholder="Адрес электронной почты"
+                                    value={formValue.email}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete='false'
+                                />
+                                <p className={`field__error email-error`}></p>
+                            </div>
+                            <div className='field'>
+                                <label htmlFor='password' className='field__label'>Пароль</label>
+                                <input
+                                    type='password'
+                                    className="field__input"
+                                    id='password'
+                                    name='password'
+                                    placeholder="Пароль"
+                                    value={formValue.password}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete='false'
+                                />
+                                <p className={`field__error password-error`}></p>
+                            </div>
                         </fieldset>
                         <button type="submit" className="form__save-button">
                             <p className='form__buttonText'>Зарегистрироваться</p>
