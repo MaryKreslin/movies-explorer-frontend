@@ -15,7 +15,7 @@ const SavedMovies = (props) => {
                     <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
                     <main>
                         <SearchForm />
-                        <MoviesCardList isSaved={true} />
+                        <MoviesCardList listType={props.listType} movies={props.movies} onSaveClick={props.handleDeleteMovieClick} />
                         <div className='savedMovies__devider'></div>
                     </main>
                     <Footer />

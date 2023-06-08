@@ -27,7 +27,7 @@ const Header = (props) => {
     }
 
     React.useEffect(() => {
-        if ((!isMenuOpen) && (props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile')) {
+        if (!isMenuOpen) {
             setbuttonMenuStyle({
                 border: 'none',
                 background: 'transparent',
@@ -38,12 +38,7 @@ const Header = (props) => {
                 cursor: "pointer"
             })
         }
-        else if ((!isMenuOpen) && (props.type === 'main')) {
-            setbuttonMenuStyle({
-                display: 'none'
-            })
-        }
-        else if ((isMenuOpen) && (props.type !== 'main')) {
+        else {
             setbuttonMenuStyle({
                 border: 'none',
                 background: 'transparent',
@@ -58,7 +53,7 @@ const Header = (props) => {
                 cursor: "pointer"
             })
         }
-    }, [isMenuOpen])
+        }, [isMenuOpen])
 
     const toggleMenuOpen = () => {
         setisMenuOpen(!isMenuOpen)
@@ -82,8 +77,7 @@ const Header = (props) => {
                 <Link to='/' onClick={handleClickMain}>
                     <img className='header__image' src={logo} alt='Логотип проекта' />
                 </Link>
-
-                {props.type === 'main' &&
+                {(props.type === 'main' && !props.loggedIn && props.responsiveInfo.isDesktop) &&
                     <div className='header__buttonsBlock'>
                         <Link to='/signup' className='header__profile-text' onClick={handleClickRegister}>Регистрация</Link>
                         <button className='header__button header__button_type_main'>
@@ -91,8 +85,7 @@ const Header = (props) => {
                         </button>
                     </div>
                 }
-                {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile')
-                    && props.responsiveInfo.isDesktop) &&
+                {(props.type === 'main' && props.loggedIn && props.responsiveInfo.isDesktop) &&
                     <>
                         <Navigation type={props.type} handleClick={props.handleClick} isVertical={false} />
                         <Link to='/profile' onClick={handleClickProfile} className='header__profile-block'>
@@ -101,16 +94,28 @@ const Header = (props) => {
                         </Link>
                     </>
                 }
-                {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile') &&
-                    (props.responsiveInfo.isTablet || props.responsiveInfo.isMobile)) &&
+                {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile') && props.responsiveInfo.isDesktop) &&
                     <>
-                        <button className='header__menuButton'
-                            style={buttonMenuStyle}
-                            onClick={toggleMenuOpen} >
-                        </button>
+                        <Navigation type={props.type} handleClick={props.handleClick} isVertical={false} />
+                        <Link to='/profile' onClick={handleClickProfile} className='header__profile-block'>
+                            <p className='header__profile-accaunt'>Аккаунт</p>
+                            <img className='header__buttonImage' src={icon} alt='Иконка аккаунта' />
+                        </Link>
                     </>
                 }
-
+                {(props.type === 'main' && props.loggedIn && (props.responsiveInfo.isTablet || props.responsiveInfo.isMobile)) &&
+                    <button className='header__menuButton'
+                        style={buttonMenuStyle}
+                        onClick={toggleMenuOpen} >
+                    </button>
+                }
+                {((props.type === 'movies' || props.type === 'savedMovies' || props.type === 'profile')
+                    && (props.responsiveInfo.isTablet || props.responsiveInfo.isMobile)) &&
+                    <button className='header__menuButton'
+                        style={buttonMenuStyle}
+                        onClick={toggleMenuOpen} >
+                    </button>
+                }
             </header >
         </>
     )

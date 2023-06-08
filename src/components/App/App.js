@@ -12,6 +12,8 @@ import PopupEdit from "../PopupEdit/PopupEdit";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import * as auth from '../../utils/Auth';
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
+import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
 
 function App() {
   const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
@@ -24,6 +26,10 @@ function App() {
   const [loggedIn, setloggedIn] = React.useState(false);
   const [currentUser, setcurrentUser] = React.useState({});
   const [currentEmail, setcurrentEmail] = React.useState("");
+  const [isInfoTooltipOpen, setisInfoTooltipOpen] = React.useState(false);
+  const [infoTooltipType, setinfoTooltipType] = React.useState("");
+  const [infoTooltipText, setinfoTooltipText] = React.useState("");
+  const [savedMovies, setSavedMovies] = React.useState([])
 
   useEffect(() => {
     window.addEventListener('resize', changeWindowWidth);
@@ -98,26 +104,24 @@ function App() {
   }
 
   const handleRegister = (person) => {
-
     auth.register(person)
       .then((res) => {
         if (res.ok) {
           console.log(res)
-          // setinfoTooltipType("reg-success")
-          //setinfoTooltipText("Вы успешно зарегистрировались!")
+          setinfoTooltipType("reg-success")
+          setinfoTooltipText("Вы успешно зарегистрировались!")
         }
       })
       .catch((err) => {
         console.log(err)
-        //setinfoTooltipType("reg-failed")
-        //setinfoTooltipText("Что-то пошло не так! Попробуйте ещё раз.")
+        setinfoTooltipType("reg-failed")
+        setinfoTooltipText("Что-то пошло не так! Попробуйте ещё раз.")
       })
-      .finally(() => {// setisInfoTooltipOpen(true) 
+      .finally(() => {
+        setisInfoTooltipOpen(true)
       })
-
-
-
   }
+
   const handleLogin = (email, password) => {
     if (!email || !password) {
       return;
@@ -133,15 +137,24 @@ function App() {
         }
       })
       .catch(err => {
-        // setinfoTooltipType("auth-failed")
-        //setinfoTooltipText(err)
-        //setisInfoTooltipOpen(true)
+        setinfoTooltipType("auth-failed")
+        setinfoTooltipText(err)
+        setisInfoTooltipOpen(true)
       });
 
   }
+  const closeInfoTooltip = (type) => {
+    if (type === "reg-success" || type === "auth-failed") {
+      navigate('/signin', { replace: true });
+    } else {
+      navigate('/signup', { replace: true });
+    }
+    closePopup();
+  }
 
   const closePopup = () => {
-    setisEditProfilePopupOpen(false)
+    setisEditProfilePopupOpen(false);
+    setisInfoTooltipOpen(false)
   }
 
   const handleFindMoviesClick = (findText, isShort) => {
@@ -151,17 +164,17 @@ function App() {
         const searchedMovies = data.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()))
         const shortMovies = isShort ? searchedMovies.filter((item) => item.duration <= 40) : searchedMovies;
 
-        const newMoviesCards = shortMovies.map((item) => {
-          return {
-            id: item.id,
-            name: item.nameRU,
-            duration: item.duration,
-            image: item.image.url,
-            trailer: item.trailerLink
-          }
-        })
-        setMovies(newMoviesCards);
-        localStorage.setItem('foundMovies', JSON.stringify(newMoviesCards))
+        // const newMoviesCards = shortMovies.map((item) => {
+        //  return {
+        //   id: item.id,
+        //   name: item.nameRU,
+        //   duration: item.duration,
+        //  image: item.image.url,
+        //  trailer: item.trailerLink
+        // }
+        // })
+        setMovies(shortMovies);
+        localStorage.setItem('foundMovies', JSON.stringify(shortMovies))
         localStorage.setItem('isShortMovie', isShort)
         handleResize()
       })
@@ -192,22 +205,54 @@ function App() {
     setMovies(foundMovies.slice(0, movies.length + moreMovies))
   }
 
+  const handleSaveMovieClick = (movie) => {
+    console.log(movie)
+    mainApi.saveMovie(movie)
+      .then((data) => {
+        console.log(data)
+        setSavedMovies([...savedMovies, movie])
+      })
+      .catch((err) => { console.log(err) })
+  }
+const handleDeleteMovieClick = () =>{
+
+}
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Main handleHeaderClick={headerButtonClick} isLoading={isLoading} headerType={"main"} />} />
+          <Route path="/" element={<Main
+            loggedIn={loggedIn}
+            handleHeaderClick={headerButtonClick}
+            isLoading={isLoading}
+            headerType={"main"} />}
+          />
           <Route path="/movies" element={
-            <Movies
+            <ProtectedRouteElement element={Movies}
+              loggedIn={loggedIn}
               movies={movies}
               onShowMore={handleShowMore}
               isLoading={isLoading}
               headerType={"movies"}
               onFindMoviesClick={handleFindMoviesClick}
-              handleHeaderClick={headerButtonClick} />} />
-          <Route path="/saved-movies" element={<SavedMovies headerType={"savedMovies"} handleHeaderClick={headerButtonClick} headerTypechange={setheadertype} isLoading={isLoading} />} />
+              handleHeaderClick={headerButtonClick}
+              handleSaveMovieClick={handleSaveMovieClick}
+              listType='movies' />}
+          />
+          <Route path="/saved-movies" element={
+            <ProtectedRouteElement element={SavedMovies}
+              loggedIn={loggedIn}
+              movies={savedMovies}
+              headerType={"savedMovies"}
+              handleHeaderClick={headerButtonClick}
+              headerTypechange={setheadertype}
+              isLoading={isLoading}
+              handleDeleteMovieClick={handleDeleteMovieClick}
+              listType='savedMovies' />}
+          />
           <Route path="/profile" element={
-            <Profile
+            <ProtectedRouteElement element={Profile}
+              loggedIn={loggedIn}
               headerType={"profile"}
               handleHeaderClick={headerButtonClick}
               isLoading={isLoading}
@@ -239,6 +284,12 @@ function App() {
         <PopupEdit isOpen={isEditProfilePopupOpen}
           onClose={closePopup}
           isLoading={isLoading} />
+        <InfoTooltip
+          isOpen={isInfoTooltipOpen}
+          type={infoTooltipType}
+          onClose={closeInfoTooltip}
+          text={infoTooltipText}
+        />
       </div >
     </CurrentUserContext.Provider>
   );

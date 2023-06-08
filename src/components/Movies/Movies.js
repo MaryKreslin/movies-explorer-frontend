@@ -16,7 +16,7 @@ const Movies = (props) => {
                 <SearchForm onFindClick={props.onFindMoviesClick} />
                 {props.isLoading ? <Preloader /> :
                     <>
-                        <MoviesCardList movies={props.movies} />
+                        <MoviesCardList movies={props.movies}  listType={props.listType} onSaveClick={props.handleSaveMovieClick}/>
                         <section className='more'>
                             {props.movies.length < foundMovies.length ?
                                 <button className='more__button' onClick={props.onShowMore}>
