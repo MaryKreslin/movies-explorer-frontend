@@ -58,9 +58,11 @@ class MainApi {
             .then(data => data)
     }
 
-
     getUserInfo() {
-        return fetch(`${this._url}/users/me`)
+        return fetch(`${this._url}/users/me`, {
+            method: 'GET',
+            headers: this._headers,
+        })
             .then(this._checkResponse)
     }
 
@@ -77,7 +79,13 @@ class MainApi {
     }
 
     getMovies() {
-        return fetch(`${this._url}/movies`)
+        return fetch(`${this._url}/movies`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+            }
+        })
             .then(this._checkResponse)
     }
 
@@ -103,10 +111,13 @@ class MainApi {
             .then(this._checkResponse)
     }
 
-    deleteMovie(movieData) {
-        return fetch(`${this._url}/movies/${movieData.id}`, {
+    deleteMovie(id) {
+        return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
-            headers: this._headers,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+            }
         })
             .then(this._checkResponse)
     }

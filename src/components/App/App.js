@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import { CurrentUserContext } from "../../contexts/CurrentUserContext";
+import { CurrentUserContext, user } from "../../contexts/CurrentUserContext";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -11,7 +11,6 @@ import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PopupEdit from "../PopupEdit/PopupEdit";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
-import * as auth from '../../utils/Auth';
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
 
@@ -45,14 +44,14 @@ function App() {
   const handleTokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
     if (jwt) {
-      auth.checkToken(jwt)
+      mainApi.checkToken(jwt)
         .then((res) => {
           if (res) {
             setloggedIn(true);
-            setheadertype("main");
-            setcurrentEmail(res.data.email);
-            navigate("/", { replace: true });
-            //setMainInfo();
+            setheadertype("movies");
+            setcurrentUser(res.data);
+            navigate("/movies", { replace: true });
+            getAllMovies();
           }
         })
         .catch((err) => console.log(err))
@@ -104,10 +103,10 @@ function App() {
   }
 
   const handleRegister = (person) => {
-    auth.register(person)
+    mainApi.register(person)
       .then((res) => {
         if (res.ok) {
-          console.log(res)
+          handleLogin(res.data.email, res.data.password)
           setinfoTooltipType("reg-success")
           setinfoTooltipText("Вы успешно зарегистрировались!")
         }
@@ -122,18 +121,33 @@ function App() {
       })
   }
 
+  const getAllMovies = () => {
+    setIsLoading(true);
+    moviesApi.findMovie()
+      .then((data) => {
+        setMovies(data);
+        //localStorage.setItem('allMovies', JSON.stringify(data))
+        handleResize()
+      })
+      .then(() => {
+        getSavedMovies()
+      })
+      .catch((err) => { console.log(err) })
+      .finally(() => { setIsLoading(false) })
+  }
+
   const handleLogin = (email, password) => {
     if (!email || !password) {
       return;
     }
-    auth.authorize(password, email)
+    mainApi.authorize(password, email)
       .then((data) => {
         if (data.token) {
           setloggedIn(true);
           setheadertype("movies");
-          setcurrentEmail(email);
+          setcurrentUser({ email: email })
           navigate('/movies', { replace: true });
-          //setMainInfo();
+          getAllMovies();
         }
       })
       .catch(err => {
@@ -164,15 +178,7 @@ function App() {
         const searchedMovies = data.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()))
         const shortMovies = isShort ? searchedMovies.filter((item) => item.duration <= 40) : searchedMovies;
 
-        // const newMoviesCards = shortMovies.map((item) => {
-        //  return {
-        //   id: item.id,
-        //   name: item.nameRU,
-        //   duration: item.duration,
-        //  image: item.image.url,
-        //  trailer: item.trailerLink
-        // }
-        // })
+        localStorage.setItem('findText', findText)
         setMovies(shortMovies);
         localStorage.setItem('foundMovies', JSON.stringify(shortMovies))
         localStorage.setItem('isShortMovie', isShort)
@@ -206,17 +212,48 @@ function App() {
   }
 
   const handleSaveMovieClick = (movie) => {
-    console.log(movie)
     mainApi.saveMovie(movie)
       .then((data) => {
-        console.log(data)
-        setSavedMovies([...savedMovies, movie])
+        setSavedMovies([...savedMovies, data.data])
       })
       .catch((err) => { console.log(err) })
   }
-const handleDeleteMovieClick = () =>{
 
-}
+  const getSavedMovies = () => {
+    setIsLoading(true)
+    mainApi.getMovies()
+      .then((data) => {
+        setSavedMovies(data.data)
+      })
+      .catch((err) => { console.log(err) })
+      .finally(() => { setIsLoading(false) })
+  }
+
+  const handleDeleteMovieClick = (movie) => {
+    const deleteMovie = savedMovies.find(item => item.movieId === movie.id)
+
+    mainApi.deleteMovie(deleteMovie._id)
+      .then(() => {
+        setSavedMovies(savedMovies.filter((item) => item.movieId !== movie.id))
+      })
+      .catch((err) => { console.log(err) })
+  }
+
+  const handleUpdateUser = (name, email) => {
+    setIsLoading(true);
+    mainApi.patchUserInfo(name, email)
+      .then((data) => {
+        setcurrentUser(data.data)
+        closePopup()
+      })
+      .catch((err) => { console.log(err) })
+      .finally(() => { setIsLoading(false) })
+  }
+
+  function checkIsSaved(movie) {
+    return savedMovies.some(item => item.movieId === movie.id)
+  }
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
@@ -231,18 +268,22 @@ const handleDeleteMovieClick = () =>{
             <ProtectedRouteElement element={Movies}
               loggedIn={loggedIn}
               movies={movies}
+              isSaved={checkIsSaved}
+              savedMovies={savedMovies}
               onShowMore={handleShowMore}
               isLoading={isLoading}
               headerType={"movies"}
               onFindMoviesClick={handleFindMoviesClick}
               handleHeaderClick={headerButtonClick}
               handleSaveMovieClick={handleSaveMovieClick}
+              handleDeleteMovieClick={handleDeleteMovieClick}
               listType='movies' />}
           />
           <Route path="/saved-movies" element={
             <ProtectedRouteElement element={SavedMovies}
               loggedIn={loggedIn}
               movies={savedMovies}
+              isSaved={checkIsSaved}
               headerType={"savedMovies"}
               handleHeaderClick={headerButtonClick}
               headerTypechange={setheadertype}
@@ -252,6 +293,7 @@ const handleDeleteMovieClick = () =>{
           />
           <Route path="/profile" element={
             <ProtectedRouteElement element={Profile}
+              email={currentEmail}
               loggedIn={loggedIn}
               headerType={"profile"}
               handleHeaderClick={headerButtonClick}
@@ -283,7 +325,8 @@ const handleDeleteMovieClick = () =>{
         </Routes>
         <PopupEdit isOpen={isEditProfilePopupOpen}
           onClose={closePopup}
-          isLoading={isLoading} />
+          isLoading={isLoading}
+          onUpdateUser={handleUpdateUser} />
         <InfoTooltip
           isOpen={isInfoTooltipOpen}
           type={infoTooltipType}

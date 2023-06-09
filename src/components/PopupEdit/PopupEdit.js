@@ -1,9 +1,11 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import FormValidator from "../../utils/FormValidator";
 import { validationPopupConfig } from "../../utils/utils";
 import Line from "../Line/Line";
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 
 const PopupEdit = (props) => {
+    const currentUser = useContext(CurrentUserContext);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const popupRef = useRef();
@@ -12,6 +14,12 @@ const PopupEdit = (props) => {
         const PopupValidator = new FormValidator(validationPopupConfig, popupRef.current);
         PopupValidator.enableValidation();
     }, [props.isOpen])
+
+    useEffect(() => {
+        setName(currentUser.name);
+        setEmail(currentUser.email)
+    }, [currentUser]
+    )
 
     const handleChangeName = (event) => {
         setName(event.target.value)
@@ -28,9 +36,9 @@ const PopupEdit = (props) => {
 
     return (
         <div className={`popupEdit ${props.isOpen ? "popupEdit_opened" : ""}`} onClick={(event) => event.target === event.currentTarget && props.onClose()}  >
-            <form ref={popupRef} className="popupEdit__content" name='edit' onSubmit={props.onSubmit}>
+            <form ref={popupRef} className="popupEdit__content" name='edit' onSubmit={handleSubmit}>
                 <button aria-label="Закрыть" className="popupEdit__close-button" type="button" onClick={props.onClose}></button>
-                <h2 className='profile__header'>Привет, {props.userName}!</h2>
+                <h2 className='profile__header'>Привет, {name}!</h2>
                 <div className='profile__lineBlock'>
                     <p className='profile__label'>Имя</p>
                     <input

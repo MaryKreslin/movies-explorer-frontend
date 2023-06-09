@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Preloader from '../Preloader/Preloader';
-import FormField from '../FormField/FormField';
-
 import FormValidator from '../../utils/FormValidator';
 import { validationFormConfig } from '../../utils/utils';
 

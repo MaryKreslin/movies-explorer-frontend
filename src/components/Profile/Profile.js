@@ -1,29 +1,39 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Line from '../Line/Line';
 import Header from '../Header/Header';
 import Responsive from '../Responsive/Responsive';
+import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 const Profile = (props) => {
+    const currentUser = useContext(CurrentUserContext);
+    const [name, setName] = useState("");
+    const [email, setEmail] = useState("");
 
     const handleClick = () => {
         props.handleEditClick()
     }
+
+    useEffect(() => {
+        setName(currentUser.name);
+        setEmail(currentUser.email)
+    }, [currentUser]
+    )
 
     return (
         <>
             <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
             <main className='profile'>
                 <section className='profile__content'>
-                    <h2 className='profile__header'>Привет, {props.userName}!</h2>
+                    <h2 className='profile__header'>Привет, {name}!</h2>
                     <div className='profile__lineBlock'>
                         <p className='profile__label'>Имя</p>
-                        <p className='profile__text'>{props.userName}</p>
+                        <p className='profile__text'>{name}</p>
                     </div>
                     <Line color='grey' isShort={true} />
                     <div className='profile__lineBlock'>
                         <p className='profile__label'>E-mail</p>
-                        <p className='profile__text'>{props.userEmail}</p>
+                        <p className='profile__text'>{email}</p>
                     </div>
                     <div className='profile__buttonBlock'>
                         <button className='profile__button' onClick={handleClick}>
