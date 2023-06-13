@@ -87,14 +87,15 @@
         left: calc(100% - 20px);
         top: -36px;
     }
+
     .popup__content {
         max-width: 282px;
         min-height: 322px;
         padding: 25px 22px;
     }
+
     .popup__title {
         font-size: 18px;
         line-height: 22px;
     }
 }
-

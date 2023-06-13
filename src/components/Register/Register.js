@@ -21,11 +21,12 @@ const Register = (props) => {
 
     useEffect(() => {
         props.headerTypechange("none")
+
     }, [])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-
+        document.querySelector('.form__error').classList.remove('field__error_visible')
         setFormValue({
             ...formValue,
             [name]: value
@@ -34,7 +35,8 @@ const Register = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        props.onSubmit(formValue)
+        props.onSubmit(formValue.name, formValue.email, formValue.password)
+      
     }
 
     const handleClickMain = () => {
@@ -97,6 +99,7 @@ const Register = (props) => {
                                 <p className={`field__error password-error`}></p>
                             </div>
                         </fieldset>
+                        <p className={`form__error ${props.errorMessage ? 'field__error_visible' : ''}`}   >{props.errorMessage}</p>
                         <button type="submit" className="form__save-button">
                             <p className='form__buttonText'>Зарегистрироваться</p>
                         </button>

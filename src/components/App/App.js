@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, Navigate, useNavigate } from 'react-router-dom';
-import { CurrentUserContext, user } from "../../contexts/CurrentUserContext";
+import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
 import SavedMovies from "../SavedMovies/SavedMovies";
@@ -9,13 +9,23 @@ import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
 import PopupEdit from "../PopupEdit/PopupEdit";
+import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
-import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
+import {
+  BAD_LOGIN_PASSWORD_MESSAGE,
+  UNAUTHRIZED_TOKEN_ERROR_MESSAGE,
+  USER_EMAIL_CONFLICT_MESSAGE,
+  REGISTER_ERROR_MESSAGE,
+  PROFILE_UPDATE_MESSAGE,
+  UNAUTHRIZED_BAD_TOKEN_MESSAGE,
+  SERVER_ERROR_MESSAGE
+} from "../../utils/constants";
 
 function App() {
   const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [headerType, setheadertype] = React.useState("");
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
@@ -24,41 +34,38 @@ function App() {
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const [loggedIn, setloggedIn] = React.useState(false);
   const [currentUser, setcurrentUser] = React.useState({});
-  const [currentEmail, setcurrentEmail] = React.useState("");
-  const [isInfoTooltipOpen, setisInfoTooltipOpen] = React.useState(false);
-  const [infoTooltipType, setinfoTooltipType] = React.useState("");
-  const [infoTooltipText, setinfoTooltipText] = React.useState("");
-  const [savedMovies, setSavedMovies] = React.useState([])
+  const [savedMovies, setSavedMovies] = React.useState([]);
+  const [errorMessage, setErrorMessage] = React.useState('');
+  const [isFound, setIsFound] = React.useState(false);
 
   useEffect(() => {
     window.addEventListener('resize', changeWindowWidth);
     handleResize()
   },
-    [windowWidth]
-  )
+    [windowWidth]);
 
   useEffect(() => {
     handleTokenCheck();
-  }, [])
+  }, []);
 
-  const handleTokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      mainApi.checkToken(jwt)
-        .then((res) => {
-          if (res) {
-            setloggedIn(true);
-            setheadertype("movies");
-            setcurrentUser(res.data);
-            navigate("/movies", { replace: true });
-            getAllMovies();
-          }
-        })
-        .catch((err) => console.log(err))
-    } else {
-      setheadertype("login")
-      navigate("/signin", { replace: true })
+  useEffect(() => {
+    if (loggedIn) {
+      getUserInfo();
+      getSavedMovies();
+      if (JSON.parse(localStorage.getItem('foundMovies'))) {
+        setMovies(JSON.parse(localStorage.getItem('foundMovies')))
+      }
     }
+  }, [loggedIn])
+
+  const handleLogout = () => {
+    setloggedIn(false)
+    localStorage.clear()
+    navigate("/")
+    setcurrentUser({})
+    setMovies([])
+    setErrorMessage('')
+    setSavedMovies([])
   }
 
   const changeWindowWidth = () => {
@@ -81,7 +88,7 @@ function App() {
         setheadertype("none")
         break;
       case "login":
-        navigate("signin")
+        navigate("/signin")
         setheadertype("none")
         break;
       case "profile":
@@ -102,87 +109,113 @@ function App() {
     setIsLoading(false)
   }
 
-  const handleRegister = (person) => {
-    mainApi.register(person)
-      .then((res) => {
-        if (res.ok) {
-          handleLogin(res.data.email, res.data.password)
-          setinfoTooltipType("reg-success")
-          setinfoTooltipText("Вы успешно зарегистрировались!")
-        }
+  const handleRegister = (name, email, password) => {
+    setIsLoading(true);
+    mainApi.register(name, email, password)
+      .then(() => {
+        handleLogin(email, password)
       })
       .catch((err) => {
         console.log(err)
-        setinfoTooltipType("reg-failed")
-        setinfoTooltipText("Что-то пошло не так! Попробуйте ещё раз.")
+        if (err.includes(409)) {
+          setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
+        } else {
+          setErrorMessage(REGISTER_ERROR_MESSAGE)
+        }
       })
-      .finally(() => {
-        setisInfoTooltipOpen(true)
-      })
-  }
-
-  const getAllMovies = () => {
-    setIsLoading(true);
-    moviesApi.findMovie()
-      .then((data) => {
-        setMovies(data);
-        //localStorage.setItem('allMovies', JSON.stringify(data))
-        handleResize()
-      })
-      .then(() => {
-        getSavedMovies()
-      })
-      .catch((err) => { console.log(err) })
       .finally(() => { setIsLoading(false) })
   }
 
   const handleLogin = (email, password) => {
-    if (!email || !password) {
-      return;
-    }
-    mainApi.authorize(password, email)
+    setIsLoading(true);
+    mainApi.login(email, password)
       .then((data) => {
-        if (data.token) {
-          setloggedIn(true);
-          setheadertype("movies");
-          setcurrentUser({ email: email })
-          navigate('/movies', { replace: true });
-          getAllMovies();
-        }
+        if (data) { }
+        setloggedIn(true);
+        setheadertype("movies");
+        setTimeout(() => navigate("/movies", { replace: true }), 1000)
       })
       .catch(err => {
-        setinfoTooltipType("auth-failed")
-        setinfoTooltipText(err)
-        setisInfoTooltipOpen(true)
-      });
-
+        if (err.includes(401)) {
+          setErrorMessage(BAD_LOGIN_PASSWORD_MESSAGE)
+        } else {
+          setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
+        }
+      })
+      .finally(() => { setIsLoading(false) })
   }
-  const closeInfoTooltip = (type) => {
-    if (type === "reg-success" || type === "auth-failed") {
-      navigate('/signin', { replace: true });
+
+  //получение данных пользователя
+  const getUserInfo = () => {
+    mainApi.getUserInfo()
+      .then((data) => {
+        setcurrentUser(data.data)
+      })
+      .catch((err) => {
+        setErrorMessage(SERVER_ERROR_MESSAGE)
+      })
+  }
+
+  //Получение списка сохраненных фильмов
+  const getSavedMovies = () => {
+    setIsLoading(true)
+    mainApi.getMovies()
+      .then((data) => {
+        setSavedMovies(data.data)
+      })
+      .catch((err) => {
+        console.log(err)
+        setErrorMessage(SERVER_ERROR_MESSAGE)
+      })
+      .finally(() => { setIsLoading(false) })
+  }
+
+  const handleTokenCheck = () => {
+    const jwt = localStorage.getItem('jwt');
+    if (jwt) {
+      mainApi.checkToken(jwt)
+        .then(() => {
+          setloggedIn(true);
+          setheadertype("movies");
+          navigate("/movies", { replace: true });
+        })
+        .catch((err) => {
+          if (err.includes(403)) {
+            setErrorMessage(UNAUTHRIZED_TOKEN_ERROR_MESSAGE)
+          } else {
+            setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
+          }
+        })
     } else {
-      navigate('/signup', { replace: true });
+      setheadertype("login")
+      navigate("/signin", { replace: true })
     }
-    closePopup();
   }
 
   const closePopup = () => {
     setisEditProfilePopupOpen(false);
-    setisInfoTooltipOpen(false)
   }
 
   const handleFindMoviesClick = (findText, isShort) => {
     setIsLoading(true);
     moviesApi.findMovie()
       .then((data) => {
-        const searchedMovies = data.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()))
-        const shortMovies = isShort ? searchedMovies.filter((item) => item.duration <= 40) : searchedMovies;
-
-        localStorage.setItem('findText', findText)
-        setMovies(shortMovies);
-        localStorage.setItem('foundMovies', JSON.stringify(shortMovies))
-        localStorage.setItem('isShortMovie', isShort)
-        handleResize()
+        if (data.length > 0) {
+          const searchedMovies = data.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
+          const shortMovies = isShort ? searchedMovies.filter((item) => item.duration <= 40) : searchedMovies;
+          localStorage.setItem('findText', findText);
+          setMovies(shortMovies);
+          localStorage.setItem('foundMovies', JSON.stringify(shortMovies));
+          console.log(isShort);
+          localStorage.setItem('isShortMovie', isShort);
+          handleResize();
+          setIsFound(true);
+          return
+        }
+        else {
+          setIsFound(false);
+          return
+        }
       })
       .catch((err) => { console.log(err) })
       .finally(() => { setIsLoading(false) })
@@ -193,8 +226,7 @@ function App() {
     if (foundMovies === null) {
       return
     }
-
-    if (windowWidth > 768 && windowWidth <= 1280) {
+    if (windowWidth >= 1280) {
       setMovies(foundMovies.slice(0, 12))
       setMoreMovies(3)
     } else if (windowWidth > 480 && windowWidth <= 768) {
@@ -219,22 +251,17 @@ function App() {
       .catch((err) => { console.log(err) })
   }
 
-  const getSavedMovies = () => {
-    setIsLoading(true)
-    mainApi.getMovies()
-      .then((data) => {
-        setSavedMovies(data.data)
-      })
-      .catch((err) => { console.log(err) })
-      .finally(() => { setIsLoading(false) })
-  }
-
   const handleDeleteMovieClick = (movie) => {
-    const deleteMovie = savedMovies.find(item => item.movieId === movie.id)
-
+    const deleteMovie = savedMovies.find(item =>
+      item.movieId === (movie.id || movie.movieId)
+    )
+    if (!deleteMovie) return
     mainApi.deleteMovie(deleteMovie._id)
       .then(() => {
-        setSavedMovies(savedMovies.filter((item) => item.movieId !== movie.id))
+        setSavedMovies(savedMovies.filter(item =>
+          item._id !== deleteMovie._id
+        ))
+        // getSavedMovies()
       })
       .catch((err) => { console.log(err) })
   }
@@ -243,15 +270,26 @@ function App() {
     setIsLoading(true);
     mainApi.patchUserInfo(name, email)
       .then((data) => {
-        setcurrentUser(data.data)
-        closePopup()
+        getUserInfo()
+        setIsInfoTooltipOpen(true)
       })
-      .catch((err) => { console.log(err) })
+      .catch((err) => {
+        if (err.includes(409)) {
+          setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
+        } else {
+          setErrorMessage(PROFILE_UPDATE_MESSAGE)
+        }
+      })
       .finally(() => { setIsLoading(false) })
   }
 
+  const handleInfoClose = () => {
+    setIsInfoTooltipOpen(false)
+    closePopup()
+  }
+
   function checkIsSaved(movie) {
-    return savedMovies.some(item => item.movieId === movie.id)
+    return savedMovies.some(item => (item._id === movie._id) || (item.movieId === (movie.movieId || movie.id)))
   }
 
   return (
@@ -268,7 +306,7 @@ function App() {
             <ProtectedRouteElement element={Movies}
               loggedIn={loggedIn}
               movies={movies}
-              isSaved={checkIsSaved}
+              checkIsSaved={checkIsSaved}
               savedMovies={savedMovies}
               onShowMore={handleShowMore}
               isLoading={isLoading}
@@ -277,30 +315,32 @@ function App() {
               handleHeaderClick={headerButtonClick}
               handleSaveMovieClick={handleSaveMovieClick}
               handleDeleteMovieClick={handleDeleteMovieClick}
-              listType='movies' />}
+              listType='movies'
+              isFound={isFound}
+            />}
           />
           <Route path="/saved-movies" element={
             <ProtectedRouteElement element={SavedMovies}
               loggedIn={loggedIn}
               movies={savedMovies}
-              isSaved={checkIsSaved}
+              checkIsSaved={checkIsSaved}
               headerType={"savedMovies"}
               handleHeaderClick={headerButtonClick}
               headerTypechange={setheadertype}
               isLoading={isLoading}
               handleDeleteMovieClick={handleDeleteMovieClick}
-              listType='savedMovies' />}
+              listType='savedMovies'
+            />}
           />
           <Route path="/profile" element={
             <ProtectedRouteElement element={Profile}
-              email={currentEmail}
               loggedIn={loggedIn}
               headerType={"profile"}
               handleHeaderClick={headerButtonClick}
-              isLoading={isLoading}
-              userName='Виталий'
-              userEmail='pochta@yandex.ru'
-              handleEditClick={handleEditProfileOpen} />}
+              handleEditClick={handleEditProfileOpen}
+              handleDeleteUser={handleLogout}
+              errorMessage={errorMessage}
+            />}
           />
           <Route path="/signup" element={
             <Register
@@ -309,6 +349,7 @@ function App() {
               onSubmit={handleRegister}
               handleClickLogo={headerButtonClick}
               headerTypechange={setheadertype}
+              errorMessage={errorMessage}
             />
           } />
           <Route path="/signin" element={
@@ -316,7 +357,9 @@ function App() {
               headerType={"none"}
               handleLogin={handleLogin}
               handleClickLogo={headerButtonClick}
-              headerTypechange={setheadertype} />} />
+              headerTypechange={setheadertype}
+              errorMessage={errorMessage}
+            />} />
           <Route path="*" element={
             <NotFoundPage
               headerType={"none"}
@@ -326,13 +369,11 @@ function App() {
         <PopupEdit isOpen={isEditProfilePopupOpen}
           onClose={closePopup}
           isLoading={isLoading}
-          onUpdateUser={handleUpdateUser} />
-        <InfoTooltip
-          isOpen={isInfoTooltipOpen}
-          type={infoTooltipType}
-          onClose={closeInfoTooltip}
-          text={infoTooltipText}
+          onUpdateUser={handleUpdateUser}
+          errorMessage={errorMessage}
         />
+        <InfoTooltip isOpen={isInfoTooltipOpen}
+          onClose={handleInfoClose} />
       </div >
     </CurrentUserContext.Provider>
   );

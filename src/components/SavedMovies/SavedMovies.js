@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import SearchForm from '../Movies/SearchForm/SearchForm';
 import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
@@ -8,17 +8,42 @@ import Responsive from '../Responsive/Responsive';
 
 const SavedMovies = (props) => {
 
+    const [movies, setMovies] = useState([]);
+    const [isShort, setIsShort] = useState(false);
+
+    useEffect(() => {
+        setMovies(props.movies)
+    }, [props])
+
+    const handleFindInSaved = (findText, isShort) => {
+        if (findText !== '' && isShort) {
+            const searchedSavedMovies = movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
+            const shortSavedMovies = searchedSavedMovies.filter((item) => item.duration <= 40);
+            setMovies(shortSavedMovies)
+            setIsShort(true)
+        } else if (findText !== '' && !isShort) {
+            setMovies(movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase())))
+            setIsShort(false)
+        } else if (findText === '' && isShort) {
+            setMovies(movies.filter((item) => item.duration <= 40))
+            setIsShort(true)
+        } else {
+            setMovies(props.movies)
+            setIsShort(false)
+        }
+    }
+
     return (
         <>
             {props.isLoading ? <Preloader /> :
                 <>
                     <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
                     <main>
-                        <SearchForm />
+                        <SearchForm onFindClick={handleFindInSaved} isShort={isShort} />
                         <MoviesCardList
-                            isSaved={props.isSaved}
+                            checkIsSaved={props.checkIsSaved}
                             listType={props.listType}
-                            movies={props.movies}
+                            movies={movies}
                             onDeleteMovie={props.handleDeleteMovieClick}
                         />
                         <div className='savedMovies__devider'></div>

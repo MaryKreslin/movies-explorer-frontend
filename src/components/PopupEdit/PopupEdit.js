@@ -16,9 +16,9 @@ const PopupEdit = (props) => {
     }, [props.isOpen])
 
     useEffect(() => {
-        setName(currentUser.name);
+        setName(currentUser.name)
         setEmail(currentUser.email)
-    }, [currentUser]
+    }, [currentUser, props.isOpen]
     )
 
     const handleChangeName = (event) => {
@@ -71,6 +71,7 @@ const PopupEdit = (props) => {
                 <div className="popup__errorBlock">
                     <p className="popup__error email-error"></p>
                     <p className="popup__error name-error"></p>
+                    <p className="popup__error"> {props.errorMessage}</p>
                 </div>
                 <button type="submit" className="popup__save-button">
                     <p className='form__buttonText'>Сохранить</p>

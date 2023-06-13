@@ -7,9 +7,14 @@ const MoviesCard = (props) => {
 
     const [duration, setDuration] = useState({ hours: "", minutes: "" });
     const [saveButtonStyle, setSaveButtonStyle] = useState({});
+    const [isSaved, setIsSaved] = useState();
 
     useEffect(() => {
-        if (props.isSaved(props.data)) {
+        setIsSaved(props.checkIsSaved(props.data))
+    }, [props])
+
+    useEffect(() => {
+        if (isSaved) {
             setSaveButtonStyle({
                 display: 'flex',
                 alignItems: 'center',
@@ -39,10 +44,11 @@ const MoviesCard = (props) => {
 
             })
         }
-    }, [props])
+    }, [isSaved])
 
     const handleSaveMovie = () => {
         props.onSaveClick(props.data)
+
     }
 
     const handleDeleteMovie = () => {
@@ -57,7 +63,7 @@ const MoviesCard = (props) => {
             const m = (props.data.duration % 60);
             setDuration({ hours: `${h} ч `, minutes: `${m} мин` })
         }
-    }, [])
+    }, [props])
 
 
     return (
@@ -70,12 +76,12 @@ const MoviesCard = (props) => {
                 {props.listType === 'movies' && <img className='movieCard__preview' src={`https://api.nomoreparties.co/${props.data.image.url}`} alt='Превью фильма' />}
                 {props.listType === 'savedMovies' && <img className='movieCard__preview' src={props.data.image} alt='Превью фильма' />}
             </a>
-            {(props.listType === 'movies' && props.isSaved(props.data)) &&
+            {(props.listType === 'movies') && isSaved &&
                 <button style={saveButtonStyle} onClick={handleDeleteMovie}>
-                    <img className='movieCard__buttonIcon' src={buttonIcon} alt='Добавлен в список сохраненных' /> :
+                    <img className='movieCard__buttonIcon' src={buttonIcon} alt='Добавлен в список сохраненных' />
                 </button>
             }
-            {(props.listType === 'movies' && !props.isSaved(props.data)) &&
+            {(props.listType === 'movies') && !isSaved &&
                 <button style={saveButtonStyle} onClick={handleSaveMovie}>
                     <p className='movieCard__buttonText'>Сохранить</p>
                 </button>

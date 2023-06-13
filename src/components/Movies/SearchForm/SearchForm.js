@@ -2,27 +2,29 @@ import React, { useState, useEffect } from 'react';
 import Line from '../../Line/Line';
 
 const SearchForm = (props) => {
+
+    //const switchState = localStorage.getItem('isShortMovie');
     const [findText, setfindText] = useState('');
-    const [checkbox, setCheckbox] = useState(false);
+    const [isCheckboxCheck, setIsCheckboxCheck] = useState(false);
 
     useEffect(() => {
         setfindText('')
-        setCheckbox(false)
-    }, [])
+        //console.log(switchState)
+        setIsCheckboxCheck( props.isShort)
+    }, [props])
 
     const findMovie = (evt) => {
         evt.preventDefault()
-        props.onFindClick(findText, checkbox)
+        props.onFindClick(findText, isCheckboxCheck)
     }
-
 
     function handleChangeFindMovie(e) {
         setfindText(e.target.value)
     }
 
-    function handleChangeCheckbox(e) {
-        const isShortMovies = e.target.checked;
-        setCheckbox(isShortMovies);
+    function handleChangeCheckbox(evt) {
+        const isShortMovies = evt.target.checked;
+        setIsCheckboxCheck(isShortMovies);
         props.onFindClick(findText, isShortMovies)
     }
 
@@ -43,9 +45,10 @@ const SearchForm = (props) => {
             <div className='searchForm__toggle-block'>
                 <div className='searchForm__toggle'>
                     <input type="checkbox" className='searchForm__checkbox' id="switch"
-                        checked={checkbox}
-                        onChange={handleChangeCheckbox} />
-                    <label htmlFor='switch' className='searchForm__label'>Toggle</label>
+                        checked={isCheckboxCheck}
+                        onChange={handleChangeCheckbox}
+                    />
+                    <label htmlFor='switch' className='searchForm__label'></label>
                 </div>
                 <p className='searchForm__toggle-label'>Короткометражки</p>
             </div>

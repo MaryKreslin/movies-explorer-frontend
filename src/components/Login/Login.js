@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
-import FormField from '../FormField/FormField';
 import FormValidator from '../../utils/FormValidator';
 import { validationFormConfig } from '../../utils/utils';
 
-const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
+const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage }) => {
 
     const popupRef = React.useRef();
-
+    const navigate = useNavigate();
     React.useEffect(() => {
         const LoginValidator = new FormValidator(validationFormConfig, popupRef.current);
         LoginValidator.enableValidation();
@@ -27,7 +27,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
         e.preventDefault();
         handleLogin(formValue.email, formValue.password)
     }
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormValue({
@@ -80,6 +80,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange }) => {
                             <p className={`field__error password-error`}></p>
                         </div>
                     </fieldset>
+                    <p className='field__error'>{errorMessage}</p>
                     <button type="submit" className="form__save-button form__save-button_login">
                         <p className='form__buttonText'>Войти</p>
                     </button>

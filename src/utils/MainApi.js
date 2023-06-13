@@ -13,7 +13,7 @@ class MainApi {
     }
 
 
-    register({ name, email, password }) {
+    register( name, email, password ) {
         return fetch(`${this._url}/signup`, {
             method: 'POST',
             headers: {
@@ -21,11 +21,10 @@ class MainApi {
             },
             body: JSON.stringify({ "name": name, "email": email, "password": password })
         })
-
             .then(this._checkResponse)
     };
 
-    authorize(password, email) {
+    login(email, password) {
         return fetch(`${this._url}/signin`, {
             method: 'POST',
             headers: {
@@ -40,7 +39,7 @@ class MainApi {
             .then((data) => {
                 if (data.token) {
                     localStorage.setItem('jwt', data.token);
-                    return data;
+                    return data
                 }
             })
 
@@ -81,10 +80,7 @@ class MainApi {
     getMovies() {
         return fetch(`${this._url}/movies`, {
             method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-            }
+            headers: this._headers 
         })
             .then(this._checkResponse)
     }
@@ -114,10 +110,7 @@ class MainApi {
     deleteMovie(id) {
         return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${localStorage.getItem('jwt')}`
-            }
+            headers: this._headers 
         })
             .then(this._checkResponse)
     }

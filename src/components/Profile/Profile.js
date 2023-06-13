@@ -7,18 +7,22 @@ import { CurrentUserContext } from '../../contexts/CurrentUserContext';
 
 const Profile = (props) => {
     const currentUser = useContext(CurrentUserContext);
-    const [name, setName] = useState("");
-    const [email, setEmail] = useState("");
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+
+    React.useEffect(() => {
+        setName(currentUser.name);
+        setEmail(currentUser.email);
+    }, [currentUser]
+    );
 
     const handleClick = () => {
         props.handleEditClick()
     }
 
-    useEffect(() => {
-        setName(currentUser.name);
-        setEmail(currentUser.email)
-    }, [currentUser]
-    )
+    const handleDeleteUser = () => {
+        props.handleDeleteUser()
+    }
 
     return (
         <>
@@ -39,14 +43,12 @@ const Profile = (props) => {
                         <button className='profile__button' onClick={handleClick}>
                             <p className='profile__edittext'>Редактировать</p>
                         </button>
-                        <button className='profile__button'>
+                        <button className='profile__button' onClick={handleDeleteUser}>
                             <Link to='/signup' className='profile__logouttext'>Выйти из аккаунта</Link>
                         </button>
                     </div>
                 </section>
             </main>
-
-
         </>
     )
 }

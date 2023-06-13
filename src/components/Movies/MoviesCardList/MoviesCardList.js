@@ -8,14 +8,15 @@ const MoviesCardList = (props) => {
             {props.movies.map((item) => {
                 return <MoviesCard
                     data={item}
-                    key={item.id}
-                    isSaved={props.isSaved}
+                    key={ props.listType === 'movies' ?  item.id : item.movieId}
+                    checkIsSaved={props.checkIsSaved}
                     onSaveClick={props.onSaveClick}
                     onDeleteMovie={props.onDeleteMovie}
                     listType={props.listType}
                 />
             })
             }
+            
         </section>
     )
 }
