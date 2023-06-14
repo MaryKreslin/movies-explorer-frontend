@@ -117,7 +117,7 @@ function App() {
       })
       .catch((err) => {
         console.log(err)
-        if (err.includes(409)) {
+        if (err.includes('409')) {
           setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
         } else {
           setErrorMessage(REGISTER_ERROR_MESSAGE)
@@ -136,7 +136,7 @@ function App() {
         setTimeout(() => navigate("/movies", { replace: true }), 1000)
       })
       .catch(err => {
-        if (err.includes(401)) {
+        if (err.includes('401')) {
           setErrorMessage(BAD_LOGIN_PASSWORD_MESSAGE)
         } else {
           setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
@@ -180,7 +180,8 @@ function App() {
           navigate("/movies", { replace: true });
         })
         .catch((err) => {
-          if (err.includes(403)) {
+          console.log(err)
+          if (err.includes('403')) {
             setErrorMessage(UNAUTHRIZED_TOKEN_ERROR_MESSAGE)
           } else {
             setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
@@ -261,7 +262,6 @@ function App() {
         setSavedMovies(savedMovies.filter(item =>
           item._id !== deleteMovie._id
         ))
-        // getSavedMovies()
       })
       .catch((err) => { console.log(err) })
   }
@@ -271,10 +271,12 @@ function App() {
     mainApi.patchUserInfo(name, email)
       .then((data) => {
         getUserInfo()
+        closePopup()
+        setErrorMessage('')
         setIsInfoTooltipOpen(true)
       })
       .catch((err) => {
-        if (err.includes(409)) {
+        if (err.includes('409')) {
           setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
         } else {
           setErrorMessage(PROFILE_UPDATE_MESSAGE)
@@ -285,10 +287,9 @@ function App() {
 
   const handleInfoClose = () => {
     setIsInfoTooltipOpen(false)
-    closePopup()
   }
 
-  function checkIsSaved(movie) {
+  const checkIsSaved = (movie) => {
     return savedMovies.some(item => (item._id === movie._id) || (item.movieId === (movie.movieId || movie.id)))
   }
 
@@ -334,12 +335,10 @@ function App() {
           />
           <Route path="/profile" element={
             <ProtectedRouteElement element={Profile}
-              loggedIn={loggedIn}
               headerType={"profile"}
               handleHeaderClick={headerButtonClick}
               handleEditClick={handleEditProfileOpen}
               handleDeleteUser={handleLogout}
-              errorMessage={errorMessage}
             />}
           />
           <Route path="/signup" element={

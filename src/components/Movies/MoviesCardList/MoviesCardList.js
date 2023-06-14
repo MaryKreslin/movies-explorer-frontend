@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
 const MoviesCardList = (props) => {

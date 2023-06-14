@@ -12,6 +12,6 @@ export const validationPopupConfig ={
   inputSelector: '.profile__text',
   submitButtonSelector: '.popup__save-button',
   inactiveButtonClass: 'popup__save-button_disabled',
-  inputErrorClass: 'field__input_type_error',
+  inputErrorClass: 'popup__error',
   errorClass: 'popup__error_visible'
 }

@@ -8,11 +8,14 @@ const PopupEdit = (props) => {
     const currentUser = useContext(CurrentUserContext);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
     const popupRef = useRef();
+
 
     React.useEffect(() => {
         const PopupValidator = new FormValidator(validationPopupConfig, popupRef.current);
         PopupValidator.enableValidation();
+        PopupValidator.setButtonDisabled();
     }, [props.isOpen])
 
     useEffect(() => {
@@ -21,12 +24,18 @@ const PopupEdit = (props) => {
     }, [currentUser, props.isOpen]
     )
 
+    useEffect(() => {
+        setError(props.errorMessage)
+    }, [props])
+
     const handleChangeName = (event) => {
         setName(event.target.value)
+        setError('')
     }
 
     const handleChangeEmail = (event) => {
         setEmail(event.target.value)
+        setError('')
     }
 
     function handleSubmit(event) {
@@ -71,7 +80,7 @@ const PopupEdit = (props) => {
                 <div className="popup__errorBlock">
                     <p className="popup__error email-error"></p>
                     <p className="popup__error name-error"></p>
-                    <p className="popup__error"> {props.errorMessage}</p>
+                    <p className={`popup__error  ${error ? 'popup__error_visible' : ''} `}> {error}</p>
                 </div>
                 <button type="submit" className="popup__save-button">
                     <p className='form__buttonText'>Сохранить</p>

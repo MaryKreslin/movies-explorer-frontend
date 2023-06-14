@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import SearchForm from './SearchForm/SearchForm';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
@@ -11,12 +11,7 @@ const Movies = (props) => {
     const navigate = useNavigate();
     const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
     const isShort = JSON.parse(localStorage.getItem('isShortMovie'));
-    const [isFound, setIsFound] = useState(false);
-
-    useEffect(() => {
-        setIsFound(props.isFound)
-    }, [props])
-
+   
     return (
         <>
             <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />

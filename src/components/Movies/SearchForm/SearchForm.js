@@ -3,14 +3,12 @@ import Line from '../../Line/Line';
 
 const SearchForm = (props) => {
 
-    //const switchState = localStorage.getItem('isShortMovie');
     const [findText, setfindText] = useState('');
     const [isCheckboxCheck, setIsCheckboxCheck] = useState(false);
 
     useEffect(() => {
         setfindText('')
-        //console.log(switchState)
-        setIsCheckboxCheck( props.isShort)
+        setIsCheckboxCheck(props.isShort)
     }, [props])
 
     const findMovie = (evt) => {
@@ -36,7 +34,7 @@ const SearchForm = (props) => {
                     type='text'
                     name='searchMovie'
                     id='searchMovie'
-                    value={findText}
+                    value={findText || ""}
                     onChange={handleChangeFindMovie} />
                 <button className='searchForm__button' onClick={findMovie}>
                     <p className='searchForm__buttonText'>Найти</p>

@@ -10,7 +10,7 @@ const Profile = (props) => {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
 
-    React.useEffect(() => {
+    useEffect(() => {
         setName(currentUser.name);
         setEmail(currentUser.email);
     }, [currentUser]
