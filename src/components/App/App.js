@@ -335,6 +335,7 @@ function App() {
           />
           <Route path="/profile" element={
             <ProtectedRouteElement element={Profile}
+              loggedIn={loggedIn}
               headerType={"profile"}
               handleHeaderClick={headerButtonClick}
               handleEditClick={handleEditProfileOpen}
@@ -366,6 +367,7 @@ function App() {
               handleClick={headerButtonClick} />} />
         </Routes>
         <PopupEdit isOpen={isEditProfilePopupOpen}
+          loggedIn={loggedIn}
           onClose={closePopup}
           isLoading={isLoading}
           onUpdateUser={handleUpdateUser}
