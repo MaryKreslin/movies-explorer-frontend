@@ -18,3 +18,6 @@ Backend https://api.movies.kreslin.nomoredomains.monster
 
 https://disk.yandex.ru/d/4ayy6JaBNqAy3Q
 
+## Ссылка на пулреквест
+
+https://github.com/MaryKreslin/movies-explorer-frontend/pull/2
