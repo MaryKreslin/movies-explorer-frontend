@@ -132,7 +132,7 @@ function App() {
           getUserInfo()
         } else {
           setheadertype("main")
-          navigate("/")
+          navigate("/",{ replace: true })
         }
       })
       .catch(err => {
@@ -354,7 +354,7 @@ function App() {
             <Register
               headerType={"none"}
               isLoading={isLoading}
-              onSubmit={handleRegister}
+              handleRegister={handleRegister}
               handleClickLogo={headerButtonClick}
               headerTypechange={setheadertype}
               errorMessage={errorMessage}

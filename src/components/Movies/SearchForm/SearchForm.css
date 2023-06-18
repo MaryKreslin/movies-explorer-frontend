@@ -23,6 +23,11 @@
     font-weight: 400;
     font-size: 14px;
     line-height: 18px;
+    color: #8B8B8B;;
+}
+
+.searchForm__input:focus {
+     border-color: #4285F4;
 }
 
 .searchForm__button {

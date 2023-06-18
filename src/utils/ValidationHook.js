@@ -24,7 +24,7 @@ const useFormWithValidation = (callback) => {
         setIsValid(target.closest('form').checkValidity());
     }
     const handleSubmit = (event) => {
-        event.preventDefault()
+        event.preventDefault();
         if (values.name && values.email && values.password) {
             callback(values.name, values.email, values.password)
         }

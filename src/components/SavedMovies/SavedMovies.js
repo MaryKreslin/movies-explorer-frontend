@@ -10,12 +10,14 @@ const SavedMovies = (props) => {
 
     const [movies, setMovies] = useState([]);
     const [isShort, setIsShort] = useState(false);
+    const [findText, setfindText] = useState('');
 
     useEffect(() => {
         setMovies(props.movies)
     }, [props])
 
     const handleFindInSaved = (findText, isShort) => {
+        setfindText(findText)
         if (findText !== '' && isShort) {
             const searchedSavedMovies = movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
             const shortSavedMovies = searchedSavedMovies.filter((item) => item.duration <= 40);
@@ -39,7 +41,7 @@ const SavedMovies = (props) => {
                 <>
                     <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
                     <main>
-                        <SearchForm onFindClick={handleFindInSaved} isShort={isShort} />
+                        <SearchForm onFindClick={handleFindInSaved} isShort={isShort} searchText={findText}/>
                         <MoviesCardList
                             checkIsSaved={props.checkIsSaved}
                             listType={props.listType}
