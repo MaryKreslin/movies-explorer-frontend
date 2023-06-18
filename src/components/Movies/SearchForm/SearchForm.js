@@ -6,8 +6,8 @@ const SearchForm = (props) => {
     const [findText, setfindText] = useState('');
     const [isCheckboxCheck, setIsCheckboxCheck] = useState(false);
 
-    useEffect(() => {
-        setfindText('')
+       useEffect(() => {
+        setfindText(props.searchText)
         setIsCheckboxCheck(props.isShort)
     }, [props])
 
@@ -42,7 +42,7 @@ const SearchForm = (props) => {
             </div>
             <div className='searchForm__toggle-block'>
                 <div className='searchForm__toggle'>
-                    <input type="checkbox" className='searchForm__checkbox' id="switch"
+                    <input type="checkbox" className='searchForm__checkbox' id="switch" value=''
                         checked={isCheckboxCheck}
                         onChange={handleChangeCheckbox}
                     />

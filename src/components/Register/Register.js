@@ -2,42 +2,15 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Preloader from '../Preloader/Preloader';
-import FormValidator from '../../utils/FormValidator';
-import { validationFormConfig } from '../../utils/utils';
+import useFormWithValidation from '../../utils/ValidationHook';
 
 const Register = (props) => {
-    const popupRef = React.useRef();
 
-    React.useEffect(() => {
-        const RegisterValidator = new FormValidator(validationFormConfig, popupRef.current);
-        RegisterValidator.enableValidation();
-    }, [])
-
-    const [formValue, setFormValue] = React.useState({
-        name: '',
-        email: '',
-        password: '',
-    })
+    const { handleChangeName, handleChangeEmail, handleChangePassword, handleSubmit, values, errors, isValid } = useFormWithValidation(props.handleRegister)
 
     useEffect(() => {
         props.headerTypechange("none")
-
     }, [])
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        document.querySelector('.form__error').classList.remove('field__error_visible')
-        setFormValue({
-            ...formValue,
-            [name]: value
-        });
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        props.onSubmit(formValue.name, formValue.email, formValue.password)
-      
-    }
 
     const handleClickMain = () => {
         props.handleClickLogo("main")
@@ -47,7 +20,7 @@ const Register = (props) => {
         <main>
             {props.isLoading ? <Preloader /> :
                 <div className='form'>
-                    <form ref={popupRef} className='form__content' name='register' onSubmit={handleSubmit}>
+                    <form className='form__content' name='register' onSubmit={handleSubmit}>
                         <Link to='/' onClick={handleClickMain}>
                             <img className='form__logo' src={logo} alt='Логотип проекта' />
                         </Link>
@@ -61,12 +34,14 @@ const Register = (props) => {
                                     id='name'
                                     name='name'
                                     placeholder="Имя"
-                                    value={formValue.name}
-                                    onChange={handleChange}
+                                    value={values?.name}
+                                    onChange={handleChangeName}
                                     required
                                     autoComplete='false'
+                                    minLength={2}
+                                    maxLength={30}
                                 />
-                                <p className={`field__error name-error`}></p>
+                                {errors?.name && <p className='form__error'>{errors.name}</p>}
                             </div>
                             <div className='field'>
                                 <label htmlFor='email' className='field__label'>E-mail</label>
@@ -76,12 +51,12 @@ const Register = (props) => {
                                     id='email'
                                     name='email'
                                     placeholder="Адрес электронной почты"
-                                    value={formValue.email}
-                                    onChange={handleChange}
+                                    value={values?.email}
+                                    onChange={handleChangeEmail}
                                     required
                                     autoComplete='false'
                                 />
-                                <p className={`field__error email-error`}></p>
+                                {errors?.email && <p className='form__error'>{errors.email}</p>}
                             </div>
                             <div className='field'>
                                 <label htmlFor='password' className='field__label'>Пароль</label>
@@ -91,16 +66,18 @@ const Register = (props) => {
                                     id='password'
                                     name='password'
                                     placeholder="Пароль"
-                                    value={formValue.password}
-                                    onChange={handleChange}
+                                    value={values?.password}
+                                    onChange={handleChangePassword}
                                     required
                                     autoComplete='false'
                                 />
-                                <p className={`field__error password-error`}></p>
+                                {errors?.password && <p className='form__error'>{errors.password}</p>}
                             </div>
                         </fieldset>
-                        <p className={`form__error ${props.errorMessage ? 'field__error_visible' : ''}`}   >{props.errorMessage}</p>
-                        <button type="submit" className="form__save-button">
+                        {props.errorMessage && <p className='form__error'>{props.errorMessage}</p>}
+                        <button type="submit"
+                            className={isValid ? "form__save-button" : "form__save-button form__save-button_disabled"}
+                            disabled={!isValid}>
                             <p className='form__buttonText'>Зарегистрироваться</p>
                         </button>
                         <div className="form__link">

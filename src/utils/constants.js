@@ -11,6 +11,13 @@ const SERVER_ERROR_MESSAGE = 'На сервере произошла ошибк�
 //404
 const PAGE_NOT_FOUNF_MESSAGE = 'Страница по указанному маршруту не найдена.';
 
+const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9-]+[.][A-Z]{2,4}$/gi
+
+const NUMBER_MOVIES_ON_320_480 = 5;
+const NUMBER_MOVIES_ON_481_768 = 8;
+const NUMBER_MOVIES_ON_769 = 12;
+
+const SHORT_MOVIE_DURATION = 40;
 
 export {
     BAD_LOGIN_PASSWORD_MESSAGE,
@@ -20,5 +27,10 @@ export {
     REGISTER_ERROR_MESSAGE,
     PROFILE_UPDATE_MESSAGE,
     SERVER_ERROR_MESSAGE,
-    PAGE_NOT_FOUNF_MESSAGE
+    PAGE_NOT_FOUNF_MESSAGE,
+    EMAIL_REGEX,
+    NUMBER_MOVIES_ON_320_480,
+    NUMBER_MOVIES_ON_481_768,
+    NUMBER_MOVIES_ON_769,
+    SHORT_MOVIE_DURATION
 };

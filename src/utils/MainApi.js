@@ -13,7 +13,7 @@ class MainApi {
     }
 
 
-    register( name, email, password ) {
+    register(name, email, password) {
         return fetch(`${this._url}/signup`, {
             method: 'POST',
             headers: {
@@ -42,7 +42,6 @@ class MainApi {
                     return data
                 }
             })
-
     };
 
     checkToken(token) {
@@ -54,7 +53,10 @@ class MainApi {
             }
         })
             .then(this._checkResponse)
-            .then(data => data)
+    }
+
+    updateToken() {
+        this._headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`;
     }
 
     getUserInfo() {
@@ -80,7 +82,7 @@ class MainApi {
     getMovies() {
         return fetch(`${this._url}/movies`, {
             method: 'GET',
-            headers: this._headers 
+            headers: this._headers
         })
             .then(this._checkResponse)
     }
@@ -110,7 +112,7 @@ class MainApi {
     deleteMovie(id) {
         return fetch(`${this._url}/movies/${id}`, {
             method: 'DELETE',
-            headers: this._headers 
+            headers: this._headers
         })
             .then(this._checkResponse)
     }

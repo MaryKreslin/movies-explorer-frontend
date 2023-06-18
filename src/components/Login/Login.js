@@ -2,39 +2,16 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
-import FormValidator from '../../utils/FormValidator';
-import { validationFormConfig } from '../../utils/utils';
+import useFormWithValidation from '../../utils/ValidationHook';
 
 const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage }) => {
+    const { handleChangeEmail, handleChangePassword, handleSubmit, values, errors, isValid } = useFormWithValidation(handleLogin)
 
-    const popupRef = React.useRef();
     const navigate = useNavigate();
-    React.useEffect(() => {
-        const LoginValidator = new FormValidator(validationFormConfig, popupRef.current);
-        LoginValidator.enableValidation();
-    }, [])
-
-    const [formValue, setFormValue] = useState({
-        email: '',
-        password: ''
-    })
 
     useEffect(() => {
         headerTypechange("none")
     }, [])
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        handleLogin(formValue.email, formValue.password)
-    }
-
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormValue({
-            ...formValue,
-            [name]: value
-        });
-    }
 
     const handleClickMain = () => {
         handleClickLogo("main")
@@ -43,7 +20,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
     return (
         <main>
             <div className='form'>
-                <form ref={popupRef} onSubmit={handleSubmit} className='form__content' name='login'>
+                <form onSubmit={handleSubmit} className='form__content' name='login'>
                     <Link to='/' onClick={handleClickMain}>
                         <img className='form__logo' src={logo} alt='Логотип проекта' />
                     </Link>
@@ -57,12 +34,12 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                                 id='email'
                                 name='email'
                                 placeholder="Адрес электронной почты"
-                                value={formValue.email}
-                                onChange={handleChange}
+                                value={values?.email}
+                                onChange={handleChangeEmail}
                                 required
                                 autoComplete='false'
                             />
-                            <p className={`field__error email-error`}></p>
+                            {errors?.email && <p className={`field__error email-error`}>{errors.email}</p>}
                         </div>
                         <div className='field'>
                             <label htmlFor='password' className='field__label'>Пароль</label>
@@ -72,24 +49,24 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                                 id='password'
                                 name='password'
                                 placeholder="Пароль"
-                                value={formValue.password}
-                                onChange={handleChange}
+                                value={values?.password}
+                                onChange={handleChangePassword}
                                 required
                                 autoComplete='false'
                             />
-                            <p className={`field__error password-error`}></p>
+                            {errors?.password && <p className={`field__error password-error`}>{errors.password}</p>}
                         </div>
                     </fieldset>
-                    <p className='field__error'>{errorMessage}</p>
-                    <button type="submit" className="form__save-button form__save-button_login">
+                    {errorMessage && <p className='form__error'>{errorMessage}</p>}
+                    <button type="submit"
+                        className={isValid ? "form__save-button form__save-button_login" : 'form__save-button form__save-button_login form__save-button_disabled'}
+                        disabled={!isValid}>
                         <p className='form__buttonText'>Войти</p>
                     </button>
                     <div className="form__link">
                         <p className="form__text">Ещё не зарегистрированы?</p>
                         <Link to="/signup" className="form__text form__text_blue">Регистрация</Link>
                     </div>
-
-
                 </form>
             </div>
         </main>

@@ -8,7 +8,6 @@ import Profile from "../Profile/Profile";
 import Register from "../Register/Register";
 import Login from "../Login/Login";
 import NotFoundPage from "../NotFoundPage/NotFoundPage";
-import PopupEdit from "../PopupEdit/PopupEdit";
 import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
@@ -20,14 +19,18 @@ import {
   REGISTER_ERROR_MESSAGE,
   PROFILE_UPDATE_MESSAGE,
   UNAUTHRIZED_BAD_TOKEN_MESSAGE,
-  SERVER_ERROR_MESSAGE
+  SERVER_ERROR_MESSAGE,
+  NUMBER_MOVIES_ON_320_480,
+  NUMBER_MOVIES_ON_481_768,
+  NUMBER_MOVIES_ON_769,
+  SHORT_MOVIE_DURATION
 } from "../../utils/constants";
 
 function App() {
-  const [isEditProfilePopupOpen, setisEditProfilePopupOpen] = React.useState(false);
   const [isInfoTooltipOpen, setIsInfoTooltipOpen] = React.useState(false);
   const [headerType, setheadertype] = React.useState("");
   const navigate = useNavigate();
+  const location = useLocation();
   const [isLoading, setIsLoading] = useState(false);
   const [movies, setMovies] = useState([]);
   const [moreMovies, setMoreMovies] = useState(0);
@@ -38,11 +41,35 @@ function App() {
   const [errorMessage, setErrorMessage] = React.useState('');
   const [isFound, setIsFound] = React.useState(false);
 
-  useEffect(() => {
-    window.addEventListener('resize', changeWindowWidth);
-    handleResize()
-  },
-    [windowWidth]);
+  const handleTokenCheck = () => {
+    const jwt = localStorage.getItem('jwt');
+
+    if (jwt) {
+      mainApi.checkToken(jwt)
+        .then((data) => {
+          if (data) {
+            setloggedIn(true)
+            getUserInfo()
+            setheadertype("movies");
+            navigate(location.pathname, { replace: true })
+          }
+        })
+        .catch(err => {
+          handleLogout();
+          console.log(err)
+          if (err.includes('403')) {
+            setErrorMessage(UNAUTHRIZED_TOKEN_ERROR_MESSAGE)
+          } else if (err.includes('401')) {
+            setErrorMessage(BAD_LOGIN_PASSWORD_MESSAGE)
+          } else {
+            setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
+          }
+        })
+    } else {
+      setheadertype("main")
+      navigate("/", { replace: true })
+    }
+  }
 
   useEffect(() => {
     handleTokenCheck();
@@ -58,22 +85,77 @@ function App() {
     }
   }, [loggedIn])
 
+  const getUserInfo = () => {
+    mainApi.getUserInfo()
+      .then((data) => {
+        setcurrentUser(data.data)
+      })
+      .catch((err) => {
+        setErrorMessage(SERVER_ERROR_MESSAGE)
+      })
+  }
+
+  useEffect(() => {
+    window.addEventListener('resize', changeWindowWidth);
+    handleResize()
+  },
+    [windowWidth]);
+
+  const handleRegister = (name, email, password) => {
+    mainApi.register(name, email, password)
+      .then((data) => {
+        if (data) {
+          handleLogin(email, password)
+        }
+      })
+      .catch(err => {
+        console.log(err)
+        if (err.includes('409')) {
+          setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
+        } else {
+          setErrorMessage(REGISTER_ERROR_MESSAGE)
+        }
+      })
+  }
+
+  const handleLogin = (email, password) => {
+    if (!email || !password) {
+      return;
+    }
+    mainApi.login(email, password)
+      .then((data) => {
+        if (data.token) {
+          setloggedIn(true);
+          mainApi.updateToken()
+          setheadertype("movies");
+          setTimeout(() => navigate("/movies", { replace: true }), 1000)
+          getUserInfo()
+        } else {
+          setheadertype("main")
+          navigate("/")
+        }
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
+
   const handleLogout = () => {
-    setloggedIn(false)
     localStorage.clear()
-    navigate("/")
+    setloggedIn(false)
     setcurrentUser({})
-    setMovies([])
-    setErrorMessage('')
-    setSavedMovies([])
+    setIsInfoTooltipOpen(false);
+    setIsLoading(false);
+    setMovies([]);
+    setMoreMovies(0);
+    setSavedMovies([]);
+    setErrorMessage('');
+    setIsFound(false);
+    navigate('/')
   }
 
   const changeWindowWidth = () => {
     setWindowWidth(window.innerWidth)
-  }
-
-  const handleEditProfileOpen = () => {
-    setisEditProfilePopupOpen(true)
   }
 
   const headerButtonClick = (type) => {
@@ -104,56 +186,10 @@ function App() {
         setheadertype("savedMovies")
         break;
       default:
-        setheadertype("")
+        setheadertype("main")
+        navigate("/")
     }
     setIsLoading(false)
-  }
-
-  const handleRegister = (name, email, password) => {
-    setIsLoading(true);
-    mainApi.register(name, email, password)
-      .then(() => {
-        handleLogin(email, password)
-      })
-      .catch((err) => {
-        console.log(err)
-        if (err.includes('409')) {
-          setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
-        } else {
-          setErrorMessage(REGISTER_ERROR_MESSAGE)
-        }
-      })
-      .finally(() => { setIsLoading(false) })
-  }
-
-  const handleLogin = (email, password) => {
-    setIsLoading(true);
-    mainApi.login(email, password)
-      .then((data) => {
-        if (data) { }
-        setloggedIn(true);
-        setheadertype("movies");
-        setTimeout(() => navigate("/movies", { replace: true }), 1000)
-      })
-      .catch(err => {
-        if (err.includes('401')) {
-          setErrorMessage(BAD_LOGIN_PASSWORD_MESSAGE)
-        } else {
-          setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
-        }
-      })
-      .finally(() => { setIsLoading(false) })
-  }
-
-  //получение данных пользователя
-  const getUserInfo = () => {
-    mainApi.getUserInfo()
-      .then((data) => {
-        setcurrentUser(data.data)
-      })
-      .catch((err) => {
-        setErrorMessage(SERVER_ERROR_MESSAGE)
-      })
   }
 
   //Получение списка сохраненных фильмов
@@ -170,44 +206,16 @@ function App() {
       .finally(() => { setIsLoading(false) })
   }
 
-  const handleTokenCheck = () => {
-    const jwt = localStorage.getItem('jwt');
-    if (jwt) {
-      mainApi.checkToken(jwt)
-        .then(() => {
-          setloggedIn(true);
-          setheadertype("movies");
-          navigate("/movies", { replace: true });
-        })
-        .catch((err) => {
-          console.log(err)
-          if (err.includes('403')) {
-            setErrorMessage(UNAUTHRIZED_TOKEN_ERROR_MESSAGE)
-          } else {
-            setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
-          }
-        })
-    } else {
-      setheadertype("login")
-      navigate("/signin", { replace: true })
-    }
-  }
-
-  const closePopup = () => {
-    setisEditProfilePopupOpen(false);
-  }
-
   const handleFindMoviesClick = (findText, isShort) => {
     setIsLoading(true);
     moviesApi.findMovie()
       .then((data) => {
         if (data.length > 0) {
           const searchedMovies = data.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
-          const shortMovies = isShort ? searchedMovies.filter((item) => item.duration <= 40) : searchedMovies;
+          const shortMovies = isShort ? searchedMovies.filter((item) => item.duration <= SHORT_MOVIE_DURATION) : searchedMovies;
           localStorage.setItem('findText', findText);
           setMovies(shortMovies);
           localStorage.setItem('foundMovies', JSON.stringify(shortMovies));
-          console.log(isShort);
           localStorage.setItem('isShortMovie', isShort);
           handleResize();
           setIsFound(true);
@@ -227,14 +235,14 @@ function App() {
     if (foundMovies === null) {
       return
     }
-    if (windowWidth >= 1280) {
-      setMovies(foundMovies.slice(0, 12))
+    if (windowWidth > 768) {
+      setMovies(foundMovies.slice(0, NUMBER_MOVIES_ON_769))
       setMoreMovies(3)
     } else if (windowWidth > 480 && windowWidth <= 768) {
-      setMovies(foundMovies.slice(0, 8))
+      setMovies(foundMovies.slice(0, NUMBER_MOVIES_ON_481_768))
       setMoreMovies(2)
     } else if (windowWidth >= 320 && windowWidth <= 480) {
-      setMovies(foundMovies.slice(0, 5))
+      setMovies(foundMovies.slice(0, NUMBER_MOVIES_ON_320_480))
       setMoreMovies(2)
     }
   }
@@ -270,8 +278,7 @@ function App() {
     setIsLoading(true);
     mainApi.patchUserInfo(name, email)
       .then((data) => {
-        getUserInfo()
-        closePopup()
+        setcurrentUser(data.data)
         setErrorMessage('')
         setIsInfoTooltipOpen(true)
       })
@@ -338,8 +345,9 @@ function App() {
               loggedIn={loggedIn}
               headerType={"profile"}
               handleHeaderClick={headerButtonClick}
-              handleEditClick={handleEditProfileOpen}
+              handleEditClick={handleUpdateUser}
               handleDeleteUser={handleLogout}
+
             />}
           />
           <Route path="/signup" element={
@@ -364,15 +372,8 @@ function App() {
             <NotFoundPage
               headerType={"none"}
               headerTypechange={setheadertype}
-              handleClick={headerButtonClick} />} />
+            />} />
         </Routes>
-        <PopupEdit isOpen={isEditProfilePopupOpen}
-          loggedIn={loggedIn}
-          onClose={closePopup}
-          isLoading={isLoading}
-          onUpdateUser={handleUpdateUser}
-          errorMessage={errorMessage}
-        />
         <InfoTooltip isOpen={isInfoTooltipOpen}
           onClose={handleInfoClose} />
       </div >

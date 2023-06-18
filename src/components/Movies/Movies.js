@@ -11,12 +11,13 @@ const Movies = (props) => {
     const navigate = useNavigate();
     const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
     const isShort = JSON.parse(localStorage.getItem('isShortMovie'));
-   
+    const searchText = localStorage.getItem('findText');
+
     return (
         <>
             <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
             <main>
-                <SearchForm onFindClick={props.onFindMoviesClick} isShort={isShort} />
+                <SearchForm onFindClick={props.onFindMoviesClick} isShort={isShort} searchText={searchText} />
                 {props.isLoading ? <Preloader /> :
                     <>
                         {

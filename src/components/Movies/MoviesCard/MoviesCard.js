@@ -41,7 +41,6 @@ const MoviesCard = (props) => {
                 background: '#313131',
                 borderRadius: '30px',
                 cursor: 'pointer',
-
             })
         }
     }, [isSaved])
@@ -59,12 +58,11 @@ const MoviesCard = (props) => {
         if (props.data.duration < 60) {
             setDuration({ hours: "", minutes: `${props.data.duration} мин` })
         } else {
-            const h = Math.floor(props.data.duration / 60);
-            const m = (props.data.duration % 60);
-            setDuration({ hours: `${h} ч `, minutes: `${m} мин` })
+            const hours = Math.floor(props.data.duration / 60);
+            const mimutes = (props.data.duration % 60);
+            setDuration({ hours: `${hours} ч `, minutes: `${mimutes} мин` })
         }
     }, [props])
-
 
     return (
         <div className='movieCard'>
@@ -72,7 +70,7 @@ const MoviesCard = (props) => {
                 <p className='movieCard__name'>{props.data.nameRU}</p>
                 <p className='movieCard__duration'>{duration.hours} {duration.minutes}</p>
             </div>
-            <a href={props.data.trailer} className='movieCard__link' target='blank'>
+            <a href={props.data.trailerLink} className='movieCard__link' target='blank'>
                 {props.listType === 'movies' && <img className='movieCard__preview' src={`https://api.nomoreparties.co/${props.data.image.url}`} alt='Превью фильма' />}
                 {props.listType === 'savedMovies' && <img className='movieCard__preview' src={props.data.image} alt='Превью фильма' />}
             </a>
