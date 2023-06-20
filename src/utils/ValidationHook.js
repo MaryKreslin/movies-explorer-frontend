@@ -1,28 +1,21 @@
 import { useCallback, useState } from "react";
-import { EMAIL_REGEX } from "./constants";
-import { eventWrapper } from "@testing-library/user-event/dist/utils";
 
 const useFormWithValidation = (callback) => {
     const [values, setValues] = useState({});
     const [errors, setErrors] = useState({});
     const [isValid, setIsValid] = useState(false);
 
-    const handleChangeName = (event) => {
+
+    const handleChange = (event) => {
         const target = event.target;
         const name = target.name;
         const value = target.value;
         setValues({ ...values, [name]: value });
         setErrors({ ...errors, [name]: target.validationMessage });
         setIsValid(target.closest('form').checkValidity());
+
     };
-    const handleChangePassword = (event) => {
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
-        setValues({ ...values, [name]: value });
-        setErrors({ ...errors, [name]: target.validationMessage });
-        setIsValid(target.closest('form').checkValidity());
-    }
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         if (values.name && values.email && values.password) {
@@ -36,22 +29,6 @@ const useFormWithValidation = (callback) => {
         }
     }
 
-    const handleChangeEmail = (event) => {
-        const emailValidity = new RegExp(EMAIL_REGEX, "gi");
-        const target = event.target;
-        const name = target.name;
-        const value = target.value;
-        if (emailValidity.test(event.target.value)) {
-            setIsValid(target.closest('form').checkValidity())
-            setValues({ ...values, [name]: value });
-            setErrors({});
-        }
-        else {
-            setErrors({ ...errors, [name]: target.validationMessage });
-            setIsValid(target.closest('form').checkValidity())
-        }
-    }
-
     const resetForm = useCallback(
         (newValues = {}, newErrors = {}, newIsValid = false) => {
             setValues(newValues);
@@ -62,9 +39,7 @@ const useFormWithValidation = (callback) => {
     );
 
     return {
-        handleChangeName,
-        handleChangeEmail,
-        handleChangePassword,
+        handleChange,
         handleSubmit,
         values, errors, isValid,
         setValues,

@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Preloader from '../Preloader/Preloader';
 import useFormWithValidation from '../../utils/ValidationHook';
+import { EMAIL_REGEX } from '../../utils/constants';
 
 const Register = (props) => {
 
-    const { handleChangeName, handleChangeEmail, handleChangePassword, handleSubmit, values, errors, isValid } = useFormWithValidation(props.handleRegister)
+    const { handleChange, handleSubmit, values, errors, isValid } = useFormWithValidation(props.handleRegister)
 
     useEffect(() => {
         props.headerTypechange("none")
@@ -35,7 +36,7 @@ const Register = (props) => {
                                     name='name'
                                     placeholder="Имя"
                                     value={values?.name}
-                                    onChange={handleChangeName}
+                                    onChange={handleChange}
                                     required
                                     autoComplete='false'
                                     minLength={2}
@@ -52,7 +53,8 @@ const Register = (props) => {
                                     name='email'
                                     placeholder="Адрес электронной почты"
                                     value={values?.email}
-                                    onChange={handleChangeEmail}
+                                    onChange={handleChange}
+                                    pattern={EMAIL_REGEX}
                                     required
                                     autoComplete='false'
                                 />
@@ -67,7 +69,7 @@ const Register = (props) => {
                                     name='password'
                                     placeholder="Пароль"
                                     value={values?.password}
-                                    onChange={handleChangePassword}
+                                    onChange={handleChange}
                                     required
                                     autoComplete='false'
                                 />

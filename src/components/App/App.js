@@ -40,7 +40,7 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [isFound, setIsFound] = React.useState(false);
-
+  
   const handleTokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
 
@@ -132,7 +132,7 @@ function App() {
           getUserInfo()
         } else {
           setheadertype("main")
-          navigate("/",{ replace: true })
+          navigate("/", { replace: true })
         }
       })
       .catch(err => {
@@ -347,7 +347,6 @@ function App() {
               handleHeaderClick={headerButtonClick}
               handleEditClick={handleUpdateUser}
               handleDeleteUser={handleLogout}
-
             />}
           />
           <Route path="/signup" element={

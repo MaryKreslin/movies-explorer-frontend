@@ -4,7 +4,7 @@ import Line from '../Line/Line';
 import Header from '../Header/Header';
 import Responsive from '../Responsive/Responsive';
 import { CurrentUserContext } from '../../contexts/CurrentUserContext';
-
+import { EMAIL_REGEX } from '../../utils/constants';
 import useFormWithValidation from '../../utils/ValidationHook';
 
 const Profile = (props) => {
@@ -12,30 +12,37 @@ const Profile = (props) => {
     const currentUser = useContext(CurrentUserContext);
     const [isEditMode, setIsEditMode] = useState(false);
     const [error, setError] = useState("");
-    const [isSuccessUpdate, setIsSuccessUpdate] = useState(false);
+    const [isUserInfoChange, setIsUserInfoChange] = useState(false);
 
     const handleSaveInfo = () => {
-        setIsSuccessUpdate(true)
         setIsEditMode(false)
         props.handleEditClick(values.name, values.email)
     }
 
-    const { handleChangeName,
-        handleChangeEmail,
+    const { handleChange,
         handleSubmit,
         values, errors, isValid,
         setValues,
+        resetForm
     } = useFormWithValidation(handleSaveInfo);
 
     useEffect(() => {
         setValues(currentUser)
+        resetForm({ name: currentUser.name, email: currentUser.email });
     }, [currentUser]
     )
 
     useEffect(() => {
+        if (currentUser.name === values.name && currentUser.email === values.email) {
+            setIsUserInfoChange(false);
+        } else {
+            setIsUserInfoChange(true);
+        }
+    }, [currentUser, values]);
+
+
+    useEffect(() => {
         setError(props.errorMessage)
-        //setIsSuccessUpdate(props.isSuccessUpdate)
-        //setIsEditMode(props.isEditMode)
     }, [props])
 
     const handleDeleteUser = () => {
@@ -61,7 +68,7 @@ const Profile = (props) => {
                             name="name"
                             placeholder="Имя"
                             value={values?.name || currentUser.name}
-                            onChange={handleChangeName}
+                            onChange={handleChange}
                             required
                             autoComplete='false'
                             minLength={2}
@@ -79,13 +86,13 @@ const Profile = (props) => {
                             name="email"
                             placeholder="Адрес электронной почты"
                             value={values?.email}
-                            onChange={handleChangeEmail}
+                            onChange={handleChange}
                             required
+                            pattern={EMAIL_REGEX}
                             autoComplete='false'
                             disabled={!isEditMode}
                         />
                     </div>
-                    {/*isSuccessUpdate && <p className='profile__label'>Данные успешно обновлены</p>*/}
                     {!isEditMode &&
                         <div className='profile__buttonBlock'>
                             <button className='profile__button' onClick={handleClickEdit}>
@@ -104,8 +111,8 @@ const Profile = (props) => {
                                 <p className={`popup__error  ${error ? 'popup__error_visible' : ''} `}> {error}</p>
                             </div>
                             <button type="submit"
-                                className={isValid ? "popup__save-button" : "popup__save-button popup__save-button_disabled"}
-                                disabled={!isValid} onClick={handleSaveInfo}>
+                                className={(isValid && isUserInfoChange)? "popup__save-button" : "popup__save-button popup__save-button_disabled"}
+                                disabled={!isValid || !isUserInfoChange} onClick={handleSaveInfo}>
                                 <p className='form__buttonText'>Сохранить</p>
                             </button>
                         </>}

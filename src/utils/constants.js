@@ -11,7 +11,7 @@ const SERVER_ERROR_MESSAGE = 'На сервере произошла ошибк�
 //404
 const PAGE_NOT_FOUNF_MESSAGE = 'Страница по указанному маршруту не найдена.';
 
-const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9-]+[.][A-Z]{2,4}$/gi
+const EMAIL_REGEX = "([A-z0-9._%+-]{1,})@([A-z0-9_.-]{1,})[.]([A-z]{2,8})"
 
 const NUMBER_MOVIES_ON_320_480 = 5;
 const NUMBER_MOVIES_ON_481_768 = 8;

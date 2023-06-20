@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import useFormWithValidation from '../../utils/ValidationHook';
+import { EMAIL_REGEX } from '../../utils/constants';
 
 const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage }) => {
-    const { handleChangeEmail, handleChangePassword, handleSubmit, values, errors, isValid } = useFormWithValidation(handleLogin)
+    const { handleChange, handleSubmit, values, errors, isValid } = useFormWithValidation(handleLogin)
 
     const navigate = useNavigate();
 
@@ -35,7 +36,8 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                                 name='email'
                                 placeholder="Адрес электронной почты"
                                 value={values?.email}
-                                onChange={handleChangeEmail}
+                                pattern={EMAIL_REGEX}
+                                onChange={handleChange}
                                 required
                                 autoComplete='false'
                             />
@@ -50,7 +52,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                                 name='password'
                                 placeholder="Пароль"
                                 value={values?.password}
-                                onChange={handleChangePassword}
+                                onChange={handleChange}
                                 required
                                 autoComplete='false'
                             />
