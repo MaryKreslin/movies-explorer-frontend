@@ -11,9 +11,11 @@ const SavedMovies = (props) => {
     const [movies, setMovies] = useState([]);
     const [isShort, setIsShort] = useState(false);
     const [findText, setfindText] = useState('');
+    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'))
 
     useEffect(() => {
-        setMovies(props.movies)
+        console.log(savedMovies)
+        setMovies(savedMovies)
     }, [props])
 
     const handleFindInSaved = (findText, isShort) => {
@@ -30,7 +32,7 @@ const SavedMovies = (props) => {
             setMovies(movies.filter((item) => item.duration <= 40))
             setIsShort(true)
         } else {
-            setMovies(props.movies)
+            setMovies(JSON.parse(localStorage.getItem('savedMovies')))
             setIsShort(false)
         }
     }
@@ -41,7 +43,7 @@ const SavedMovies = (props) => {
                 <>
                     <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
                     <main>
-                        <SearchForm onFindClick={handleFindInSaved} isShort={isShort} searchText={findText}/>
+                        <SearchForm onFindClick={handleFindInSaved} isShort={isShort} searchText={findText} />
                         <MoviesCardList
                             checkIsSaved={props.checkIsSaved}
                             listType={props.listType}

@@ -40,7 +40,7 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [isFound, setIsFound] = React.useState(false);
-  
+
   const handleTokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
 
@@ -50,6 +50,7 @@ function App() {
           if (data) {
             setloggedIn(true)
             getUserInfo()
+            //getSavedMovies()
             setheadertype("movies");
             navigate(location.pathname, { replace: true })
           }
@@ -77,8 +78,19 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
+      const localSavedMovies = localStorage.getItem('savedMovies');
       getUserInfo();
-      getSavedMovies();
+
+      if (!localSavedMovies) {
+        mainApi.getMovies()
+          .then((data) => {
+            localStorage.setItem('savedMovies', JSON.stringify(data.data));
+            setSavedMovies(data.data);
+          })
+          .catch((err) => console.log(err));
+      } else {
+        setSavedMovies(JSON.parse(localSavedMovies));
+      }
       if (JSON.parse(localStorage.getItem('foundMovies'))) {
         setMovies(JSON.parse(localStorage.getItem('foundMovies')))
       }
@@ -120,7 +132,7 @@ function App() {
 
   const handleLogin = (email, password) => {
     if (!email || !password) {
-      return;
+      return
     }
     mainApi.login(email, password)
       .then((data) => {
@@ -130,6 +142,7 @@ function App() {
           setheadertype("movies");
           setTimeout(() => navigate("/movies", { replace: true }), 1000)
           getUserInfo()
+          // getSavedMovies()
         } else {
           setheadertype("main")
           navigate("/", { replace: true })
@@ -198,6 +211,7 @@ function App() {
     mainApi.getMovies()
       .then((data) => {
         setSavedMovies(data.data)
+        localStorage.setItem('savedMovies', JSON.stringify(data.data))
       })
       .catch((err) => {
         console.log(err)
@@ -255,22 +269,28 @@ function App() {
   const handleSaveMovieClick = (movie) => {
     mainApi.saveMovie(movie)
       .then((data) => {
+        const localsavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
+        const newSavedMovies = [...localsavedMovies, data.data]
         setSavedMovies([...savedMovies, data.data])
+        localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies))
       })
       .catch((err) => { console.log(err) })
   }
 
   const handleDeleteMovieClick = (movie) => {
-    const deleteMovie = savedMovies.find(item =>
-      item.movieId === (movie.id || movie.movieId)
+    const deleteMovie = savedMovies.find(item => item.movieId === (movie.id || movie.movieId)
     )
-    if (!deleteMovie) return
     mainApi.deleteMovie(deleteMovie._id)
       .then(() => {
-        setSavedMovies(savedMovies.filter(item =>
-          item._id !== deleteMovie._id
-        ))
+        //getSavedMovies()
+        const newSavedMovies = savedMovies.filter(item => item._id !== deleteMovie._id)
+        setSavedMovies(newSavedMovies)
+        const localsavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
+        const newlocalSavedMovies = localsavedMovies.filter(item => item._id !== deleteMovie._id)
+        localStorage.setItem('savedMovies', JSON.stringify(newlocalSavedMovies))
+        //console.log(newSavedMovies)
       })
+
       .catch((err) => { console.log(err) })
   }
 
