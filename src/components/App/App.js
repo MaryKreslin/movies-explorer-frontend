@@ -122,6 +122,7 @@ function App() {
       .then((data) => {
         if (data) {
           handleLogin(email, password)
+          setErrorMessage("")
         }
       })
       .catch(err => {
@@ -137,6 +138,7 @@ function App() {
 
   const handleLogin = (email, password) => {
     if (!email || !password) {
+      setErrorMessage(BAD_LOGIN_PASSWORD_MESSAGE)
       return
     }
     mainApi.login(email, password)
@@ -147,14 +149,16 @@ function App() {
           setheadertype("movies");
           setTimeout(() => navigate("/movies", { replace: true }), 1000)
           getUserInfo()
-          // getSavedMovies()
+          setErrorMessage('')
         } else {
           setheadertype("main")
           navigate("/", { replace: true })
+          setErrorMessage(UNAUTHRIZED_TOKEN_ERROR_MESSAGE)
         }
       })
       .catch(err => {
         console.log(err)
+        setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
       })
   }
 
@@ -216,7 +220,7 @@ function App() {
     mainApi.getMovies()
       .then((data) => {
         setSavedMovies(data.data)
-       // localStorage.setItem('savedMovies', JSON.stringify(data.data))
+        // localStorage.setItem('savedMovies', JSON.stringify(data.data))
       })
       .catch((err) => {
         console.log(err)
@@ -288,7 +292,7 @@ function App() {
     mainApi.deleteMovie(deleteMovie._id)
       .then(() => {
         //getSavedMovies()
-       // const newSavedMovies = savedMovies.filter(item => item._id !== deleteMovie._id)
+        // const newSavedMovies = savedMovies.filter(item => item._id !== deleteMovie._id)
         //setSavedMovies(newSavedMovies)
         const localsavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
         const newlocalSavedMovies = localsavedMovies.filter(item => item._id !== deleteMovie._id)
@@ -306,10 +310,12 @@ function App() {
     mainApi.patchUserInfo(name, email)
       .then((data) => {
         setcurrentUser(data.data)
+        getUserInfo()
         setErrorMessage('')
         setIsInfoTooltipOpen(true)
       })
       .catch((err) => {
+        console.log(err)
         if (err.includes('409')) {
           setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
         } else {
@@ -374,6 +380,7 @@ function App() {
               handleHeaderClick={headerButtonClick}
               handleEditClick={handleUpdateUser}
               handleDeleteUser={handleLogout}
+              errorMessage={errorMessage}
             />}
           />
           <Route path="/signup" element={

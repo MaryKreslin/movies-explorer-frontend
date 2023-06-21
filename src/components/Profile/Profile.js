@@ -40,7 +40,6 @@ const Profile = (props) => {
         }
     }, [currentUser, values]);
 
-
     useEffect(() => {
         setError(props.errorMessage)
     }, [props])
@@ -48,10 +47,13 @@ const Profile = (props) => {
     const handleDeleteUser = () => {
         props.handleDeleteUser()
     }
+
     const handleClickEdit = () => {
         setIsEditMode(true)
+        setError('')
+        setValues(currentUser)
+        resetForm({ name: currentUser.name, email: currentUser.email });
     }
-
 
     return (
         <>
@@ -93,6 +95,11 @@ const Profile = (props) => {
                             disabled={!isEditMode}
                         />
                     </div>
+                    <div className="popup__errorBlock">
+                        {errors?.name && <p className="popup__error email-error">{errors.name}</p>}
+                        {errors?.email && <p className="popup__error name-error">{errors.email}</p>}
+                        {error && <p className='popup__error'> {error}</p>}
+                    </div>
                     {!isEditMode &&
                         <div className='profile__buttonBlock'>
                             <button className='profile__button' onClick={handleClickEdit}>
@@ -105,13 +112,8 @@ const Profile = (props) => {
                     }
                     {isEditMode &&
                         <>
-                            <div className="popup__errorBlock">
-                                {errors?.name && <p className="popup__error email-error">{errors.name}</p>}
-                                {errors?.email && <p className="popup__error name-error">{errors.email}</p>}
-                                <p className={`popup__error  ${error ? 'popup__error_visible' : ''} `}> {error}</p>
-                            </div>
                             <button type="submit"
-                                className={(isValid && isUserInfoChange)? "popup__save-button" : "popup__save-button popup__save-button_disabled"}
+                                className={(isValid && isUserInfoChange) ? "popup__save-button" : "popup__save-button popup__save-button_disabled"}
                                 disabled={!isValid || !isUserInfoChange} onClick={handleSaveInfo}>
                                 <p className='form__buttonText'>Сохранить</p>
                             </button>

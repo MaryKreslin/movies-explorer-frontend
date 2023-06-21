@@ -7,7 +7,7 @@ import { EMAIL_REGEX } from '../../utils/constants';
 
 const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage }) => {
     const { handleChange, handleSubmit, values, errors, isValid } = useFormWithValidation(handleLogin)
-
+    const [error, setError] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -18,6 +18,13 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
         handleClickLogo("main")
     }
 
+    useEffect(() => {
+        setError(errorMessage)
+    }, [errorMessage])
+
+    const onFocusInput = (evt) => {
+        setError('')
+    }
     return (
         <main>
             <div className='form'>
@@ -38,6 +45,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                                 value={values?.email}
                                 pattern={EMAIL_REGEX}
                                 onChange={handleChange}
+                                onFocus={onFocusInput}
                                 required
                                 autoComplete='false'
                             />
@@ -53,13 +61,14 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                                 placeholder="Пароль"
                                 value={values?.password}
                                 onChange={handleChange}
+                                onFocus={onFocusInput}
                                 required
                                 autoComplete='false'
                             />
                             {errors?.password && <p className={`field__error password-error`}>{errors.password}</p>}
                         </div>
                     </fieldset>
-                    {errorMessage && <p className='form__error'>{errorMessage}</p>}
+                    {error && <p className='form__error'>{error}</p>}
                     <button type="submit"
                         className={isValid ? "form__save-button form__save-button_login" : 'form__save-button form__save-button_login form__save-button_disabled'}
                         disabled={!isValid}>

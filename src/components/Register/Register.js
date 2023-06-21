@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Preloader from '../Preloader/Preloader';
@@ -6,7 +6,7 @@ import useFormWithValidation from '../../utils/ValidationHook';
 import { EMAIL_REGEX } from '../../utils/constants';
 
 const Register = (props) => {
-
+    const [error, setError] = useState("");
     const { handleChange, handleSubmit, values, errors, isValid } = useFormWithValidation(props.handleRegister)
 
     useEffect(() => {
@@ -15,6 +15,14 @@ const Register = (props) => {
 
     const handleClickMain = () => {
         props.handleClickLogo("main")
+    }
+
+    useEffect(() => {
+        setError(props.errorMessage)
+    }, [props])
+
+    const onFocusInput = (evt) => {
+        setError('')
     }
 
     return (
@@ -37,6 +45,7 @@ const Register = (props) => {
                                     placeholder="Имя"
                                     value={values?.name}
                                     onChange={handleChange}
+                                    onFocus={onFocusInput}
                                     required
                                     autoComplete='false'
                                     minLength={2}
@@ -54,6 +63,7 @@ const Register = (props) => {
                                     placeholder="Адрес электронной почты"
                                     value={values?.email}
                                     onChange={handleChange}
+                                    onFocus={onFocusInput}
                                     pattern={EMAIL_REGEX}
                                     required
                                     autoComplete='false'
@@ -70,16 +80,17 @@ const Register = (props) => {
                                     placeholder="Пароль"
                                     value={values?.password}
                                     onChange={handleChange}
+                                    onFocus={onFocusInput}
                                     required
                                     autoComplete='false'
                                 />
                                 {errors?.password && <p className='form__error'>{errors.password}</p>}
                             </div>
                         </fieldset>
-                        {props.errorMessage && <p className='form__error'>{props.errorMessage}</p>}
+                        {error && <p className='form__error'>{error}</p>}
                         <button type="submit"
                             className={isValid ? "form__save-button" : "form__save-button form__save-button_disabled"}
-                            disabled={!isValid}>
+                            disabled={!isValid} >
                             <p className='form__buttonText'>Зарегистрироваться</p>
                         </button>
                         <div className="form__link">

@@ -100,9 +100,7 @@
 .popup__save-button_disabled {
     background: #F8F8F8;
 }
-.popup__error_visible {
-    visibility: visible;
-}
+
 .profile__button {
     width: 100%;
     margin: 0;
