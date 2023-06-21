@@ -11,11 +11,11 @@ const SavedMovies = (props) => {
     const [movies, setMovies] = useState([]);
     const [isShort, setIsShort] = useState(false);
     const [findText, setfindText] = useState('');
-    const savedMovies = JSON.parse(localStorage.getItem('savedMovies'))
+    //const savedMovies = JSON.parse(localStorage.getItem('savedMovies'))
 
     useEffect(() => {
-        setMovies(savedMovies)
-    }, [props])
+        setMovies(props.movies)
+    }, [setMovies, props])
 
     const handleFindInSaved = (findText, isShort) => {
         setfindText(findText)
@@ -31,7 +31,7 @@ const SavedMovies = (props) => {
             setMovies(movies.filter((item) => item.duration <= 40))
             setIsShort(true)
         } else {
-            setMovies(JSON.parse(localStorage.getItem('savedMovies')))
+            setMovies(props.movies)
             setIsShort(false)
         }
     }

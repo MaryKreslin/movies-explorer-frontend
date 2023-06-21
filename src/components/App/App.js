@@ -52,7 +52,9 @@ function App() {
           if (data) {
             setloggedIn(true)
             getUserInfo()
+
             //getSavedMovies()
+
             setheadertype("movies");
             navigate(location.pathname, { replace: true })
           }
@@ -81,19 +83,21 @@ function App() {
 
   useEffect(() => {
     if (loggedIn) {
-      const localSavedMovies = localStorage.getItem('savedMovies');
+      //const localSavedMovies = localStorage.getItem('savedMovies');
       getUserInfo();
-
-      if (!localSavedMovies) {
-        mainApi.getMovies()
-          .then((data) => {
-            localStorage.setItem('savedMovies', JSON.stringify(data.data));
-            setSavedMovies(data.data);
-          })
-          .catch((err) => console.log(err));
-      } else {
-        setSavedMovies(JSON.parse(localSavedMovies));
-      }
+      mainApi.updateToken()
+      //if (!localSavedMovies) {
+      mainApi.getMovies()
+        .then((data) => {
+          console.log('data', data.data)
+          // localStorage.setItem('savedMovies', JSON.stringify(data.data));
+          setSavedMovies(data.data);
+        })
+        .catch((err) => console.log(err));
+      //} else {
+      //  setSavedMovies(JSON.parse(localSavedMovies));
+      // }
+      console.log('effect', savedMovies)
       if (localStorage.getItem('foundMovies')) {
         setMovies(JSON.parse(localStorage.getItem('foundMovies')))
       }
@@ -149,7 +153,15 @@ function App() {
           setheadertype("movies");
           setTimeout(() => navigate("/movies", { replace: true }), 1000)
           getUserInfo()
+          mainApi.getMovies()
+            .then((data) => {
+              console.log('data', data.data)
+              // localStorage.setItem('savedMovies', JSON.stringify(data.data));
+              setSavedMovies(data.data);
+            })
+            .catch((err) => console.log(err));
           setErrorMessage('')
+
         } else {
           setheadertype("main")
           navigate("/", { replace: true })
@@ -169,11 +181,12 @@ function App() {
     setIsInfoTooltipOpen(false);
     setIsLoading(false);
     setMovies([]);
+    setSavedMovies([])
     setMoreMovies(0);
-    setSavedMovies([]);
     setErrorMessage('');
     setIsFound(false);
     navigate('/')
+    console.log('logout', savedMovies)
   }
 
   const changeWindowWidth = () => {
@@ -220,7 +233,6 @@ function App() {
     mainApi.getMovies()
       .then((data) => {
         setSavedMovies(data.data)
-        // localStorage.setItem('savedMovies', JSON.stringify(data.data))
       })
       .catch((err) => {
         console.log(err)
@@ -278,10 +290,14 @@ function App() {
   const handleSaveMovieClick = (movie) => {
     mainApi.saveMovie(movie)
       .then((data) => {
-        const localsavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
-        const newSavedMovies = [...localsavedMovies, data.data]
-        setSavedMovies([...savedMovies, data.data])
+        // const localsavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
+        const newSavedMovies = [...savedMovies, data.data]
+        setSavedMovies(newSavedMovies)
         localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies))
+        // setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')))
+
+        //getSavedMovies()
+        console.log('save2', savedMovies)
       })
       .catch((err) => { console.log(err) })
   }
@@ -292,14 +308,15 @@ function App() {
     mainApi.deleteMovie(deleteMovie._id)
       .then(() => {
         //getSavedMovies()
-        // const newSavedMovies = savedMovies.filter(item => item._id !== deleteMovie._id)
-        //setSavedMovies(newSavedMovies)
-        const localsavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
-        const newlocalSavedMovies = localsavedMovies.filter(item => item._id !== deleteMovie._id)
-        localStorage.setItem('savedMovies', JSON.stringify(newlocalSavedMovies))
-        setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')))
-        //console.log(newSavedMovies)
-        getSavedMovies()
+        const newSavedMovies = savedMovies.filter(item => item._id !== deleteMovie._id)
+        setSavedMovies(newSavedMovies)
+        // const localsavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
+        //const newlocalSavedMovies = localsavedMovies.filter(item => item._id !== deleteMovie._id)
+        //localStorage.setItem('savedMovies', JSON.stringify(newlocalSavedMovies))
+        // setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')))
+        localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies))
+        console.log(' after delete', savedMovies)
+
       })
 
       .catch((err) => { console.log(err) })
