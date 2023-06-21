@@ -14,7 +14,6 @@ const SavedMovies = (props) => {
     const savedMovies = JSON.parse(localStorage.getItem('savedMovies'))
 
     useEffect(() => {
-        console.log(savedMovies)
         setMovies(savedMovies)
     }, [props])
 

@@ -42,7 +42,7 @@ const SearchForm = (props) => {
             </div>
             <div className='searchForm__toggle-block'>
                 <div className='searchForm__toggle'>
-                    <input type="checkbox" className='searchForm__checkbox' id="switch" value=''
+                    <input type="checkbox" className='searchForm__checkbox' id="switch"
                         checked={isCheckboxCheck}
                         onChange={handleChangeCheckbox}
                     />

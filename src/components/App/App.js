@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate, useLocation } from 'react-router-dom';
+import { Route, Routes, useNavigate, useLocation, Link, Navigate } from 'react-router-dom';
 import { CurrentUserContext } from "../../contexts/CurrentUserContext";
 import Main from "../Main/Main";
 import Movies from "../Movies/Movies";
@@ -12,6 +12,7 @@ import InfoTooltip from "../InfoTooltip/InfoTooltip";
 import moviesApi from "../../utils/MoviesApi";
 import mainApi from "../../utils/MainApi";
 import ProtectedRouteElement from "../ProtectedRoute/ProtectedRoute";
+import Preloader from "../Preloader/Preloader";
 import {
   BAD_LOGIN_PASSWORD_MESSAGE,
   UNAUTHRIZED_TOKEN_ERROR_MESSAGE,
@@ -45,6 +46,7 @@ function App() {
     const jwt = localStorage.getItem('jwt');
 
     if (jwt) {
+      setIsLoading(true)
       mainApi.checkToken(jwt)
         .then((data) => {
           if (data) {
@@ -66,6 +68,7 @@ function App() {
             setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
           }
         })
+        .finally(() => { setIsLoading(false) })
     } else {
       setheadertype("main")
       navigate("/", { replace: true })
@@ -91,7 +94,7 @@ function App() {
       } else {
         setSavedMovies(JSON.parse(localSavedMovies));
       }
-      if (JSON.parse(localStorage.getItem('foundMovies'))) {
+      if (localStorage.getItem('foundMovies')) {
         setMovies(JSON.parse(localStorage.getItem('foundMovies')))
       }
     }
@@ -114,6 +117,7 @@ function App() {
     [windowWidth]);
 
   const handleRegister = (name, email, password) => {
+    setIsLoading(true)
     mainApi.register(name, email, password)
       .then((data) => {
         if (data) {
@@ -128,6 +132,7 @@ function App() {
           setErrorMessage(REGISTER_ERROR_MESSAGE)
         }
       })
+      .finally(() => { setIsLoading(false) })
   }
 
   const handleLogin = (email, password) => {
@@ -211,7 +216,7 @@ function App() {
     mainApi.getMovies()
       .then((data) => {
         setSavedMovies(data.data)
-        localStorage.setItem('savedMovies', JSON.stringify(data.data))
+       // localStorage.setItem('savedMovies', JSON.stringify(data.data))
       })
       .catch((err) => {
         console.log(err)
@@ -283,12 +288,14 @@ function App() {
     mainApi.deleteMovie(deleteMovie._id)
       .then(() => {
         //getSavedMovies()
-        const newSavedMovies = savedMovies.filter(item => item._id !== deleteMovie._id)
-        setSavedMovies(newSavedMovies)
+       // const newSavedMovies = savedMovies.filter(item => item._id !== deleteMovie._id)
+        //setSavedMovies(newSavedMovies)
         const localsavedMovies = JSON.parse(localStorage.getItem('savedMovies'))
         const newlocalSavedMovies = localsavedMovies.filter(item => item._id !== deleteMovie._id)
         localStorage.setItem('savedMovies', JSON.stringify(newlocalSavedMovies))
+        setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')))
         //console.log(newSavedMovies)
+        getSavedMovies()
       })
 
       .catch((err) => { console.log(err) })
@@ -370,23 +377,28 @@ function App() {
             />}
           />
           <Route path="/signup" element={
-            <Register
-              headerType={"none"}
-              isLoading={isLoading}
-              handleRegister={handleRegister}
-              handleClickLogo={headerButtonClick}
-              headerTypechange={setheadertype}
-              errorMessage={errorMessage}
-            />
+            isLoading ? <Preloader /> :
+              !loggedIn ?
+                <Register
+                  headerType={"none"}
+                  isLoading={isLoading}
+                  handleRegister={handleRegister}
+                  handleClickLogo={headerButtonClick}
+                  headerTypechange={setheadertype}
+                  errorMessage={errorMessage}
+                /> : <Navigate replace to='/movies' />
           } />
           <Route path="/signin" element={
-            <Login
-              headerType={"none"}
-              handleLogin={handleLogin}
-              handleClickLogo={headerButtonClick}
-              headerTypechange={setheadertype}
-              errorMessage={errorMessage}
-            />} />
+            isLoading ? <Preloader /> :
+              !loggedIn ?
+                <Login
+                  headerType={"none"}
+                  handleLogin={handleLogin}
+                  handleClickLogo={headerButtonClick}
+                  headerTypechange={setheadertype}
+                  errorMessage={errorMessage}
+                /> : <Navigate replace to='/movies' />
+          } />
           <Route path="*" element={
             <NotFoundPage
               headerType={"none"}
