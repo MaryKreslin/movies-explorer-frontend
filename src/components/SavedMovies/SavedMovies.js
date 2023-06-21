@@ -11,8 +11,7 @@ const SavedMovies = (props) => {
     const [movies, setMovies] = useState([]);
     const [isShort, setIsShort] = useState(false);
     const [findText, setfindText] = useState('');
-    //const savedMovies = JSON.parse(localStorage.getItem('savedMovies'))
-
+   
     useEffect(() => {
         setMovies(props.movies)
     }, [setMovies, props])
