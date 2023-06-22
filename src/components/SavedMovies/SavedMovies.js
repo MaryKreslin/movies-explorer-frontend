@@ -19,15 +19,15 @@ const SavedMovies = (props) => {
     const handleFindInSaved = (findText, isShort) => {
         setfindText(findText)
         if (findText !== '' && isShort) {
-            const searchedSavedMovies = movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
+            const searchedSavedMovies = props.movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
             const shortSavedMovies = searchedSavedMovies.filter((item) => item.duration <= 40);
             setMovies(shortSavedMovies)
             setIsShort(true)
         } else if (findText !== '' && !isShort) {
-            setMovies(movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase())))
+            setMovies(props.movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase())))
             setIsShort(false)
         } else if (findText === '' && isShort) {
-            setMovies(movies.filter((item) => item.duration <= 40))
+            setMovies(props.movies.filter((item) => item.duration <= 40))
             setIsShort(true)
         } else {
             setMovies(props.movies)
