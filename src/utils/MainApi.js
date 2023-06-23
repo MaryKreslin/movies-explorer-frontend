@@ -27,9 +27,11 @@ class MainApi {
     login(email, password) {
         return fetch(`${this._url}/signin`, {
             method: 'POST',
+           
             headers: {
-               'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
             },
+
             body: JSON.stringify({
                 "password": password,
                 "email": email
@@ -123,6 +125,7 @@ const mainApi = new MainApi({
     headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+
     }
 })
 

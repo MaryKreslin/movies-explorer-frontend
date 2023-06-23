@@ -9,7 +9,8 @@ import useFormWithValidation from '../../utils/ValidationHook';
 
 const Profile = (props) => {
     const navigate = useNavigate();
-    const currentUser = useContext(CurrentUserContext);
+    const contexts = useContext(CurrentUserContext);
+    const { currentUser } = contexts;
     const [isEditMode, setIsEditMode] = useState(false);
     const [error, setError] = useState("");
     const [isUserInfoChange, setIsUserInfoChange] = useState(false);

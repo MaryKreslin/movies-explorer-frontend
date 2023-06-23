@@ -41,6 +41,7 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [isFound, setIsFound] = React.useState(false);
+  const [isSavedMoviesOpen, setIsSavedMoviesOpen] = React.useState(false);
 
   const handleTokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
@@ -52,8 +53,11 @@ function App() {
           if (data) {
             setloggedIn(true)
             getUserInfo()
+            // getSavedMovies()
+            mainApi.updateToken()
             setheadertype("movies");
             navigate(location.pathname, { replace: true })
+            //console.log('token', savedMovies)
           }
         })
         .catch(err => {
@@ -81,12 +85,12 @@ function App() {
   useEffect(() => {
     if (loggedIn) {
       getUserInfo();
+      if (localStorage.getItem('savedMovies')) {
+        setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')))
+      } else {
+        getSavedMovies()
+      }
       mainApi.updateToken()
-      mainApi.getMovies()
-        .then((data) => {
-          setSavedMovies(data.data);
-        })
-        .catch((err) => console.log(err));
       if (localStorage.getItem('foundMovies')) {
         setMovies(JSON.parse(localStorage.getItem('foundMovies')))
       }
@@ -142,11 +146,6 @@ function App() {
           setheadertype("movies");
           setTimeout(() => navigate("/movies", { replace: true }), 1000)
           getUserInfo()
-          mainApi.getMovies()
-            .then((data) => {
-              setSavedMovies(data.data);
-            })
-            .catch((err) => console.log(err));
           setErrorMessage('')
 
         } else {
@@ -162,7 +161,7 @@ function App() {
   }
 
   const handleLogout = () => {
-    localStorage.clear()
+    localStorage.removeItem('jwt')
     setloggedIn(false)
     setcurrentUser({})
     setIsInfoTooltipOpen(false);
@@ -205,6 +204,7 @@ function App() {
       case "savedMovies":
         navigate("/saved-movies")
         setheadertype("savedMovies")
+
         break;
       default:
         setheadertype("main")
@@ -219,6 +219,8 @@ function App() {
     mainApi.getMovies()
       .then((data) => {
         setSavedMovies(data.data)
+        //  console.log('get', savedMovies)
+        //localStorage.setItem('savedMovies', JSON.stringify(data.data))
       })
       .catch((err) => {
         console.log(err)
@@ -246,6 +248,7 @@ function App() {
           setIsFound(false);
           return
         }
+
       })
       .catch((err) => { console.log(err) })
       .finally(() => { setIsLoading(false) })
@@ -279,21 +282,29 @@ function App() {
         const newSavedMovies = [...savedMovies, data.data]
         setSavedMovies(newSavedMovies)
         localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies))
+        //getSavedMovies()
+        // console.log('save', savedMovies)
       })
       .catch((err) => { console.log(err) })
   }
 
   const handleDeleteMovieClick = (movie) => {
-    const deleteMovie = savedMovies.find(item => item.movieId === (movie.id || movie.movieId)
-    )
-    mainApi.deleteMovie(deleteMovie._id)
+    setIsLoading(true)
+    const movieToDelete = savedMovies.find(item => item.movieId === (movie.id || movie.movieId))
+    // console.log(savedMovies)
+    mainApi.deleteMovie(movieToDelete._id)
       .then(() => {
-        const newSavedMovies = savedMovies.filter(item => item._id !== deleteMovie._id)
+        const newSavedMovies = savedMovies.filter(item => (item.movieId !== (movie.id || movie.movieId)))
         setSavedMovies(newSavedMovies)
         localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies))
+        // console.log(newSavedMovies)
       })
+      .then(() => {
 
-      .catch((err) => { console.log(err) })
+      })
+      .catch(err => { console.log(err) })
+      .finally(() => { setIsLoading(false) })
+
   }
 
   const handleUpdateUser = (name, email) => {
@@ -325,7 +336,7 @@ function App() {
   }
 
   return (
-    <CurrentUserContext.Provider value={currentUser}>
+    <CurrentUserContext.Provider value={{ currentUser, savedMovies }}>
       <div className="App">
         <Routes>
           <Route path="/" element={<Main
@@ -362,6 +373,7 @@ function App() {
               isLoading={isLoading}
               handleDeleteMovieClick={handleDeleteMovieClick}
               listType='savedMovies'
+
             />}
           />
           <Route path="/profile" element={

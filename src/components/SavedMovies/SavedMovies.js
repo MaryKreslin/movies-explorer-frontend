@@ -1,36 +1,33 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import SearchForm from '../Movies/SearchForm/SearchForm';
 import MoviesCardList from '../Movies/MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 import Preloader from '../Preloader/Preloader';
 import Header from '../Header/Header';
 import Responsive from '../Responsive/Responsive';
-
+import {CurrentUserContext} from  '../../contexts/CurrentUserContext';
 const SavedMovies = (props) => {
-
+    const contexts = useContext(CurrentUserContext);
+    const {savedMovies} = contexts;
     const [movies, setMovies] = useState([]);
     const [isShort, setIsShort] = useState(false);
     const [findText, setfindText] = useState('');
-   
-    useEffect(() => {
-        setMovies(props.movies)
-    }, [setMovies, props])
 
-    const handleFindInSaved = (findText, isShort) => {
+    useEffect(() => {
+        setMovies(savedMovies)
+      //  console.log('savedMovies', savedMovies)
+       // console.log('movies', movies)
+    }, [savedMovies])
+
+      const handleFindInSaved = (findText, isShort) => {
         setfindText(findText)
-        if (findText !== '' && isShort) {
-            const searchedSavedMovies = props.movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
+        const searchedSavedMovies = props.movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
+        if (isShort) {
             const shortSavedMovies = searchedSavedMovies.filter((item) => item.duration <= 40);
             setMovies(shortSavedMovies)
             setIsShort(true)
-        } else if (findText !== '' && !isShort) {
-            setMovies(props.movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase())))
-            setIsShort(false)
-        } else if (findText === '' && isShort) {
-            setMovies(props.movies.filter((item) => item.duration <= 40))
-            setIsShort(true)
         } else {
-            setMovies(props.movies)
+            setMovies(searchedSavedMovies)
             setIsShort(false)
         }
     }
