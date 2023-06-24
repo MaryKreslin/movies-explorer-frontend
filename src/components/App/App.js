@@ -161,7 +161,14 @@ function App() {
   }
 
   const handleLogout = () => {
-    localStorage.removeItem('jwt')
+   // const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
+    savedMovies.map(item => {
+      mainApi.saveMovie(item)
+        .then(data => { })
+        .catch(err => { console.log(err) })
+    })
+
+    localStorage.clear();
     setloggedIn(false)
     setcurrentUser({})
     setIsInfoTooltipOpen(false);
