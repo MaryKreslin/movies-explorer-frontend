@@ -15,7 +15,6 @@ const Register = (props) => {
 
     useEffect(() => {
         setValues(props.userRegisterInfo)
-        //  console.log(values)
     }, [])
 
     const handleClickMain = () => {

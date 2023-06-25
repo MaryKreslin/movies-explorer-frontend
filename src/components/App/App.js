@@ -58,7 +58,6 @@ function App() {
             mainApi.updateToken()
             setheadertype("movies");
             navigate(location.pathname, { replace: true })
-            //console.log('token', savedMovies)
           }
         })
         .catch(err => {
@@ -126,11 +125,11 @@ function App() {
       .catch(err => {
         console.log(err)
         setUserRegisterInfo({ name, email, password })
-        //if (err.includes('409')) {
-        // setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
-        //} else {
-        setErrorMessage(REGISTER_ERROR_MESSAGE)
-        // }
+        if (err.includes('409')) {
+          setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
+        } else {
+          setErrorMessage(REGISTER_ERROR_MESSAGE)
+        }
       })
       .finally(() => { setIsLoading(false) })
   }
@@ -150,7 +149,6 @@ function App() {
           setTimeout(() => navigate("/movies", { replace: true }), 1000)
           getUserInfo()
           setErrorMessage('')
-          //getSavedMovies()
         } else {
           setheadertype("main")
           navigate("/", { replace: true })
@@ -166,8 +164,6 @@ function App() {
   }
 
   const handleLogout = () => {
-
-
     localStorage.clear();
     setloggedIn(false)
     setcurrentUser({})
@@ -226,8 +222,6 @@ function App() {
     mainApi.getMovies()
       .then((data) => {
         setSavedMovies(data.data)
-        //  console.log('get', savedMovies)
-        //localStorage.setItem('savedMovies', JSON.stringify(data.data))
       })
       .catch((err) => {
         console.log(err)
