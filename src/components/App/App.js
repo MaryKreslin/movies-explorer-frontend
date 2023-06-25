@@ -41,7 +41,8 @@ function App() {
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [errorMessage, setErrorMessage] = React.useState('');
   const [isFound, setIsFound] = React.useState(false);
-  const [isSavedMoviesOpen, setIsSavedMoviesOpen] = React.useState(false);
+  const [userRegisterInfo, setUserRegisterInfo] = React.useState({});
+  const [userLoginInfo, setUserLoginInfo] = React.useState({});
 
   const handleTokenCheck = () => {
     const jwt = localStorage.getItem('jwt');
@@ -124,7 +125,8 @@ function App() {
       })
       .catch(err => {
         console.log(err)
-        ///if (err.includes('409')) {
+        setUserRegisterInfo({ name, email, password })
+        //if (err.includes('409')) {
         // setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
         //} else {
         setErrorMessage(REGISTER_ERROR_MESSAGE)
@@ -134,6 +136,7 @@ function App() {
   }
 
   const handleLogin = (email, password) => {
+    setIsLoading(true)
     if (!email || !password) {
       setErrorMessage(BAD_LOGIN_PASSWORD_MESSAGE)
       return
@@ -155,13 +158,12 @@ function App() {
         }
       })
       .catch(err => {
+        setUserLoginInfo({ email, password })
         console.log(err)
         setErrorMessage(UNAUTHRIZED_BAD_TOKEN_MESSAGE)
       })
+      .finally(() => { setIsLoading(false) })
   }
-
-
-
 
   const handleLogout = () => {
 
@@ -392,6 +394,7 @@ function App() {
                   handleClickLogo={headerButtonClick}
                   headerTypechange={setheadertype}
                   errorMessage={errorMessage}
+                  userRegisterInfo={userRegisterInfo}
                 /> : <Navigate replace to='/movies' />
           } />
           <Route path="/signin" element={
@@ -404,6 +407,7 @@ function App() {
                   handleClickLogo={headerButtonClick}
                   headerTypechange={setheadertype}
                   errorMessage={errorMessage}
+                  userLoginInfo={userLoginInfo}
                 /> : <Navigate replace to='/movies' />
           } />
           <Route path="*" element={

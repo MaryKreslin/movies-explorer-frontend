@@ -5,13 +5,14 @@ import logo from '../../images/logo.svg';
 import useFormWithValidation from '../../utils/ValidationHook';
 import { EMAIL_REGEX } from '../../utils/constants';
 
-const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage, isLoading }) => {
-    const { handleChange, handleSubmit, values, errors, isValid } = useFormWithValidation(handleLogin)
+const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage, isLoading, userLoginInfo }) => {
+    const { handleChange, handleSubmit, values, errors, isValid, setValues } = useFormWithValidation(handleLogin)
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => {
-        headerTypechange("none")
+        headerTypechange("none");
+        setValues(userLoginInfo)
     }, [])
 
     const handleClickMain = () => {
@@ -25,6 +26,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage, i
     const onFocusInput = (evt) => {
         setError('')
     }
+    
     return (
         <main>
             <div className='form'>
@@ -42,7 +44,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage, i
                                 id='email'
                                 name='email'
                                 placeholder="Адрес электронной почты"
-                                value={values?.email}
+                                value={values.email}
                                 pattern={EMAIL_REGEX}
                                 onChange={handleChange}
                                 onFocus={onFocusInput}
@@ -60,7 +62,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage, i
                                 id='password'
                                 name='password'
                                 placeholder="Пароль"
-                                value={values?.password}
+                                value={values.password}
                                 onChange={handleChange}
                                 onFocus={onFocusInput}
                                 required

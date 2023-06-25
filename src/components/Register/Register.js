@@ -7,10 +7,15 @@ import { EMAIL_REGEX } from '../../utils/constants';
 
 const Register = (props) => {
     const [error, setError] = useState("");
-    const { handleChange, handleSubmit, values, errors, isValid } = useFormWithValidation(props.handleRegister)
+    const { handleChange, values, errors, isValid, resetForm, handleSubmit, setValues } = useFormWithValidation(props.handleRegister)
 
     useEffect(() => {
         props.headerTypechange("none")
+    }, [])
+
+    useEffect(() => {
+        setValues(props.userRegisterInfo)
+        //  console.log(values)
     }, [])
 
     const handleClickMain = () => {
@@ -43,7 +48,7 @@ const Register = (props) => {
                                     id='name'
                                     name='name'
                                     placeholder="Имя"
-                                    value={values?.name}
+                                    value={values.name}
                                     onChange={handleChange}
                                     onFocus={onFocusInput}
                                     required
@@ -62,7 +67,7 @@ const Register = (props) => {
                                     id='email'
                                     name='email'
                                     placeholder="Адрес электронной почты"
-                                    value={values?.email}
+                                    value={values.email}
                                     onChange={handleChange}
                                     onFocus={onFocusInput}
                                     pattern={EMAIL_REGEX}
@@ -80,7 +85,7 @@ const Register = (props) => {
                                     id='password'
                                     name='password'
                                     placeholder="Пароль"
-                                    value={values?.password}
+                                    value={values.password}
                                     onChange={handleChange}
                                     onFocus={onFocusInput}
                                     required
