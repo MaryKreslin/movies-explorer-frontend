@@ -53,7 +53,7 @@ function App() {
           if (data) {
             setloggedIn(true)
             getUserInfo()
-            // getSavedMovies()
+            getSavedMovies()
             mainApi.updateToken()
             setheadertype("movies");
             navigate(location.pathname, { replace: true })
@@ -124,11 +124,11 @@ function App() {
       })
       .catch(err => {
         console.log(err)
-        if (err.includes('409')) {
-          setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
-        } else {
-          setErrorMessage(REGISTER_ERROR_MESSAGE)
-        }
+        ///if (err.includes('409')) {
+        // setErrorMessage(USER_EMAIL_CONFLICT_MESSAGE)
+        //} else {
+        setErrorMessage(REGISTER_ERROR_MESSAGE)
+        // }
       })
       .finally(() => { setIsLoading(false) })
   }
@@ -147,7 +147,7 @@ function App() {
           setTimeout(() => navigate("/movies", { replace: true }), 1000)
           getUserInfo()
           setErrorMessage('')
-
+          //getSavedMovies()
         } else {
           setheadertype("main")
           navigate("/", { replace: true })
@@ -160,13 +160,11 @@ function App() {
       })
   }
 
+
+
+
   const handleLogout = () => {
-   // const savedMovies = JSON.parse(localStorage.getItem('savedMovies'));
-    savedMovies.map(item => {
-      mainApi.saveMovie(item)
-        .then(data => { })
-        .catch(err => { console.log(err) })
-    })
+
 
     localStorage.clear();
     setloggedIn(false)
@@ -255,7 +253,6 @@ function App() {
           setIsFound(false);
           return
         }
-
       })
       .catch((err) => { console.log(err) })
       .finally(() => { setIsLoading(false) })
@@ -289,8 +286,6 @@ function App() {
         const newSavedMovies = [...savedMovies, data.data]
         setSavedMovies(newSavedMovies)
         localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies))
-        //getSavedMovies()
-        // console.log('save', savedMovies)
       })
       .catch((err) => { console.log(err) })
   }
@@ -298,20 +293,14 @@ function App() {
   const handleDeleteMovieClick = (movie) => {
     setIsLoading(true)
     const movieToDelete = savedMovies.find(item => item.movieId === (movie.id || movie.movieId))
-    // console.log(savedMovies)
     mainApi.deleteMovie(movieToDelete._id)
       .then(() => {
         const newSavedMovies = savedMovies.filter(item => (item.movieId !== (movie.id || movie.movieId)))
         setSavedMovies(newSavedMovies)
         localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies))
-        // console.log(newSavedMovies)
-      })
-      .then(() => {
-
       })
       .catch(err => { console.log(err) })
       .finally(() => { setIsLoading(false) })
-
   }
 
   const handleUpdateUser = (name, email) => {
@@ -409,6 +398,7 @@ function App() {
             isLoading ? <Preloader /> :
               !loggedIn ?
                 <Login
+                  isLoading={isLoading}
                   headerType={"none"}
                   handleLogin={handleLogin}
                   handleClickLogo={headerButtonClick}

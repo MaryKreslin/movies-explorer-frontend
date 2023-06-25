@@ -5,7 +5,7 @@ import logo from '../../images/logo.svg';
 import useFormWithValidation from '../../utils/ValidationHook';
 import { EMAIL_REGEX } from '../../utils/constants';
 
-const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage }) => {
+const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage, isLoading }) => {
     const { handleChange, handleSubmit, values, errors, isValid } = useFormWithValidation(handleLogin)
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -48,6 +48,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                                 onFocus={onFocusInput}
                                 required
                                 autoComplete='false'
+                                disabled={isLoading}
                             />
                             {errors?.email && <p className={`field__error email-error`}>{errors.email}</p>}
                         </div>
@@ -64,6 +65,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                                 onFocus={onFocusInput}
                                 required
                                 autoComplete='false'
+                                disabled={isLoading}
                             />
                             {errors?.password && <p className={`field__error password-error`}>{errors.password}</p>}
                         </div>
@@ -71,7 +73,7 @@ const Login = ({ handleLogin, handleClickLogo, headerTypechange, errorMessage })
                     {error && <p className='form__error'>{error}</p>}
                     <button type="submit"
                         className={isValid ? "form__save-button form__save-button_login" : 'form__save-button form__save-button_login form__save-button_disabled'}
-                        disabled={!isValid}>
+                        disabled={!isValid || isLoading}>
                         <p className='form__buttonText'>Войти</p>
                     </button>
                     <div className="form__link">

@@ -16,6 +16,7 @@ class MainApi {
     register(name, email, password) {
         return fetch(`${this._url}/signup`, {
             method: 'POST',
+           
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -27,7 +28,7 @@ class MainApi {
     login(email, password) {
         return fetch(`${this._url}/signin`, {
             method: 'POST',
-           
+          
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -57,7 +58,7 @@ class MainApi {
             .then(this._checkResponse)
     }
 
-    updateToken() {
+    updateToken(token) {
         this._headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`;
     }
 

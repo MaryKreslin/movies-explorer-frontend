@@ -50,6 +50,7 @@ const Register = (props) => {
                                     autoComplete='false'
                                     minLength={2}
                                     maxLength={30}
+                                    disabled={props.isLoading}
                                 />
                                 {errors?.name && <p className='form__error'>{errors.name}</p>}
                             </div>
@@ -67,6 +68,7 @@ const Register = (props) => {
                                     pattern={EMAIL_REGEX}
                                     required
                                     autoComplete='false'
+                                    disabled={props.isLoading}
                                 />
                                 {errors?.email && <p className='form__error'>{errors.email}</p>}
                             </div>
@@ -83,6 +85,7 @@ const Register = (props) => {
                                     onFocus={onFocusInput}
                                     required
                                     autoComplete='false'
+                                    disabled={props.isLoading}
                                 />
                                 {errors?.password && <p className='form__error'>{errors.password}</p>}
                             </div>
@@ -90,7 +93,7 @@ const Register = (props) => {
                         {error && <p className='form__error'>{error}</p>}
                         <button type="submit"
                             className={isValid ? "form__save-button" : "form__save-button form__save-button_disabled"}
-                            disabled={!isValid} >
+                            disabled={!isValid || props.isLoading} >
                             <p className='form__buttonText'>Зарегистрироваться</p>
                         </button>
                         <div className="form__link">
