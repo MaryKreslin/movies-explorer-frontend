@@ -21,7 +21,7 @@ const SavedMovies = (props) => {
 
       const handleFindInSaved = (findText, isShort) => {
         setfindText(findText)
-        const searchedSavedMovies = props.movies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
+        const searchedSavedMovies = savedMovies.filter((item) => item.nameRU.toLowerCase().includes(findText.toLowerCase()));
         if (isShort) {
             const shortSavedMovies = searchedSavedMovies.filter((item) => item.duration <= 40);
             setMovies(shortSavedMovies)
