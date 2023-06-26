@@ -1,32 +1,22 @@
 import React from 'react';
 import MoviesCard from '../MoviesCard/MoviesCard';
-import preview from '../../../images/preview.jpg'
+
 const MoviesCardList = (props) => {
+
     return (
-        <>
-            {
-                props.isSaved &&
-                <section className='moviesCardList'>
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isSaved />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isSaved />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isSaved/>
-                </section>
+        <section className='moviesCardList'>
+            {props.movies.map((item) => {
+                return <MoviesCard
+                    data={item}
+                    key={props.listType === 'movies' ? item.id : item.movieId}
+                    checkIsSaved={props.checkIsSaved}
+                    onSaveClick={props.onSaveClick}
+                    onDeleteMovie={props.onDeleteMovie}
+                    listType={props.listType}
+                />
+            })
             }
-            {
-                !props.isSaved &&
-                <section className='moviesCardList'>
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={true} />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={false} />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={false} />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={true} />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={true} />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={false} />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={true} />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={false} />
-                    <MoviesCard name='В погоне за Бенкси' duration='27' preview={preview} isChecked={true} />
-                </section>
-            }
-        </>
+        </section>
     )
 }
 

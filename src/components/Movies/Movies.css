@@ -32,6 +32,14 @@
     text-align: center;
     color: #FFFFFF;
 }
+.movies__text{
+    margin: 0;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 20px;
+    text-align: center;
+    color: #FFFFFF;
+}
 
 @media (min-width: 320px) and (max-width:767px) {
     .more{

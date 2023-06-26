@@ -1,62 +1,103 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../images/logo.svg';
 import Preloader from '../Preloader/Preloader';
-import FormField from '../FormField/FormField';
-
-import FormValidator from '../../utils/FormValidator';
-import { validationFormConfig } from '../../utils/utils';
+import useFormWithValidation from '../../utils/ValidationHook';
+import { EMAIL_REGEX } from '../../utils/constants';
 
 const Register = (props) => {
-    const popupRef = React.useRef();
+    const [error, setError] = useState("");
+    const { handleChange, values, errors, isValid, resetForm, handleSubmit, setValues } = useFormWithValidation(props.handleRegister)
 
-    React.useEffect(() => {
-        const RegisterValidator = new FormValidator(validationFormConfig, popupRef.current);
-        RegisterValidator.enableValidation();
-    }, [])
-
-    const [formValue, setFormValue] = React.useState({
-        name: '',
-        email: '',
-        password: '',
-    })
     useEffect(() => {
         props.headerTypechange("none")
     }, [])
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
-
-        setFormValue({
-            ...formValue,
-            [name]: value
-        });
-    }
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        props.onSubmit(formValue.name, formValue.email, formValue.password)
-    }
+    useEffect(() => {
+        setValues(props.userRegisterInfo)
+    }, [])
 
     const handleClickMain = () => {
         props.handleClickLogo("main")
+    }
+
+    useEffect(() => {
+        setError(props.errorMessage)
+    }, [props])
+
+    const onFocusInput = (evt) => {
+        setError('')
     }
 
     return (
         <main>
             {props.isLoading ? <Preloader /> :
                 <div className='form'>
-                    <form ref={popupRef} className='form__content' name='register' onSubmit={handleSubmit}>
+                    <form className='form__content' name='register' onSubmit={handleSubmit}>
                         <Link to='/' onClick={handleClickMain}>
                             <img className='form__logo' src={logo} alt='Логотип проекта' />
                         </Link>
                         <h2 className='form__header'>Добро пожаловать!</h2>
                         <fieldset className='form__fieldset'>
-                            <FormField name='name' type='text' label='Имя' placeholder="Имя" onChange={handleChange} />
-                            <FormField name='email' type='email' label='E-mail' placeholder="Адрес электронной почты" onChange={handleChange} />
-                            <FormField name='password' type='password' label='Пароль' placeholder="Пароль" onChange={handleChange} />
+                            <div className='field'>
+                                <label htmlFor='name' className='field__label'>Имя</label>
+                                <input
+                                    type="text"
+                                    className="field__input"
+                                    id='name'
+                                    name='name'
+                                    placeholder="Имя"
+                                    value={values.name}
+                                    onChange={handleChange}
+                                    onFocus={onFocusInput}
+                                    required
+                                    autoComplete='false'
+                                    minLength={2}
+                                    maxLength={30}
+                                    disabled={props.isLoading}
+                                />
+                                {errors?.name && <p className='form__error'>{errors.name}</p>}
+                            </div>
+                            <div className='field'>
+                                <label htmlFor='email' className='field__label'>E-mail</label>
+                                <input
+                                    type='email'
+                                    className="field__input"
+                                    id='email'
+                                    name='email'
+                                    placeholder="Адрес электронной почты"
+                                    value={values.email}
+                                    onChange={handleChange}
+                                    onFocus={onFocusInput}
+                                    pattern={EMAIL_REGEX}
+                                    required
+                                    autoComplete='false'
+                                    disabled={props.isLoading}
+                                />
+                                {errors?.email && <p className='form__error'>{errors.email}</p>}
+                            </div>
+                            <div className='field'>
+                                <label htmlFor='password' className='field__label'>Пароль</label>
+                                <input
+                                    type='password'
+                                    className="field__input"
+                                    id='password'
+                                    name='password'
+                                    placeholder="Пароль"
+                                    value={values.password}
+                                    onChange={handleChange}
+                                    onFocus={onFocusInput}
+                                    required
+                                    autoComplete='false'
+                                    disabled={props.isLoading}
+                                />
+                                {errors?.password && <p className='form__error'>{errors.password}</p>}
+                            </div>
                         </fieldset>
-                        <button type="submit" className="form__save-button">
+                        {error && <p className='form__error'>{error}</p>}
+                        <button type="submit"
+                            className={isValid ? "form__save-button" : "form__save-button form__save-button_disabled"}
+                            disabled={!isValid || props.isLoading} >
                             <p className='form__buttonText'>Зарегистрироваться</p>
                         </button>
                         <div className="form__link">

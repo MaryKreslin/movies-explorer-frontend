@@ -14,7 +14,7 @@ const Main = (props) => {
         <>
             {props.isLoading ? <Preloader /> :
                 <>
-                    <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
+                    <Responsive element={Header}  loggedIn={props.loggedIn} type={props.headerType} handleClick={props.handleHeaderClick} />
                     <main>
                         <Promo />
                         <AboutProject />

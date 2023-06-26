@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import SearchForm from './SearchForm/SearchForm';
 import MoviesCardList from './MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
@@ -7,24 +8,40 @@ import Header from '../Header/Header';
 import Responsive from '../Responsive/Responsive';
 
 const Movies = (props) => {
+    const navigate = useNavigate();
+    const foundMovies = JSON.parse(localStorage.getItem('foundMovies'));
+    const isShort = JSON.parse(localStorage.getItem('isShortMovie'));
+    const searchText = localStorage.getItem('findText');
 
     return (
         <>
-            {props.isLoading ? <Preloader /> :
-                <>
-                    <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
-                    <main>
-                        <SearchForm />
-                        <MoviesCardList />
-                        <section className='more'>
-                            <button className='more__button'>
-                                <p className='more__buttonText'>Ещё</p>
-                            </button>
-                        </section>
-                    </main>
-                    <Footer />
-                </>
-            }
+            <Responsive element={Header} type={props.headerType} handleClick={props.handleHeaderClick} />
+            <main>
+                <SearchForm onFindClick={props.onFindMoviesClick} isShort={isShort} searchText={searchText} />
+                {props.isLoading ? <Preloader /> :
+                    <>
+                        {
+                            (props.movies.length > 0) ?
+                                (<>
+                                    <MoviesCardList
+                                        movies={props.movies}
+                                        savedMovies={props.savedMovies}
+                                        checkIsSaved={props.checkIsSaved}
+                                        onDeleteMovie={props.handleDeleteMovieClick}
+                                        listType={props.listType}
+                                        onSaveClick={props.handleSaveMovieClick} />
+                                    {(props.movies.length > 0) &&
+                                        <section className='more'>
+                                            {props.movies.length < foundMovies.length ?
+                                                <button className='more__button' onClick={props.onShowMore}>
+                                                    <p className='more__buttonText'>Ещё</p>
+                                                </button> : ''}
+                                        </section>
+                                    }
+                                </>) : (<p className='movies__text'>Ничего не найдено</p>)}
+                    </>}
+            </main>
+            <Footer />
         </>
     )
 }
